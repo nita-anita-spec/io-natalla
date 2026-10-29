@@ -1,0 +1,933 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>body{margin:0}[hidden]{display:none!important}</style></head><body>
+<title>IO NATALL&amp;A Gallery</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="IO NATALL&A — contemporary painter based in Tallinn, Estonia. Original paintings in series, available to collect.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Albert+Sans:ital,wght@0,400;0,500;0,600;1,500&display=swap">
+<style>
+/* Layout: a gallery website — one geometric sans at a single weight, two-tone titles (black name, grey subtitle),
+   generous white space, large images with captions underneath, a black band for collecting. One deliberate light look. */
+:root{
+  --bg:#FFFFFF; --ink:#000000; --grey:#6E6E6E; --soft:#F3F3F3; --line:#E2E2E2; --band:#000000;
+  --f:"Albert Sans","Avenir Next","Avenir","Helvetica Neue",Arial,sans-serif;
+  --gl:max(24px, env(safe-area-inset-left, 0px)); --gr:max(24px, env(safe-area-inset-right, 0px));
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html,body{background:var(--bg);color:var(--ink)}
+body{font-family:var(--f);font-weight:500;font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:65;background:var(--bg)}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer;text-align:inherit}
+:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+.g{color:var(--grey)}
+.num{font-variant-numeric:tabular-nums}
+.wrap{padding-left:var(--gl);padding-right:var(--gr);max-width:1680px;margin:0 auto}
+.h1{font-size:clamp(32px,3.6vw,48px);line-height:1.12;letter-spacing:-.005em;margin:0;font-weight:500;text-wrap:balance}
+.h2{font-size:clamp(24px,2.3vw,32px);line-height:1.2;margin:0;font-weight:500}
+.h3{font-size:clamp(18px,1.5vw,22px);line-height:1.3;margin:0;font-weight:500}
+.lbl{font-size:13px;line-height:1.3}
+.more{font-size:14px;display:inline-flex;gap:8px;align-items:center;border-bottom:1px solid currentColor;padding-bottom:2px}
+.more:hover{color:var(--grey)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:0 26px;font-size:15px;border:1px solid var(--ink);transition:background .2s,color .2s}
+.btn.blk{background:var(--ink);color:#fff}
+.btn.blk:hover{background:#2B2B2B}
+.btn:not(.blk):hover{background:var(--soft)}
+.btn[disabled]{opacity:.4;cursor:default}
+.btn.w{width:100%}
+@media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+
+/* header */
+header.hd{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:var(--bg)}
+header.hd .wrap{display:flex;align-items:center;justify-content:space-between;gap:24px;height:76px}
+.logo{font-size:24px;letter-spacing:.01em;white-space:nowrap}
+nav.c4{display:flex;gap:clamp(18px,2.4vw,36px);align-items:center;font-size:15px}
+nav.c4 a,nav.c4 button{position:relative}
+nav.c4 a.on::after{content:"";position:absolute;left:0;right:0;bottom:-6px;height:1px;background:var(--ink)}
+nav.c4 a:hover,nav.c4 button:hover{color:var(--grey)}
+.menu-btn{display:none;font-size:15px}
+@media (max-width:860px){nav.c4 .hm{display:none}.menu-btn{display:block}}
+#mmenu{position:fixed;inset:0;z-index:70;background:var(--bg);padding:calc(100px + env(safe-area-inset-top,0px)) var(--gr) 40px var(--gl);display:grid;align-content:start;gap:18px}
+#mmenu a,#mmenu button{font-size:34px;line-height:1.1}
+#mmenu .x{position:absolute;top:calc(26px + env(safe-area-inset-top,0px));right:var(--gr);font-size:15px}
+
+.view{display:none}.view.on{display:block;animation:fade .45s ease}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+
+/* home hero carousel */
+.hero{padding-top:4px}
+.stage{position:relative;aspect-ratio:16/8.4;max-height:78vh;width:100%;overflow:hidden;background:var(--soft)}
+.stage .sl{position:absolute;inset:0;opacity:0;transition:opacity .9s ease}
+.stage .sl.on{opacity:1;z-index:1}
+.stage img{width:100%;height:100%;object-fit:cover;transform:scale(1.04);transition:transform 6s ease-out}
+.stage .sl.on img{transform:scale(1)}
+.cap{display:grid;grid-template-columns:1fr auto;gap:16px 32px;align-items:start;padding-top:22px}
+.cap .lbl{margin-bottom:10px}
+.cap .meta{font-size:clamp(17px,1.6vw,22px);margin-top:14px}
+.cap .more{margin-top:18px}
+.arrows{display:flex;gap:10px}
+.arrows button{width:44px;height:44px;border:1px solid var(--line);border-radius:50%;display:grid;place-items:center;font-size:18px;color:#4D4D4D;transition:border-color .2s}
+.arrows button:hover{border-color:var(--ink);color:var(--ink)}
+.count{font-size:13px;color:var(--grey);text-align:right;margin-top:12px}
+
+/* sections */
+.sec{padding-block:clamp(64px,8vw,120px)}
+.sec-h{display:flex;justify-content:space-between;align-items:baseline;gap:20px;margin-bottom:28px}
+.cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:56px 22px}
+.card{display:grid;gap:14px;align-content:start}
+.card .im{aspect-ratio:4/3;background:var(--soft);overflow:hidden}
+.card .im img{width:100%;height:100%;object-fit:cover;transition:transform .7s ease}
+.card:hover .im img{transform:scale(1.03)}
+.card .tx{display:grid;gap:2px}
+.card .tx .lbl{margin-bottom:6px}
+@media (max-width:900px){.cards{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:560px){.cards{grid-template-columns:1fr}}
+.band{background:var(--band);color:#fff}
+.band .wrap{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:40px;padding-block:clamp(70px,8vw,120px);align-items:end}
+.band p{margin:18px 0 0;color:rgba(255,255,255,.75);max-width:52ch;font-size:17px}
+.band .acts{display:flex;gap:12px;flex-wrap:wrap;justify-content:flex-end}
+.band .btn{border-color:#fff}
+.band .btn.wht{background:#fff;color:#000}
+.band .btn:not(.wht):hover{background:#1E1E1E}
+@media (max-width:800px){.band .wrap{grid-template-columns:1fr}.band .acts{justify-content:flex-start}}
+.works{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:60px 22px}
+.wk{display:grid;gap:14px;align-content:start}
+.wk .im{aspect-ratio:1/1;background:var(--soft);display:grid;place-items:center;padding:12%}
+.wk .im img{max-height:100%;width:auto;box-shadow:0 1px 2px rgba(0,0,0,.1),0 10px 24px -12px rgba(0,0,0,.35);transition:transform .5s}
+.wk:hover .im img{transform:translateY(-4px)}
+.wk .tx{font-size:15px;line-height:1.4;display:grid;gap:1px}
+.wk .tx .t{font-style:italic}
+@media (max-width:1000px){.works{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (max-width:640px){.works{grid-template-columns:repeat(2,minmax(0,1fr));gap:40px 14px}.wk .tx{font-size:14px}}
+.split{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(30px,5vw,90px);align-items:center}
+.split img{width:100%;aspect-ratio:4/5;object-fit:cover}
+.split p{font-size:18px;line-height:1.6;margin:22px 0 0;max-width:56ch}
+@media (max-width:800px){.split{grid-template-columns:1fr}}
+
+/* page heads + tabs */
+.ph{padding-block:clamp(40px,5vw,80px) 30px}
+.tabs{display:flex;flex-wrap:wrap;gap:8px 28px;border-bottom:1px solid var(--line);margin-bottom:44px;font-size:15px}
+.tabs button{padding:12px 0;color:var(--grey);border-bottom:1px solid transparent;margin-bottom:-1px}
+.tabs button.on,.tabs button:hover{color:var(--ink);border-color:var(--ink)}
+
+/* series page */
+.sv-hero{aspect-ratio:16/8;max-height:80vh;background:var(--soft);overflow:hidden;margin-top:34px}
+.sv-hero img{width:100%;height:100%;object-fit:cover}
+.sv-text{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr);gap:clamp(30px,5vw,90px);padding-block:clamp(50px,6vw,90px)}
+.sv-text .facts{display:grid;gap:14px;font-size:15px;align-content:start}
+.sv-text .facts div{display:grid;gap:2px}
+.sv-text .body p{font-size:clamp(18px,1.5vw,21px);line-height:1.6;margin:0 0 20px;max-width:62ch}
+@media (max-width:800px){.sv-text{grid-template-columns:1fr}}
+.hangfig{background:var(--soft);padding:26px;display:inline-block}
+.hang-plan{position:relative}
+.hang-plan button{position:absolute;overflow:hidden;background:var(--line)}
+.hang-plan button img{width:100%;height:100%;object-fit:cover}
+.hang-plan .n{position:absolute;left:3px;top:3px;font-size:10px;background:#fff;padding:0 4px}
+.scale{display:flex;gap:8px;align-items:center;margin-top:12px;font-size:12px;color:var(--grey)}
+.scale i{display:block;height:5px;border:1px solid var(--grey);border-top:0}
+
+/* artwork page */
+.aw{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(320px,1fr);gap:clamp(30px,5vw,90px);padding-block:30px 90px;align-items:start}
+.aw .pic{background:var(--soft);display:grid;place-items:center;padding:clamp(24px,5vw,80px);min-height:min(78vh,820px);cursor:zoom-in}
+.aw .pic img{max-height:min(68vh,720px);width:auto;box-shadow:0 2px 4px rgba(0,0,0,.1),0 20px 40px -18px rgba(0,0,0,.4)}
+.thumbs{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap}
+.thumbs button{width:76px;height:76px;background:var(--soft);overflow:hidden;opacity:.6;border:1px solid transparent}
+.thumbs button[aria-current="true"]{opacity:1;border-color:var(--ink)}
+.thumbs img{width:100%;height:100%;object-fit:cover}
+.info{position:sticky;top:100px;display:grid;gap:26px}
+.info .who{font-size:20px}
+.info .tt{font-size:clamp(28px,2.6vw,38px);line-height:1.15;font-style:italic}
+.info dl{display:grid;gap:4px;margin:0;font-size:16px}
+.info dd{margin:0}
+.info .desc{font-size:17px;line-height:1.6;margin:0}
+.info .price{font-size:26px}
+.info .note{font-size:14px;color:var(--grey);margin:0;line-height:1.5}
+.info .acts{display:grid;gap:10px}
+.pn{display:flex;justify-content:space-between;gap:12px;font-size:14px;border-top:1px solid var(--line);padding-top:18px}
+.pn button:hover{color:var(--grey)}
+@media (max-width:900px){.aw{grid-template-columns:1fr}.aw .pic{min-height:0}.aw .pic img{max-height:62vh}.info{position:static}}
+
+/* about */
+.ab{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);gap:clamp(30px,5vw,90px);padding-block:20px 90px;align-items:start}
+.ab .ims{display:grid;gap:16px}
+.ab .ims img{width:100%;object-fit:cover}
+.ab .txt p{font-size:clamp(18px,1.4vw,20px);line-height:1.65;margin:0 0 22px;max-width:62ch}
+.ab .q{font-size:clamp(24px,2.3vw,32px);line-height:1.3;margin:0 0 34px}
+.facts2{display:grid;grid-template-columns:1fr 1fr;gap:30px;border-top:1px solid var(--line);padding-top:28px;margin-top:20px;font-size:16px}
+.facts2 ul{list-style:none;padding:0;margin:8px 0 0;display:grid;gap:8px}
+.facts2 a{border-bottom:1px solid var(--line)}
+.facts2 a:hover{border-color:var(--ink)}
+.copy{font-size:13px;border:1px solid var(--line);padding:3px 10px;margin-left:8px}
+@media (max-width:860px){.ab{grid-template-columns:1fr}.facts2{grid-template-columns:1fr}}
+
+/* legal (reuses renderLegal markup) */
+.lhead{display:grid;gap:18px;padding:clamp(40px,5vw,80px) var(--gr) 30px var(--gl);max-width:1680px;margin:0 auto}
+.lhead .t{font-size:clamp(32px,3.6vw,48px);line-height:1.12}
+.lnav{display:flex;gap:28px;flex-wrap:wrap;font-size:15px;border-bottom:1px solid var(--line)}
+.lnav a{padding:12px 0;color:var(--grey);border-bottom:1px solid transparent;margin-bottom:-1px}
+.lnav a.on,.lnav a:hover{color:var(--ink);border-color:var(--ink)}
+.lbody{display:grid;gap:34px;max-width:760px;padding:20px var(--gr) 110px var(--gl);margin-left:max(0px,calc((100vw - 1680px)/2))}
+.lbody .ui{font-size:14px}
+.lbody h3{margin:0 0 10px;font-size:20px;font-weight:500}
+.lt{font-size:17px;line-height:1.7}
+.lt a{border-bottom:1px solid currentColor}
+.lt ol,.lt ul{margin:8px 0 0;padding-left:22px;display:grid;gap:6px}
+.formbox{border:1px solid var(--line);background:var(--soft);padding:20px;font-size:15px}
+.todo{background:#FFF1A8;padding:0 3px}
+
+/* footer */
+footer.ft{border-top:1px solid var(--line);margin-top:0}
+footer.ft .wrap{display:grid;grid-template-columns:1.2fr 1fr 1fr 1fr;gap:30px;padding-block:56px 40px;font-size:15px}
+footer.ft h4{margin:0 0 12px;font-weight:500;color:var(--grey);font-size:14px}
+footer.ft ul{list-style:none;padding:0;margin:0;display:grid;gap:8px}
+footer.ft a:hover{color:var(--grey)}
+footer.ft .bottom{grid-column:1/-1;display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;font-size:13px;color:var(--grey);border-top:1px solid var(--line);padding-top:22px;margin-top:18px}
+@media (max-width:800px){footer.ft .wrap{grid-template-columns:1fr 1fr}}
+
+/* lightbox */
+#lb{position:fixed;inset:0;z-index:90;background:rgba(255,255,255,.98);display:grid;place-items:center;padding:max(24px,env(safe-area-inset-top,0px)) var(--gr) max(24px,env(safe-area-inset-bottom,0px)) var(--gl);cursor:zoom-out}
+#lb img{max-width:100%;max-height:calc(100vh - 70px);width:auto;box-shadow:0 20px 50px -20px rgba(0,0,0,.4)}
+#lb .x{position:absolute;top:calc(24px + env(safe-area-inset-top,0px));right:var(--gr);font-size:15px}
+
+/* cart drawer (markup from the shop module) */
+#scrim{position:fixed;inset:0;z-index:80;background:rgba(0,0,0,.3)}
+#drawer{position:fixed;top:0;right:0;bottom:0;z-index:81;width:min(480px,100%);background:#fff;display:flex;flex-direction:column;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);padding-right:env(safe-area-inset-right,0px)}
+#drawer .dh{display:flex;justify-content:space-between;align-items:center;padding:24px 28px;border-bottom:1px solid var(--line)}
+#drawer .dh .t{font-size:24px}
+#drawer .dh .ui{font-size:15px}
+#drawer .db{overflow-y:auto;flex:1;padding:18px 28px 34px}
+#drawer .ui{font-size:13px}
+.steps{display:flex;gap:16px;padding:0 0 16px;color:#A0A0A0;font-size:13px}.steps .on{color:var(--ink)}
+.it{display:grid;grid-template-columns:72px 1fr auto;gap:16px;align-items:center;padding:16px 0;border-bottom:1px solid var(--line)}
+.it img{width:72px;height:72px;object-fit:cover}
+.it .t{font-size:17px}
+.it .s{font-size:14px;color:var(--grey)}
+.it .rm{margin-top:4px;color:var(--grey);font-size:13px;border-bottom:1px solid currentColor}
+.sum{display:flex;justify-content:space-between;align-items:baseline;padding:18px 0 4px}
+.sum .t{font-size:24px}
+.sum.sub{padding-top:2px}
+.fine{font-size:14px;color:var(--grey);margin:0 0 22px;line-height:1.5}
+form.req{display:grid;gap:14px}
+form.req label{display:grid;gap:6px;font-size:13px;color:var(--grey)}
+form.req .grp{margin-top:10px;padding-top:14px;border-top:1px solid var(--line);color:var(--ink);font-size:15px}
+form.req input,form.req textarea{font:inherit;font-size:16px;color:var(--ink);background:#fff;border:1px solid #CFCFCF;border-radius:0;padding:13px 14px;width:100%}
+form.req input:focus,form.req textarea:focus{outline:none;border-color:var(--ink)}
+form.req .two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media (max-width:440px){form.req .two{grid-template-columns:1fr}}
+form.req label.radio{display:flex;gap:12px;align-items:flex-start;padding:12px 14px;border:1px solid var(--line);color:var(--ink);font-size:15px;cursor:pointer}
+form.req .radio input,form.req .check input{width:auto;padding:0;margin:3px 0 0;flex:none;accent-color:#000}
+.radio small{color:var(--grey);font-size:13px}
+form.req label.check{display:flex;gap:10px;align-items:flex-start;font-size:14px;color:var(--ink);margin-top:4px}
+form.req .check a{border-bottom:1px solid currentColor}
+.btn-o{display:inline-flex;align-items:center;justify-content:center;min-height:50px;padding:0 22px;border:1px solid var(--ink);font-size:15px}
+.btn-o:hover{background:var(--soft)}
+.btn-f{background:var(--ink);color:#fff}.btn-f:hover{background:#2B2B2B}
+.btn-o[disabled]{opacity:.5}
+.wide{width:100%}
+.err{color:#B00020;font-size:14px;margin:0}
+.empty{padding:30px 0;display:grid;gap:18px;justify-items:start}.empty p{margin:0;color:var(--grey)}
+.done{display:grid;gap:14px}
+.done pre{white-space:pre-wrap;font-family:var(--f);font-size:14px;margin:0;max-height:240px;overflow:auto;background:var(--soft);padding:14px}
+.done .acts{display:flex;flex-wrap:wrap;gap:8px}
+.inbox .rq{border-bottom:1px solid var(--line);padding:16px 0;font-size:15px}
+#toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:95;background:#000;color:#fff;padding:12px 20px;font-size:14px;max-width:calc(100% - 40px)}
+
+/* layout fixes: let grid children shrink, contain artwork images */
+.works > *,.cards > *,.aw > *,.sv-text > *,.ab > *,.split > *,.cap > *{min-width:0}
+.wk .im{position:relative;display:block;padding:0}
+.wk .im img{position:absolute;left:11%;top:11%;width:78%;height:78%;max-height:none;object-fit:contain;box-shadow:none;filter:drop-shadow(0 10px 14px rgba(0,0,0,.22)) drop-shadow(0 1px 1px rgba(0,0,0,.12))}
+.aw .pic{width:100%}
+.aw .pic img{max-width:100%;height:auto}
+.hangfig{max-width:100%;overflow-x:auto}
+@media (max-width:640px){.cap{grid-template-columns:1fr}.cap .arrows{order:-1}.count{text-align:left}}
+</style>
+
+<header class="hd">
+  <div class="wrap">
+    <a class="logo" href="#home" data-go="home">IO NATALL&amp;A</a>
+    <nav class="c4" aria-label="Main">
+      <a class="hm" href="#works" data-go="works" id="n-works">Artworks</a>
+      <a class="hm" href="#series" data-go="series" id="n-series">Series</a>
+      <a class="hm" href="#about" data-go="about" id="n-about">About</a>
+      <a class="hm" href="#contact" data-go="contact">Contact</a>
+      <button id="bagBtn" class="num">Cart (<span id="bagCount">0</span>)</button>
+      <button class="menu-btn" id="menuBtn" aria-expanded="false">Menu</button>
+    </nav>
+  </div>
+</header>
+<div id="mmenu" hidden>
+  <button class="x" id="menuClose">Close</button>
+  <a href="#works" data-go="works">Artworks</a>
+  <a href="#series" data-go="series">Series</a>
+  <a href="#about" data-go="about">About</a>
+  <a href="#contact" data-go="contact">Contact</a>
+  <button id="bagBtn2" class="num">Cart (<span id="bagCount2">0</span>)</button>
+</div>
+
+<main>
+  <section class="view" id="v-home"></section>
+  <section class="view" id="v-works"></section>
+  <section class="view" id="v-serieslist"></section>
+  <section class="view" id="v-series"></section>
+  <section class="view" id="v-work"></section>
+  <section class="view" id="v-about"></section>
+  <section class="view" id="v-legal"></section>
+</main>
+
+<div id="lb" hidden><button class="x">Close</button><img alt=""></div>
+<div id="scrim" hidden></div>
+<aside id="drawer" hidden aria-label="Cart" role="dialog" aria-modal="true"></aside>
+<div id="toast" hidden role="status"></div>
+
+<script>
+const ARTIST_EMAIL = "ionatalla.art@gmail.com";
+const SERIES = [
+ {id:"landscapes-of-freedom", added:"2026-07-29", title:"Landscapes of Freedom", kind:"Triptych",
+  short:"Freedom as an inner state, reached through peace, balance and silence.",
+  statement:[
+   "Freedom rarely arrives suddenly. It emerges through inner harmony, through the ability to remain grounded while sharing life with another person, and through liberation from fear and illusion.",
+   "The series can be read in both directions. From left to right it is a journey toward freedom through peace, balance and silence; from right to left it is a return to the world after liberation from fear and illusion. It forms a cycle rather than a linear story."],
+  technique:"Acrylic and watercolour on canvas", w:50, h:50, price:3975, status:"available",
+  hang:{cols:3, order:"ltr", gap:5, reading:"In either direction: left to right, or right to left", size:"160 × 50 cm", both:true}, wall:"lf-wall", extras:[],
+  works:[
+   {id:"peace", n:"I", title:"Peace — As Within, So Without", img:"lf-1", details:["lf-1a","lf-1b","lf-1c"], text:"Peace emerges when the inner world comes into harmony with the outer world."},
+   {id:"balance", n:"II", title:"Balance — Together We Stand", img:"lf-2", details:["lf-2a","lf-2b","lf-2c","lf-2d"], text:"True balance emerges from mutual trust: the ability to stand together without losing individuality."},
+   {id:"silence", n:"III", title:"Silence — Beyond Illusion", img:"lf-3", details:["lf-3a","lf-3b","lf-3c","lf-3d"], text:"When fear, expectation and illusion lose their power, silence appears. Not the absence of sound, but a state of clarity, presence and inner freedom."}
+  ]},
+ {id:"sweetness-of-happiness", added:"2026-10-21", title:"The Sweetness of Happiness", kind:"Two works",
+  short:"Simple joy in thick, sculpted paint: happiness you could almost taste.",
+  statement:["Two small canvases about simple joy. Thick, sculpted paint and bright colour turn happiness into something you could almost taste.",
+   "Each painting is offered individually."],
+  technique:"Acrylic and mixed media on canvas", w:28, h:35, status:"available", extras:[],
+  works:[
+   {id:"whipped-cream-of-happiness", n:"I", title:"Whipped Cream of Happiness", img:"sh-1", details:["sh-1a"], price:2300, text:"Happiness as something soft and abundant. A crest of whipped, sculpted white sits on a field of red, light and generous."},
+   {id:"planet-of-joy", n:"II", title:"Planet of Joy", img:"sh-2", details:["sh-2a","sh-2b"], price:2750, text:"A simple wish for the world to become filled with happiness, abundance and wellbeing."}
+  ]},
+ {id:"threads-of-wisdom", added:"2026-06-18", title:"Threads of Wisdom", pre:"From Father to Daughter", kind:"Series of six",
+  short:"How love and wisdom pass from one generation to the next, told through a father and his daughter.",
+  statement:[
+   "Love is rarely passed through words alone. More often it lives in presence, care, trust and the quiet everyday moments that gradually shape a human life.",
+   "This series tells the story of a father who becomes his daughter’s first guide into the world. Through stories, attention and his own example he gives her not only wisdom, but inner confidence, the ability to trust life, and the courage to follow her own path. When she leaves her childhood home, she carries the most precious inheritance with her: the love she received.",
+   "Love becomes wisdom. Wisdom becomes courage. And courage becomes a gift passed to others."],
+  technique:"Acrylic, watercolour, pencil and varnish on canvas", w:40, h:50, price:7600, status:"available",
+  hang:{cols:2, order:"ltr-ttb", gap:5, reading:"Left to right, top to bottom", size:"85 × 160 cm"}, extras:[],
+  works:[
+   {id:"keeper-of-light", n:"1", title:"Keeper of Light", img:"tw-1", text:"The story begins with the father. As the guardian of wisdom, he shares with his daughter the first stories that carry the fundamental truths of life. Through his quiet presence she begins to discover the world as a place worthy of trust."},
+   {id:"the-silent-gift", n:"2", title:"The Silent Gift", img:"tw-2", text:"The daughter’s world is filled with hope and the love her father has given her. Feeling protected by his presence, she is free to dream, to grow, and to step confidently into a much larger world."},
+   {id:"the-invisible-thread", n:"3", title:"The Invisible Thread", img:"tw-3", text:"The time comes to leave childhood behind. Guided by the values she has received, she chooses her own path, carrying within herself the quiet strength that will accompany her throughout life."},
+   {id:"the-wisdom-within", n:"4", title:"The Wisdom Within", img:"tw-4", text:"The wisdom once received becomes part of who she is. Through kindness, empathy and compassion she builds meaningful relationships, discovering that love is a language understood beyond words."},
+   {id:"the-journey-begins", n:"5", title:"The Journey Begins", img:"tw-5", text:"Life unfolds through new experiences, challenges and discoveries. With every step she realises that true freedom grows from the confidence nurtured long before her journey began."},
+   {id:"threads-of-wisdom-work", n:"6", title:"Threads of Wisdom", img:"tw-6", text:"The circle quietly closes. What was once received with love is now ready to be passed forward. The invisible thread connecting generations continues, carrying wisdom, hope and love into the future."}
+  ]},
+ {id:"beyond-separation", added:"2026-06-01", title:"Beyond Separation", kind:"Triptych",
+  short:"The inner journey of love, from the wish to possess another person to the ability to fully accept them.",
+  statement:[
+   "Beyond Separation is a figurative triptych about one of the most profound transformations in human relationships: the passage from the desire to possess another person to the ability to fully accept them.",
+   "The series follows the inner journey of love. It begins with acceptance, unfolds into tenderness and trust, and arrives at a state where the need to separate “you” from “me” quietly disappears.",
+   "Love never means losing one’s individuality. Only by remaining true to ourselves can we genuinely meet another person. This is why the final painting is called Becoming One: not a fusion of identities, but the conscious unity of two complete individuals. It was with these paintings that the artist began her path."],
+  technique:"Acrylic and watercolour on canvas", w:60, h:80, price:4500, status:"available",
+  hang:{cols:3, order:"ltr", gap:5, reading:"Left to right"}, wall:"bs-wall", extras:[],
+  works:[
+   {id:"acceptance", n:"I", title:"Acceptance", img:"bs-1", text:"Love begins with acceptance. True intimacy is born when we stop trying to change another person and allow them to be exactly who they are."},
+   {id:"tenderness", n:"II", title:"Tenderness", img:"bs-2", text:"Tenderness is the language of love that needs no words. Within it, trust, care and the feeling of complete safety beside another person quietly emerge."},
+   {id:"becoming-one", n:"III", title:"Becoming One", img:"bs-3", text:"When love becomes stronger than fear, the feeling of separation dissolves. Two people do not lose themselves in one another; preserving their individuality, they create a new space of unity."}
+  ]},
+ {id:"weightless-touches", added:"2026-06-13", title:"Weightless Touches", pre:"More Than Eternity", kind:"Triptych",
+  short:"Intimacy and connection, where touch becomes a subtle language between two human beings.",
+  statement:[
+   "More Than Eternity: Weightless Touches is a triptych about closeness. Touch here is almost without weight, a subtle language between two people that says more than words.",
+   "Figures are drawn into layered, scraped and washed surfaces, so that they seem to appear and dissolve at the same time, the way a tender moment is held in memory."],
+  technique:"Acrylic and mixed media on canvas", w:50, h:50, price:2850, status:"available",
+  hang:{cols:3, order:"ltr", gap:5, reading:"Left to right"}, extras:["wt-d1","wt-d3","wt-d4","wt-d2","wt-d5"],
+  works:[
+   {id:"on-the-verge-of-touch", n:"I", title:"On the Verge of Touch", img:"wt-1", text:"A quiet exploration of intimacy and connection, where touch becomes a subtle language between two human beings."},
+   {id:"where-light-awakens", n:"II", title:"Where Light Awakens", img:"wt-2", text:"In closeness an inner light appears. Two faces turn toward each other and warmth begins to fill the space between them."},
+   {id:"breathing-as-one", n:"III", title:"Breathing as One", img:"wt-3", text:"Two rhythms become one. Presence is shared so completely that nothing more needs to be said."}
+  ]},
+ {id:"we-are-part-of-one", added:"2026-06-21", title:"We Are Part of One", kind:"Series of eight",
+  short:"Love as the invisible force connecting all forms of life: people, family, nature and the universe.",
+  statement:[
+   "We often perceive ourselves as separate individuals existing alongside one another. Yet nothing that happens between people remains only between them. Every encounter generates new energy; every act of love, trust, care or acceptance transforms not only those involved but the space around them.",
+   "The eight paintings expand step by step, from the first connection between two people to family, society, nature, and finally to the realisation that all living beings are interconnected.",
+   "Through symbolic figurative imagery, layered compositions and the fluid movement of water, the series creates contemplative spaces where one can remember what love feels like, and rediscover a quiet sense of belonging that already exists within us."],
+  technique:"Acrylic and watercolour on canvas", w:40, h:50, price:11400, status:"available",
+  hang:{cols:2, order:"btt-ltr", gap:5, reading:"Bottom to top, left to right within each row", size:"85 × 215 cm"}, extras:[],
+  works:[
+   {id:"the-first-bond", n:"I", title:"The First Bond", img:"wp-1", text:"Every human story begins with a meeting. The first bond gives rise to trust, acceptance, and the feeling that the world is ready to receive us. Love becomes the starting point of the entire journey."},
+   {id:"the-pulse-of-life", n:"II", title:"The Pulse of Life", img:"wp-2", text:"When two people open themselves to one another, a special energy emerges between them. Love becomes a force that expands beyond individual experience into the continuous movement of life."},
+   {id:"shelter-within", n:"III", title:"Shelter Within", img:"wp-3", text:"Love becomes truly alive when two people decide to walk a shared path. An inner space of trust, care and co-creation forms, where each becomes a support for the other."},
+   {id:"a-place-to-belong", n:"IV", title:"A Place to Belong", img:"wp-4", text:"From love, family is born: a space where new generations grow and values, memory and experience are passed on. Personal history becomes part of a broader human continuity."},
+   {id:"the-path-unfolds", n:"V", title:"The Path Unfolds", img:"wp-5", text:"Rooted in the love we have received, we step beyond the familiar to shape our own path and expand our horizons."},
+   {id:"through-the-gate-of-light", n:"VI", title:"Through the Gate of Light", img:"wp-6", text:"A passage between inner and outer worlds, where light becomes a symbol of connection, transformation, and the possibility of moving beyond separation."},
+   {id:"the-living-network", n:"VII", title:"The Living Network", img:"wp-7", text:"All lives and events are interconnected. Every action, encounter and emotion becomes part of an invisible network uniting people, nature and the flow of time into a single field of relations."},
+   {id:"the-sense-of-unity", n:"VIII", title:"The Sense of Unity", img:"wp-8", text:"The final point of the journey: separation does not exist. Everything is part of a single whole, where love connects humanity, Earth and the universe into one continuous movement."}
+  ]},
+ {id:"venice", added:"2026-06-10", title:"Venice", pre:"In the Glow of the Jubilant Sun", kind:"Diptych",
+  short:"Venice dissolving into warm light, water and colour: happiness as natural as a reflection on the lagoon.",
+  statement:[
+   "A diptych of two large canvases devoted to Venice in light. The city dissolves into sun, water and colour, and happiness feels as natural as a reflection on the lagoon.",
+   "The two panels, Sunlit Happiness and Rainbow Chord, are offered together as one work."],
+  technique:"Acrylic and mixed media on canvas", w:70, h:100, price:5750, status:"available",
+  hang:{cols:2, order:"ltr", gap:5, reading:"I · Sunlit Happiness, II · Rainbow Chord"}, extras:[], diptychOneImage:true,
+  works:[
+   {id:"venice-diptych", n:"I–II", title:"Sunlit Happiness / Rainbow Chord", img:"ve-1", text:"Two panels, 70 × 100 cm each, painted as one luminous view of the city. Pale gold, rose and lagoon blue are laid in thin washes so that the light seems to come from inside the canvas."}
+  ]},
+ {id:"codes-of-time", added:"2026-08-14", title:"Codes of Time", kind:"Series of four",
+  short:"Time as an inner experience rather than a linear movement.",
+  statement:[
+   "Codes of Time explores time as an inner experience rather than a linear movement.",
+   "Fragments and layered forms become traces of memory, presence and anticipation. Deep ultramarine strokes cut across warm, washed grounds like signs in a private calendar, and the four canvases hang together as one sequence."],
+  technique:"Acrylic and mixed media on canvas", w:28, h:35, price:4200, status:"available",
+  hang:{cols:2, order:"ltr-ttb", gap:4, reading:"As a block of four"}, wall:"ct-wall", extras:[],
+  works:[
+   {id:"codes-of-time-i", n:"I", title:"Codes of Time I", img:"ct-1", text:"A dark stroke falls through a field of green, pink and gold: a moment of memory breaking into the present."},
+   {id:"codes-of-time-ii", n:"II", title:"Codes of Time II", img:"ct-2", text:"Rose and crimson layers hold a single arc of ultramarine, like the curve of a day."},
+   {id:"codes-of-time-iii", n:"III", title:"Codes of Time III", img:"ct-3", text:"Dense blues and a dark, turning form: presence as something that gathers weight."},
+   {id:"codes-of-time-iv", n:"IV", title:"Codes of Time IV", img:"ct-4", text:"A bright green-gold sweep lifts out of the composition: anticipation, the future already moving."}
+  ]},
+ {id:"space-of-search", added:"2026-08-23", title:"Space of Search", kind:"Single work",
+  short:"A reflection on the search for oneself.",
+  statement:["A reflection on the search for oneself, between the image we see, the person we feel ourselves to be, and the person we are becoming.",
+   "Two faces mirror each other through a veil of yellow brushwork, one eye open and green, watching and being watched."],
+  technique:"Acrylic and mixed media on canvas", w:28, h:35, status:"available", extras:[],
+  works:[
+   {id:"space-of-search", n:"", title:"Space of Search", img:"ss-1", details:["ss-a","ss-b"], price:2150, text:"A reflection on the search for oneself, between who we appear to be, who we feel ourselves to be, and who we are becoming."}
+  ]},
+ {id:"impulses", added:"2026-10-19", title:"Impulses", kind:"Two works",
+  short:"The moment when inner energy breaks through boundaries and becomes action.",
+  statement:["Impulses captures inner energy at the point where it becomes action. Circular strokes are dragged through layered paint until the surface itself seems to move.",
+   "Price upon request."],
+  technique:"Acrylic and mixed media on canvas", w:50, h:50, status:"available", onRequest:true, extras:[],
+  hang:{cols:2, order:"ltr", gap:5, reading:"Left to right"},
+  works:[
+   {id:"impulse-i", n:"I", title:"Impulses I", img:"im-1", details:["im-1a","im-1b"], text:"Soft greens, violets and reds gather into a slow spiral: the instant before an impulse becomes movement."},
+   {id:"impulse-ii", n:"II", title:"Impulses II", img:"im-2", details:["im-2a","im-2b","im-2c"], text:"Dynamic circular strokes capture the moment when inner energy breaks through boundaries and transforms into action."}
+  ]}
+];
+
+
+
+const HERO = {"beyond-separation":"hero-bs-3","weightless-touches":"hero-wt-h","threads-of-wisdom":"hero-tw-1","we-are-part-of-one":"hero-wp-6","landscapes-of-freedom":"hero-lf-h","venice":"hero-ve-h","codes-of-time":"hero-ct-h","space-of-search":"hero-ss-h","sweetness-of-happiness":"hero-sh-2","impulses":"hero-im-h"};
+const WALLS = {"beyond-separation":"bs-wall","landscapes-of-freedom":"lf-wall","codes-of-time":"ct-wall"};
+
+/* ---------- helpers ---------- */
+const $ = (s, r=document) => r.querySelector(s);
+const $$ = (s, r=document) => [...r.querySelectorAll(s)];
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const eur = n => "€" + n.toLocaleString("en-US");
+const pad = n => String(n).padStart(2,"0");
+const WORKS = [], BY_WORK = {}, BY_SERIES = {};
+SERIES.forEach(s => { BY_SERIES[s.id] = s; s.works.forEach((w,i) => { w.series = s; w.i = i; WORKS.push(w); BY_WORK[w.id] = w; }); });
+const count = s => s.diptychOneImage ? 2 : s.works.length;
+const dims = s => `${s.w} × ${s.h} cm`;
+const unit = s => s.kind.startsWith("Series") ? "series" : s.kind.toLowerCase();
+function priceInfo(w){ const s=w.series; if (s.onRequest) return {mode:"request"}; if (w.price) return {mode:"single", amount:w.price}; return {mode:"series", amount:s.price}; }
+const priceLine = w => "Price upon request";
+const _priceLineOld = w => { const p=priceInfo(w); return p.mode==="request" ? "Price on request" : p.mode==="single" ? eur(p.amount) : `${eur(p.amount)} · complete ${unit(w.series)}`; };
+const seriesPrice = s => "Price upon request";
+const _seriesPriceOld = s => s.onRequest ? "Price on request" : s.price ? `${eur(s.price)} · complete ${unit(s)}` : s.works.map(w=>eur(w.price)).join(" / ");
+const sub = s => s.pre || s.kind;
+let toastT;
+function toast(m){ const t=$("#toast"); t.textContent=m; t.hidden=false; clearTimeout(toastT); toastT=setTimeout(()=>t.hidden=true,2600); }
+function copyText(text, btn){ const ok=()=>{ if(btn){const o=btn.textContent; btn.textContent="Copied"; setTimeout(()=>btn.textContent=o,1500);} }; try{ navigator.clipboard.writeText(text).then(ok,()=>toast("Select the text to copy it")); }catch(e){ toast("Select the text to copy it"); } }
+function setHeader(){}  /* kept for the shared legal module */
+function footer(){ return `
+  <div class="wrap">
+    <div><div class="logo" style="font-size:22px">IO NATALL&amp;A</div><p class="g" style="margin:10px 0 0;max-width:30ch;font-size:15px">Contemporary painter. Lives and works in Tallinn, Estonia.</p></div>
+    <div><h4>Gallery</h4><ul><li><a href="#works" data-go="works">Artworks</a></li><li><a href="#series" data-go="series">Series</a></li><li><a href="#about" data-go="about">About the artist</a></li></ul></div>
+    <div><h4>Collect</h4><ul><li><a href="#shipping" data-go="shipping">Shipping &amp; Returns</a></li><li><a href="#terms" data-go="terms">Terms of Sale</a></li><li><a href="#privacy" data-go="privacy">Privacy Policy</a></li></ul></div>
+    <div><h4>Contact</h4><ul><li>${ARTIST_EMAIL}</li><li><a href="https://www.instagram.com/io_natalla/" target="_blank" rel="noopener">Instagram</a></li><li><a href="https://www.behance.net/io_natalla" target="_blank" rel="noopener">Behance</a></li></ul></div>
+    <div class="bottom"><span>© 2026 IO NATALL&amp;A — All rights reserved</span><span>Tallinn, Estonia</span></div>
+  </div>`; }
+function statusBtn(st, attr, label, filled){
+  if (st==="sold") return `<button class="btn w" disabled>Sold</button>`;
+  if (st==="reserved") return `<button class="btn w" disabled>Reserved</button>`;
+  return `<button class="btn w${filled?" blk":""}" ${attr}>${label}</button>`;
+}
+const wkCard = w => `<a class="wk" href="#work-${w.id}" data-work="${w.id}"><span class="im"><img src="img/${w.img}-s.jpg" alt="${esc(w.title)}" loading="lazy"></span>
+  <span class="tx"><span>IO NATALL&amp;A</span><span class="t">${esc(w.title)}, <span style="font-style:normal">2026</span></span><span class="g">${esc(w.series.title)}</span><span class="g num">${priceLine(w)}</span></span></a>`;
+const seriesCard = s => `<a class="card" href="#series-${s.id}" data-series="${s.id}"><span class="im"><img src="img/${(WALLS[s.id]||HERO[s.id])}${WALLS[s.id]?"-s":""}.jpg" alt="${esc(s.title)}" loading="lazy"></span>
+  <span class="tx"><span class="lbl g">${esc(s.kind)}</span><span class="h3">${esc(s.title)}</span><span class="h3 g">${esc(sub(s))}</span><span class="g num" style="font-size:15px;margin-top:6px">${count(s)} × ${dims(s)} · ${seriesPrice(s)}</span></span></a>`;
+
+/* ---------- HOME ---------- */
+let hi = 0, hTimer;
+function buildHome(){
+  const feat = SERIES;
+  const picks = ["planet-of-joy","keeper-of-light","acceptance","the-first-bond","balance","space-of-search","the-wisdom-within","on-the-verge-of-touch"].map(id=>BY_WORK[id]).filter(Boolean);
+  $("#v-home").innerHTML = `
+    <div class="wrap hero">
+      <div class="stage" id="stage">${feat.map((s,i)=>`<a class="sl${i===0?" on":""}" href="#series-${s.id}" data-series="${s.id}" aria-label="${esc(s.title)}"><img src="img/${HERO[s.id]}.jpg" alt="" ${i>1?'loading="lazy"':""}></a>`).join("")}</div>
+      <div class="cap" id="cap"></div>
+    </div>
+    <div class="wrap sec">
+      <div class="sec-h"><h2 class="h2">Series</h2><a class="more" href="#series" data-go="series">View all series</a></div>
+      <div class="cards">${SERIES.slice(0,6).map(seriesCard).join("")}</div>
+    </div>
+    <div class="band"><div class="wrap">
+      <div><h2 class="h1">Collect original paintings</h2><p>Every work is an original, signed and dated 2026. Prices are given upon request: send a purchase request and the artist replies personally with the price, availability and shipping. Some series are offered only as complete sets, as she conceived them.</p></div>
+      <div class="acts"><a class="btn wht" href="#works" data-go="works">Browse available works</a><a class="btn" href="#shipping" data-go="shipping">Shipping &amp; Returns</a></div>
+    </div></div>
+    <div class="wrap sec">
+      <div class="sec-h"><h2 class="h2">Available works</h2><a class="more" href="#works" data-go="works">View all ${WORKS.length} artworks</a></div>
+      <div class="works">${picks.map(wkCard).join("")}</div>
+    </div>
+    <div class="wrap sec" style="padding-top:0">
+      <div class="split">
+        <img src="img/studio.jpg" alt="IO NATALL&amp;A painting in her studio" loading="lazy">
+        <div><div class="lbl g">About the artist</div><h2 class="h1" style="margin-top:10px">IO NATALL&amp;A<br><span class="g">Natalja Kossareva</span></h2>
+          <p>A contemporary painter in Tallinn, Estonia. Her work explores love as a force that connects people, generations, nature and the universe, painted in acrylic with a technique of her own in which water plays the essential role.</p>
+          <a class="more" style="margin-top:26px" href="#about" data-go="about">Read biography</a></div>
+      </div>
+    </div>
+    <footer class="ft">${footer()}</footer>`;
+  heroTo(0);
+  clearInterval(hTimer); hTimer = setInterval(()=>{ if (route==="home" && !document.hidden) heroTo(hi+1); }, 7000);
+}
+function heroTo(n){
+  const sl = $$("#stage .sl"); if (!sl.length) return;
+  hi = (n + sl.length) % sl.length;
+  sl.forEach((e,i)=>e.classList.toggle("on", i===hi));
+  const s = SERIES[hi];
+  $("#cap").innerHTML = `<div>
+      <div class="lbl g">${esc(s.kind)} · 2026</div>
+      <h1 class="h1">${esc(s.title)}<br><span class="g">${esc(sub(s))}</span></h1>
+      <div class="meta">${count(s)} paintings · ${dims(s)} each<br><span class="g">${esc(s.short)}</span></div>
+      <a class="more" href="#series-${s.id}" data-series="${s.id}">View series</a>
+    </div>
+    <div><div class="arrows"><button data-hero="-1" aria-label="Previous series">←</button><button data-hero="1" aria-label="Next series">→</button></div><div class="count num">${pad(hi+1)} / ${pad(SERIES.length)}</div></div>`;
+}
+
+/* ---------- ARTWORKS (all) ---------- */
+let wFilter = "all";
+function renderWorks(){
+  const list = wFilter==="all" ? WORKS : WORKS.filter(w=>w.series.id===wFilter);
+  $("#v-works").innerHTML = `
+    <div class="wrap ph"><h1 class="h1">Artworks<br><span class="g">Paintings 2026</span></h1></div>
+    <div class="wrap">
+      <div class="tabs">${[["all","All works"],...SERIES.map(s=>[s.id,s.title])].map(([k,l])=>`<button data-filter="${k}" class="${wFilter===k?"on":""}">${esc(l)}</button>`).join("")}</div>
+      <div class="works">${list.map(wkCard).join("")}</div>
+    </div>
+    <div style="height:110px"></div><footer class="ft">${footer()}</footer>`;
+}
+
+/* ---------- SERIES LIST ---------- */
+function renderSeriesList(){
+  $("#v-serieslist").innerHTML = `
+    <div class="wrap ph"><h1 class="h1">Series<br><span class="g">${SERIES.length} bodies of work</span></h1></div>
+    <div class="wrap"><div class="cards">${SERIES.map(seriesCard).join("")}</div></div>
+    <div style="height:110px"></div><footer class="ft">${footer()}</footer>`;
+}
+
+/* ---------- SERIES ---------- */
+function hangPlan(s){
+  if (!s.hang) return "";
+  const H=s.hang, n=count(s), cols=H.cols, rows=Math.ceil(n/cols), g=H.gap;
+  const W=cols*s.w+(cols-1)*g, HH=rows*s.h+(rows-1)*g, k=Math.min(300/W, 300/HH);
+  let cells="";
+  for (let i=0;i<n;i++){
+    let r=Math.floor(i/cols), c=i%cols; if (H.order==="btt-ltr") r=rows-1-r;
+    const w = s.diptychOneImage ? s.works[0] : s.works[i];
+    const lab = s.diptychOneImage ? ["I","II"][i] : (w.n || i+1);
+    cells += `<button data-work="${w.id}" style="left:${c*(s.w+g)*k}px;top:${r*(s.h+g)*k}px;width:${s.w*k}px;height:${s.h*k}px" aria-label="${esc(w.title)}">${s.diptychOneImage&&i===1?"":`<img src="img/${w.img}-s.jpg" alt="" loading="lazy">`}<span class="n">${esc(lab)}</span></button>`;
+  }
+  const sc = W>=150?50:W>=60?20:10;
+  return `<div class="hangfig"><div class="hang-plan" style="width:${W*k}px;height:${HH*k}px">${cells}</div><div class="scale num"><i style="width:${sc*k}px"></i>${sc} cm · installation view, to scale</div></div>`;
+}
+function renderSeries(id){
+  const s = BY_SERIES[id];
+  const buy = s.onRequest ? `<button class="btn w" data-enq-series="${s.id}">Inquire about this series</button>`
+    : s.price ? statusBtn(s.status, `data-add-series="${s.id}"`, `Purchase the ${unit(s)}`, true) : "";
+  $("#v-series").innerHTML = `
+    <div class="wrap ph" style="padding-bottom:0">
+      <div class="lbl g" style="margin-bottom:12px"><a href="#series" data-go="series">Series</a> / ${esc(s.kind)}</div>
+      <h1 class="h1">${esc(s.title)}<br><span class="g">${esc(sub(s))}</span></h1>
+      <div class="h3 g" style="margin-top:16px">${count(s)} paintings · Tallinn, 2026</div>
+      <div class="sv-hero"><img src="img/${HERO[s.id]}.jpg" alt="${esc(s.title)}"></div>
+    </div>
+    <div class="wrap sv-text">
+      <div class="facts">
+        <div><span class="g">Canvases</span><span class="num">${count(s)} × ${dims(s)}</span></div>
+        <div><span class="g">Medium</span><span>${esc(s.technique)}</span></div>
+        ${s.hang&&s.hang.size?`<div><span class="g">Installation</span><span>approx. ${s.hang.size}</span></div>`:""}
+        ${s.hang?`<div><span class="g">Reading</span><span>${esc(s.hang.reading)}</span></div>`:""}
+        <div><span class="g">Price</span><span class="num">${seriesPrice(s)}</span></div>
+        <div style="margin-top:8px">${buy}</div>
+      </div>
+      <div class="body">${s.statement.map(p=>`<p>${esc(p)}</p>`).join("")}${s.hang?`<div style="margin-top:30px">${hangPlan(s)}</div>`:""}</div>
+    </div>
+    <div class="wrap"><div class="sec-h"><h2 class="h2">Works in the series</h2></div><div class="works">${s.works.map(wkCard).join("")}</div></div>
+    ${WALLS[s.id]?`<div class="wrap sec" style="padding-bottom:0"><div class="sec-h"><h2 class="h2">Installation view</h2></div><button data-lb="${WALLS[s.id]}" style="display:block;width:100%"><img src="img/${WALLS[s.id]}.jpg" alt="${esc(s.title)} installed" loading="lazy" style="width:100%"></button></div>`:""}
+    <div style="height:110px"></div><footer class="ft">${footer()}</footer>`;
+}
+
+/* ---------- ARTWORK ---------- */
+function renderWork(id){
+  const w = BY_WORK[id], s = w.series, p = priceInfo(w);
+  const imgs = [w.img, ...(w.details||[])];
+  let buy;
+  if (p.mode==="single") buy = `<div class="price">Price upon request</div><div class="acts">${statusBtn(s.status,`data-add-work="${w.id}"`,"Purchase",true)}<button class="btn w" data-enq-work="${w.id}">Inquire</button></div>`;
+  else if (p.mode==="series") buy = `<div class="price">Price upon request</div><p class="note">${s.diptychOneImage?"Offered as the complete diptych, both panels.":`Chapter ${esc(w.n)} of ${esc(s.title)}, offered with the complete ${unit(s)} of ${count(s)} canvases.`}</p><div class="acts">${statusBtn(s.status,`data-add-series="${s.id}"`,"Purchase",true)}<button class="btn w" data-enq-work="${w.id}">Inquire</button></div>`;
+  else buy = `<div class="price">Price upon request</div><div class="acts"><button class="btn w blk" data-enq-work="${w.id}">Inquire</button></div>`;
+  const prev = s.works[w.i-1], next = s.works[w.i+1];
+  const more = WORKS.filter(o=>o.series.id===s.id && o.id!==w.id).slice(0,4);
+  $("#v-work").innerHTML = `
+    <div class="wrap aw">
+      <div>
+        <button class="pic" data-lb="${w.img}" id="pic" aria-label="View larger"><img id="picImg" src="img/${w.img}.jpg" alt="${esc(w.title)}"></button>
+        ${imgs.length>1?`<div class="thumbs">${imgs.map((x,i)=>`<button data-thumb="${x}" aria-current="${i===0}" aria-label="${i?"Detail "+i:"Whole work"}"><img src="img/${x}-s.jpg" alt=""></button>`).join("")}</div>`:""}
+      </div>
+      <div class="info">
+        <div class="lbl g"><a href="#series-${s.id}" data-series="${s.id}">${esc(s.title)}</a>${w.n?" · "+esc(w.n):""}</div>
+        <div><div class="who">IO NATALL&amp;A</div><div class="tt">${esc(w.title)}</div><div class="g" style="font-size:20px">2026</div></div>
+        <dl><dd>${esc(s.technique)}</dd><dd class="num">${s.diptychOneImage?"Diptych, 2 × ":""}${dims(s)}</dd><dd class="g">Signed and dated</dd></dl>
+        ${buy}
+        <p class="desc">${esc(w.text)}</p>
+        <div class="pn">${prev?`<button data-work="${prev.id}">← ${esc(prev.title)}</button>`:"<span></span>"}${next?`<button data-work="${next.id}">${esc(next.title)} →</button>`:`<button data-series="${s.id}">About the series →</button>`}</div>
+      </div>
+    </div>
+    ${more.length?`<div class="wrap" style="padding-bottom:110px"><div class="sec-h"><h2 class="h2">More from ${esc(s.title)}</h2><a class="more" href="#series-${s.id}" data-series="${s.id}">View series</a></div><div class="works">${more.map(wkCard).join("")}</div></div>`:`<div style="height:80px"></div>`}
+    <footer class="ft">${footer()}</footer>`;
+}
+
+/* ---------- ABOUT ---------- */
+function renderAbout(){
+  $("#v-about").innerHTML = `
+    <div class="wrap ph"><h1 class="h1">IO NATALL&amp;A<br><span class="g">Biography</span></h1></div>
+    <div class="wrap ab">
+      <div class="ims"><img src="img/studio.jpg" alt="The artist painting on a canvas laid flat on the studio floor" loading="lazy"></div>
+      <div class="txt">
+        <p class="q">“I want my paintings to become a place where people can feel love.”</p>
+        <p>IO NATALL&amp;A (Natalja Kossareva) is a contemporary artist based in Tallinn, Estonia. Born in Leningrad, now Saint Petersburg, she has painted throughout her life and began her professional artistic practice in 2025. In a short time she developed a distinctive visual language of symbolic figurative painting, layered compositions and expressive painterly form.</p>
+        <p>Love is the centre of her practice: not only as a human emotion, but as a universal force connecting people, generations, nature and the universe. Rather than depicting external events, she seeks to reveal the invisible connections between people.</p>
+        <p>She works primarily in acrylic, with a technique of her own in which water plays the essential role. Pigments flow freely across the surface, building layered spaces from which figures slowly emerge into light. For her, painting is not an illustration of an idea but an invitation to an inner experience.</p>
+        <p>She studied Interior Architecture at Euroacademy in Tallinn and has worked in interior design since 2002. That training in space shapes her sense of composition, proportion and colour. She works in series, so that each body of work unfolds as one complete visual story.</p>
+        <div class="facts2" id="contact">
+          <div><span class="g">Background</span><ul><li>Interior Architecture, Euroacademy, Tallinn</li><li>Interior design practice since 2002</li><li>Professional painting practice since 2025</li><li>Featured artist, Arte Laguna World, 2026</li></ul></div>
+          <div><span class="g">Contact</span><ul><li>${ARTIST_EMAIL}<button class="copy" data-copy="${ARTIST_EMAIL}">Copy</button></li><li><a href="https://www.instagram.com/io_natalla/" target="_blank" rel="noopener">Instagram — @io_natalla</a></li><li><a href="https://www.behance.net/io_natalla" target="_blank" rel="noopener">Behance</a></li><li><a href="https://artelaguna.world/artist/kossareva-natalja/" target="_blank" rel="noopener">Arte Laguna World</a></li></ul></div>
+        </div>
+      </div>
+    </div>
+    <footer class="ft">${footer()}</footer>`;
+}
+
+/* ---------- LEGAL PAGES — edit the text here. Fill the highlighted placeholder before going live. ---------- */
+const SELLER_ADDRESS = '<span class="todo">[street address, postal code]</span> Tallinn, Estonia';
+const LEGAL_UPDATED = "23 October 2026";
+const LEGAL = {
+ terms: { title:"Terms of Sale", sections:[
+  ["1. Seller", `Artworks on this website are sold by the artist Natalja Kossareva, working as IO NATALL&amp;A, ${SELLER_ADDRESS}. Email: <a href="mailto:${ARTIST_EMAIL}">${ARTIST_EMAIL}</a>. These terms apply to every order placed on this website.`],
+  ["2. The artworks", `Every work is an original painting, signed and dated by the artist. Each one is unique. Colours on screen can differ slightly from the painting itself, and the textured surface is part of the work. Sizes are given in centimetres, height before width where they differ, without frame.`],
+  ["3. Prices", `Prices are given upon request, in euros. The price the artist confirms to you by email is the final price of the artwork. Shipping is not included; it depends on the destination and the size of the parcel and is quoted to you before you pay. For deliveries outside the European Union, import duties, taxes and customs fees of the destination country are paid by the buyer.`],
+  ["4. Series", `Some works belong to a series and are offered only as the complete series, as the artist conceived it. The price given for these works is the price of the whole series. You can ask about a single work from a series with the form on its page.`],
+  ["5. How an order works", `<ol>
+    <li>You add a work or a series to the cart and send a purchase request with your contact details and delivery address. Nothing is charged at this point.</li>
+    <li>Sending the request reserves the work for you for 7 days.</li>
+    <li>The artist replies by email to confirm that the work is available and to give the price and the shipping cost. The sales contract is concluded when you receive this confirmation.</li>
+    <li>If a work is no longer available, you are told by email and nothing is owed.</li>
+  </ol>`],
+  ["6. Payment", `You pay by bank transfer against an invoice, or by card through a secure payment link sent by email. Payment is due within 7 days of the confirmation. If payment is not received in that time, the reservation ends and the work may be offered to someone else. Card payments are processed by the payment provider; the artist never sees your card details.`],
+  ["7. Delivery", `Works are shipped after payment is received, as described on the <a href="#shipping" data-go="shipping">Shipping &amp; Returns</a> page. If you buy as a consumer, the risk of loss or damage passes to you when you or a person you name receives the parcel.`],
+  ["8. Right of withdrawal (14 days)", `If you buy as a consumer, you may withdraw from the contract within 14 days without giving a reason. The period ends 14 days after the day you, or a person you name who is not the carrier, receive the work. For a series delivered in several parcels, it ends 14 days after the last parcel is received.
+    <br><br>To withdraw, send a clear statement to <a href="mailto:${ARTIST_EMAIL}">${ARTIST_EMAIL}</a> before the period ends. You may use the model form below, but you do not have to.
+    <br><br><b>Returning the work.</b> Send the work back within 14 days after telling us that you withdraw, well packed in its original packaging where possible and insured for its full value. You pay the direct cost of returning it.
+    <br><br><b>Refund.</b> We refund everything you paid, including the original standard delivery cost, within 14 days after receiving your withdrawal. The refund may be held back until the work has been received back, or until you show proof of sending it, whichever comes first. The refund uses the same payment method you used, unless agreed otherwise, at no cost to you. You are liable for any loss in value caused by handling the work beyond what is needed to look at it.
+    <br><br><b>Exception.</b> The right of withdrawal does not apply to works commissioned and made to your personal specifications.`],
+  ["Model withdrawal form", `<div class="formbox">To: Natalja Kossareva (IO NATALL&amp;A), ${SELLER_ADDRESS}, ${ARTIST_EMAIL}<br><br>
+    I hereby give notice that I withdraw from my contract for the sale of the following work: ____________<br>
+    Ordered on / received on: ____________<br>Order number: ____________<br>Name: ____________<br>Address: ____________<br>Date: ____________<br>Signature (only if sent on paper): ____________</div>`],
+  ["9. Damage and faults", `Please inspect the parcel when it arrives. If it is damaged in transit, tell the artist as soon as you can, with photographs of the packaging and the work, so that the courier insurance claim can be made. Your statutory rights for works that are not as described remain in place for two years from delivery.`],
+  ["10. Ownership and copyright", `Ownership of the work passes to you when it has been paid in full. Copyright stays with the artist: buying a painting does not include the right to reproduce it, for example in prints, products or advertising, without written permission. You may photograph the work for private, non-commercial use. The artist may continue to show images of the work in her portfolio, publications and social media.`],
+  ["11. Personal data", `How your details are used is explained in the <a href="#privacy" data-go="privacy">Privacy Policy</a>.`],
+  ["12. Law and disputes", `These terms are governed by Estonian law. If you buy as a consumer, you keep the protection of the mandatory consumer laws of the country where you live. If something goes wrong, please contact the artist first so it can be put right. Consumers can also turn to the Consumer Disputes Committee of the Estonian Consumer Protection and Technical Regulatory Authority (Endla 10A, 10122 Tallinn, <a href="https://ttja.ee/en/consumer-disputes-committee" target="_blank" rel="noopener">ttja.ee</a>), or to the courts.`]
+ ]},
+ privacy: { title:"Privacy Policy", sections:[
+  ["Who is responsible", `The controller of your personal data is Natalja Kossareva (IO NATALL&amp;A), ${SELLER_ADDRESS}, <a href="mailto:${ARTIST_EMAIL}">${ARTIST_EMAIL}</a>.`],
+  ["What is collected", `<ul>
+    <li><b>When you place an order:</b> your name, email address, phone number if you give it, delivery address, the works ordered, your chosen payment method and any note you write.</li>
+    <li><b>When you ask a question:</b> your name, email address, country and your message.</li>
+    <li><b>When you pay:</b> payment confirmation from the bank or payment provider. Card details are handled only by the payment provider.</li>
+  </ul>No account is needed and nothing else is collected on purpose.`],
+  ["Why, and on what legal basis", `<ul>
+    <li>To process your order, arrange delivery and payment, and contact you about it: performance of a contract (GDPR Art. 6(1)(b)).</li>
+    <li>To answer your questions: steps you ask for before a contract, or the legitimate interest in replying to people who write (Art. 6(1)(b) and (f)).</li>
+    <li>To keep sales records required by Estonian accounting and tax law: legal obligation (Art. 6(1)(c)).</li>
+  </ul>Your details are never sold and are not used for advertising. You receive a newsletter only if you ask for one.`],
+  ["Who receives your data", `Only the services needed to run the shop, each for its own task: the website host; the form service that delivers orders and questions to the artist's mailbox (FormSubmit); the email provider (Google); the payment provider or bank you pay through; and the courier, who receives your name, address and phone number for delivery. Some of these providers are based outside the European Economic Area, for example in the United States; transfers rely on the safeguards the GDPR requires, such as the European Commission's standard contractual clauses.`],
+  ["How long it is kept", `Order and invoice records are kept for 7 years, as required by the Estonian Accounting Act. Questions that do not lead to a purchase are deleted within 12 months of the last message.`],
+  ["Cookies and storage", `This website sets no cookies and uses no analytics or tracking. Your cart is kept only in your own browser (local storage) so that it is still there when you come back; it is not sent anywhere until you place an order. You can clear it at any time by emptying the cart or clearing your browser data.`],
+  ["Your rights", `You can ask to see the data held about you, have it corrected or deleted, restrict or object to its use, and receive it in a portable format. Write to <a href="mailto:${ARTIST_EMAIL}">${ARTIST_EMAIL}</a>. You also have the right to complain to the Estonian Data Protection Inspectorate (Andmekaitse Inspektsioon, <a href="https://www.aki.ee/en" target="_blank" rel="noopener">aki.ee</a>) or the data protection authority where you live.`],
+  ["Changes", `If this policy changes, the new version is published on this page with its date.`]
+ ]},
+ shipping: { title:"Shipping & Returns", sections:[
+  ["Packing", `Every painting is wrapped in acid-free paper and bubble wrap, with corner protectors, and shipped in a rigid box. Larger works and complete series may travel in a reinforced box or a wooden crate. Each work leaves the studio signed and dated.`],
+  ["Shipping cost", `Shipping is quoted for your address after you place the order and before you pay, so you always know the full price first. It depends on the destination, the size and weight of the parcel and the insurance value.`],
+  ["Dispatch and delivery times", `Works are dispatched within 7 working days after payment, with an insured, tracked courier. You receive the tracking number by email. Usual delivery times after dispatch:
+    <ul><li>Estonia: 1–3 working days</li><li>European Union: 3–7 working days</li><li>Rest of the world: 5–14 working days, plus customs clearance</li></ul>These are estimates; the courier's times can vary.`],
+  ["Collection in Tallinn", `You can collect your work from the artist in Tallinn free of charge, by appointment. Mention it in the note when you order.`],
+  ["Customs outside the EU", `For deliveries outside the European Union, import duties, taxes and customs fees are set by the destination country and paid by the buyer. The courier may contact you to collect them before delivery.`],
+  ["If the parcel arrives damaged", `Please open the parcel carefully and check the work on arrival. If anything is damaged, keep all packaging and email photographs to <a href="mailto:${ARTIST_EMAIL}">${ARTIST_EMAIL}</a> as soon as possible. Works are insured in transit, and a repair, replacement or refund will be arranged.`],
+  ["Returns (14 days)", `If you buy as a consumer, you can return a work within 14 days of receiving it, without giving a reason.
+    <ol><li>Email <a href="mailto:${ARTIST_EMAIL}">${ARTIST_EMAIL}</a> within 14 days of delivery to say you want to return it.</li>
+    <li>Send the work back within 14 days of that email, packed as it arrived and insured for its full value. The return shipping cost is paid by you.</li>
+    <li>You receive a full refund of the price and the original standard shipping cost within 14 days, once the work has arrived back or you have sent proof of sending it.</li></ol>
+    Full details are in section 8 of the <a href="#terms" data-go="terms">Terms of Sale</a>.`]
+ ]}
+};
+
+function renderLegal(key){
+  const L = LEGAL[key];
+  $("#v-legal").innerHTML = `
+    <div class="lhead"><div class="t">${L.title}<br><span class="g">IO NATALL&amp;A</span></div><div class="lnav">
+      <a href="#terms" data-go="terms" class="${key==="terms"?"on":""}">Terms of Sale</a>
+      <a href="#privacy" data-go="privacy" class="${key==="privacy"?"on":""}">Privacy Policy</a>
+      <a href="#shipping" data-go="shipping" class="${key==="shipping"?"on":""}">Shipping &amp; Returns</a></div></div>
+    <div class="lbody"><div class="ui g">Last updated ${LEGAL_UPDATED}</div>
+      ${L.sections.map(([h,b])=>`<section><h3>${h}</h3><div class="lt">${b}</div></section>`).join("")}</div>
+    <footer class="ft">${footer()}</footer>`;
+}
+
+/* ---------- CART & CHECKOUT ---------- */
+let cart = [];
+try { cart = JSON.parse(localStorage.getItem("ion-cart")||localStorage.getItem("ion-collection")||"[]").filter(it => (it.type==="series" && BY_SERIES[it.id]) || (it.type==="work" && BY_WORK[it.id])); } catch(e){ cart=[]; }
+function saveCart(){ try{ localStorage.setItem("ion-cart", JSON.stringify(cart)); }catch(e){} updateCount(); }
+function updateCount(){ $("#bagCount").textContent = cart.length; $("#bagCount2").textContent = cart.length; }
+function addItem(type, id){
+  if (!cart.some(it => it.type===type && it.id===id)){ cart.push({type,id}); saveCart(); toast("Added to cart"); }
+  else toast("Already in your cart");
+  openDrawer({view:"cart"});
+}
+function itemView(it){
+  if (it.type==="series"){ const s=BY_SERIES[it.id]; return {img:s.works[0].img, t:s.title, s:`Complete ${unit(s)} · ${count(s)} canvases · ${dims(s)} each`, amount:s.price||0}; }
+  const w = BY_WORK[it.id];
+  return {img:w.img, t:w.title, s:`${w.series.title} · ${dims(w.series)}`, amount:w.price||0};
+}
+const cartTotal = () => cart.reduce((a,it)=>a+itemView(it).amount,0);
+const orderNo = () => { const d=new Date(); return "ION-" + String(d.getFullYear()).slice(2) + pad(d.getMonth()+1) + pad(d.getDate()) + "-" + Math.random().toString(36).slice(2,6).toUpperCase(); };
+let enquiryFor = null; // {kind:"work"|"series", id}
+
+function drawerShell(title, body){ $("#drawer").innerHTML = `<div class="dh"><span class="t">${title}</span><button class="ui" data-close-drawer>Close</button></div><div class="db">${body}</div>`; }
+function summaryRows(compact){
+  return cart.map((it,i)=>{ const v=itemView(it); return `<div class="it"><img src="img/${v.img}-s.jpg" alt=""><div><div class="t">${esc(v.t)}</div><div class="s">${esc(v.s)}</div>${compact?"":`<button class="rm ui" data-rm="${i}">Remove</button>`}</div><div class="ui num">Price upon request</div></div>`; }).join("");
+}
+function renderDrawer(state){
+  state = state || {view:"cart"};
+  if (state.view==="enquiry") return renderEnquiry(state);
+  if (state.view==="done") return renderDone(state);
+  if (state.view==="checkout" && cart.length){
+    drawerShell("Checkout", `
+      <div class="steps ui"><span>1 Cart</span><span class="on">2 Details</span><span>3 Confirmation</span></div>
+      ${summaryRows(true)}
+      
+      <p class="fine">The artist replies with the price and shipping for your address before anything is paid.</p>
+      <form class="req" id="orderForm" novalidate>
+        <div class="ui grp">Contact</div>
+        <label class="ui" for="o-name">Full name<input id="o-name" name="name" autocomplete="name"></label>
+        <div class="two"><label class="ui" for="o-email">Email<input id="o-email" name="email" type="email" autocomplete="email"></label><label class="ui" for="o-phone">Phone (optional)<input id="o-phone" name="phone" type="tel" autocomplete="tel"></label></div>
+        <div class="ui grp">Delivery address</div>
+        <label class="ui" for="o-addr">Street address<input id="o-addr" name="address" autocomplete="street-address"></label>
+        <div class="two"><label class="ui" for="o-city">City<input id="o-city" name="city" autocomplete="address-level2"></label><label class="ui" for="o-zip">Postal code<input id="o-zip" name="zip" autocomplete="postal-code"></label></div>
+        <label class="ui" for="o-country">Country<input id="o-country" name="country" autocomplete="country-name"></label>
+        <div class="ui grp">Payment</div>
+        <label class="radio" for="o-pay-bank"><input type="radio" id="o-pay-bank" name="pay" value="Bank transfer" checked> <span><b>Bank transfer</b><br><small>You receive an invoice by email</small></span></label>
+        <label class="radio" for="o-pay-card"><input type="radio" id="o-pay-card" name="pay" value="Card payment link"> <span><b>Card</b><br><small>You receive a secure payment link by email</small></span></label>
+        <label class="ui" for="o-note">Note (optional)<textarea id="o-note" name="note" rows="2" placeholder="Delivery times, framing, a dedication…"></textarea></label>
+        <label class="check" for="o-terms"><input type="checkbox" id="o-terms" name="terms" value="yes"> <span>I agree to the <a href="#terms" data-go="terms">Terms of Sale</a>, including the 14-day right of withdrawal, and have read the <a href="#privacy" data-go="privacy">Privacy Policy</a>.</span></label>
+        <p class="err" id="formErr" hidden></p>
+        <button class="btn-o btn-f wide" type="submit" id="sendBtn">Send purchase request</button>
+        <p class="fine" style="margin:0">Sending the request reserves the works for you. The artist replies with the price, availability and shipping, then sends the invoice or payment link. Nothing is charged now.</p>
+        <button class="btn-o wide" type="button" data-view="cart">Back to cart</button>
+      </form>`);
+    return;
+  }
+  if (!cart.length){
+    drawerShell("Cart (0)", `<div class="empty"><p>Your cart is empty.</p><button class="btn-o" data-close-drawer data-go="works">See all works</button></div>`);
+    return;
+  }
+  drawerShell(`Cart (${cart.length})`, `
+    <div class="steps ui"><span class="on">1 Cart</span><span>2 Details</span><span>3 Confirmation</span></div>
+    ${summaryRows(false)}
+    <div class="sum"><span class="ui">Price</span><span class="ui">Upon request</span></div>
+    <div class="sum sub"><span class="ui">Shipping</span><span class="ui">Quoted for your address</span></div>
+    <p class="fine">Original paintings, signed and dated. Prices are given upon request.</p>
+    <div style="display:grid;gap:8px">
+      <button class="btn-o btn-f wide" data-view="checkout">Checkout</button>
+      <button class="btn-o wide" data-close-drawer>Continue browsing</button>
+    </div>`);
+}
+function renderEnquiry(state){
+  const e = enquiryFor; if (!e) return renderDrawer({view:"cart"});
+  const isS = e.kind==="series", s = isS ? BY_SERIES[e.id] : BY_WORK[e.id].series, w = isS ? s.works[0] : BY_WORK[e.id];
+  const title = isS ? s.title : w.title;
+  drawerShell("Ask about this work", `
+    <div class="it" style="border-top:0"><img src="img/${w.img}-s.jpg" alt=""><div><div class="t">${esc(title)}</div><div class="s">${esc(isS ? `${s.kind} · ${count(s)} canvases` : `${s.title}${w.n?" · "+w.n:""} · ${dims(s)}`)}</div></div><div></div></div>
+    <form class="req" id="enqForm" novalidate>
+      <div class="two"><label class="ui" for="e-name">Full name<input id="e-name" name="name" autocomplete="name"></label><label class="ui" for="e-country">Country<input id="e-country" name="country" autocomplete="country-name"></label></div>
+      <label class="ui" for="e-email">Email<input id="e-email" name="email" type="email" autocomplete="email"></label>
+      <label class="ui" for="e-msg">Your question<textarea id="e-msg" name="message" rows="5">${esc(isS ? `I would like to know more about the series ${title}.` : `I would like to know more about ${title}${s.price && !w.price ? `, and whether it can be acquired on its own` : ""}.`)}</textarea></label>
+      <p class="err" id="formErr" hidden></p>
+      <button class="btn-o btn-f wide" type="submit" id="sendBtn">Send question to the artist</button>
+      <p class="fine" style="margin:0">This is a question, not an order. The artist replies by email. See the <a href="#privacy" data-go="privacy" style="text-decoration:underline">Privacy Policy</a> for how your details are used.</p>
+    </form>`);
+}
+function renderDone(st){
+  const fallback = !st.saved;
+  drawerShell(st.kind==="order" ? "Order" : "Question", `
+    ${st.kind==="order" ? `<div class="steps ui"><span>1 Cart</span><span>2 Details</span><span class="on">3 Confirmation</span></div>` : ""}
+    <div class="done">
+      <div class="t" style="font-size:24px">${st.kind==="order" ? (fallback ? "Your order is ready to send" : "Thank you, your purchase request is sent") : (fallback ? "Your question is ready to send" : "Your question has been sent")}</div>
+      ${st.kind==="order" ? `<div class="ui num">Order ${esc(st.no)}</div>` : ""}
+      <p style="margin:0">${fallback
+        ? `Send this text to <b>${ARTIST_EMAIL}</b> by email, or as an Instagram message to @io_natalla.`
+        : st.kind==="order"
+          ? `IO NATALL&amp;A will send the price, availability and shipping cost by email to <b>${esc(st.email)}</b>, then send your ${esc(st.pay==="Bank transfer"?"invoice":"secure payment link")}.`
+          : `IO NATALL&amp;A will reply to <b>${esc(st.email)}</b>.`}</p>
+      <pre id="orderPre">${esc(st.text)}</pre>
+      <div class="acts"><button class="btn-o" id="copyOrder">Copy text</button>${fallback?`<button class="btn-o" data-copy="${ARTIST_EMAIL}">Copy email</button><a class="btn-o btn-f" href="mailto:${ARTIST_EMAIL}?subject=${encodeURIComponent((st.kind==="order"?"Order ":"Question — ")+(st.no||"IO NATALL&A"))}&body=${encodeURIComponent(st.text)}">Open in email app</a>`:""}</div>
+    </div>`);
+}
+function openDrawer(state){ renderDrawer(state); $("#drawer").hidden=false; $("#scrim").hidden=false; $("#drawer .db") && ($("#drawer .db").scrollTop=0); }
+function closeDrawer(){ $("#drawer").hidden=true; $("#scrim").hidden=true; }
+function openEnquiry(kind, id){ enquiryFor={kind,id}; openDrawer({view:"enquiry"}); }
+
+/* orders and questions are saved to the artist's private inbox when the page can, otherwise prepared to send */
+let dbP=null, userP=null;
+function caps(){
+  if (!window.claude || !window.claude.use) return Promise.resolve([null,null]);
+  dbP = dbP || window.claude.use("db").catch(()=>null);
+  userP = userP || window.claude.use("user").catch(()=>null);
+  return Promise.all([dbP,userP]);
+}
+const FORM_ENDPOINT = "https://formsubmit.co/ajax/" + ARTIST_EMAIL;  /* delivers orders and questions to the artist's inbox on the live site */
+async function sendByForm(rec, text){
+  try {
+    const subject = rec.kind==="order" ? `New purchase request ${rec.no} — IO NATALL&A` : `Question about ${rec.about.title} — IO NATALL&A`;
+    const r = await fetch(FORM_ENDPOINT, {method:"POST", headers:{"Content-Type":"application/json", "Accept":"application/json"},
+      body: JSON.stringify({_subject:subject, _template:"box", _captcha:"false", _replyto:rec.email, Type:rec.kind==="order"?"Order":"Question", Name:rec.name, Email:rec.email, Details:text})});
+    if (!r.ok) return false;
+    const j = await r.json().catch(()=>({}));
+    return j.success===true || j.success==="true";
+  } catch(e){ return false; }
+}
+async function saveRecord(rec, text){
+  if (await saveToDb(rec)) return true;
+  return await sendByForm(rec, text);
+}
+async function saveToDb(rec){
+  try {
+    const [db,user] = await Promise.race([caps(), new Promise(r=>setTimeout(()=>r([null,null]),4000))]);
+    const uid = user && await user.id();
+    if (!db || !uid) return false;
+    const ref = db.doc("orders/"+uid), snap = await ref.get();
+    const prev = (snap.exists && snap.data().requests) || [];
+    prev.push(rec);
+    await ref.set({requests:prev.slice(-30), updated:new Date().toISOString()});
+    return true;
+  } catch(e){ return false; }
+}
+const validEmail = v => /^\S+@\S+\.\S+$/.test(v||"");
+async function submitOrder(form){
+  const f = Object.fromEntries(new FormData(form).entries()), err=$("#formErr");
+  const missing = ["name","email","address","city","zip","country"].filter(k => !(f[k]||"").trim());
+  if (missing.length || !validEmail(f.email)){ err.textContent = "Please fill in your name, a valid email and the full delivery address."; err.hidden=false; return; }
+  if (f.terms!=="yes"){ err.textContent = "Please confirm that you agree to the Terms of Sale."; err.hidden=false; return; }
+  err.hidden=true; const btn=$("#sendBtn"); btn.disabled=true; btn.textContent="Placing order…";
+  const no = orderNo(), total = cartTotal();
+  const items = cart.map(it=>{ const v=itemView(it); return {type:it.type,id:it.id,title:v.t,detail:v.s,price:v.amount}; });
+  const text = `ORDER ${no}\n\n${items.map(i=>`• ${i.title} (${i.detail}) `).join("\n")}\n\nPrice: upon request (please send price and shipping)\nPayment: ${f.pay}\n\n${f.name}\n${f.address}\n${f.zip} ${f.city}\n${f.country}\n${f.email}${f.phone?"\n"+f.phone:""}${f.note?"\n\nNote: "+f.note:""}`;
+  const saved = await saveRecord({kind:"order", no, at:new Date().toISOString(), name:f.name, email:f.email, phone:f.phone||"", address:f.address, city:f.city, zip:f.zip, country:f.country, pay:f.pay, note:f.note||"", total, items}, text);
+  if (saved){ cart=[]; saveCart(); }
+  openDrawer({view:"done", kind:"order", saved, text, email:f.email, no, pay:f.pay});
+}
+async function submitEnquiry(form){
+  const f = Object.fromEntries(new FormData(form).entries()), err=$("#formErr");
+  if (!f.name.trim() || !validEmail(f.email) || !f.message.trim()){ err.textContent="Please add your name, a valid email and your question."; err.hidden=false; return; }
+  err.hidden=true; const btn=$("#sendBtn"); btn.disabled=true; btn.textContent="Sending…";
+  const e = enquiryFor, title = e.kind==="series" ? BY_SERIES[e.id].title : BY_WORK[e.id].title;
+  const text = `QUESTION about ${title}\n\n${f.message}\n\n${f.name}${f.country?" · "+f.country:""}\n${f.email}`;
+  const saved = await saveRecord({kind:"enquiry", at:new Date().toISOString(), name:f.name, email:f.email, country:f.country||"", message:f.message, about:{type:e.kind, id:e.id, title}}, text);
+  openDrawer({view:"done", kind:"enquiry", saved, text, email:f.email});
+}
+async function initInbox(){
+  const [db,user] = await caps(); if (!db||!user) return;
+  let owner=false; try{ owner = await user.isOwner(); }catch(e){}
+  if (!owner) return;
+  const b=document.createElement("button"); b.textContent="Orders"; b.className="solid"; $(".hd .c4").appendChild(b);
+  b.onclick = async () => {
+    drawerShell("Orders & questions", `<div class="inbox"><p class="fine">Loading…</p></div>`);
+    $("#drawer").hidden=false; $("#scrim").hidden=false;
+    try {
+      const q = await db.collection("orders").get();
+      const reqs = q.docs.flatMap(d => d.data().requests||[]).sort((a,b)=>b.at.localeCompare(a.at));
+      $(".inbox").innerHTML = reqs.length ? reqs.map(r => r.kind==="enquiry"
+        ? `<div class="rq"><div class="ui" style="opacity:.75">Question · ${esc(new Date(r.at).toLocaleString())}</div><div><b>${esc(r.name)}</b>${r.country?" · "+esc(r.country):""} · ${esc(r.email)}</div><div style="margin-top:4px">About <b>${esc(r.about&&r.about.title||"")}</b></div><div style="color:#555;margin-top:4px">“${esc(r.message)}”</div></div>`
+        : `<div class="rq"><div class="ui" style="opacity:.75">${r.no?"Order "+esc(r.no)+" · ":"Request · "}${esc(new Date(r.at).toLocaleString())}</div><div><b>${esc(r.name)}</b> · ${esc(r.email)}${r.phone?" · "+esc(r.phone):""}</div>${r.address?`<div style="color:#555">${esc(r.address)}, ${esc(r.zip)} ${esc(r.city)}, ${esc(r.country)}</div>`:`<div style="color:#555">${esc(r.country||"")}</div>`}<ul style="margin:6px 0;padding-left:18px">${(r.items||[]).map(i=>`<li>${esc(i.title)} — ${esc(i.detail)} · ${i.price?eur(i.price):"on request"}</li>`).join("")}</ul>${r.total?`<div><b>${eur(r.total)}</b> + shipping · ${esc(r.pay||"")}</div>`:""}${(r.note||r.message)?`<div style="color:#777">“${esc(r.note||r.message)}”</div>`:""}</div>`
+      ).join("") : `<p class="fine">No orders or questions yet. They appear here when a collector sends one from this page.</p>`;
+    } catch(e){ $(".inbox").innerHTML = `<p class="err">Orders could not be loaded. Reopen the page and try again.</p>`; }
+  };
+}
+
+
+
+/* ---------- router ---------- */
+let route = "";
+function show(id){ $$(".view").forEach(v=>v.classList.toggle("on", v.id===id)); }
+function nav(id){ ["n-works","n-series","n-about"].forEach(n=>$("#"+n).classList.toggle("on", n===id)); }
+function go(hash, push=true){
+  hash = hash || "home"; route = hash;
+  closeMenu(); closeDrawer();
+  if (hash.startsWith("work-") && BY_WORK[hash.slice(5)]){ renderWork(hash.slice(5)); show("v-work"); nav("n-works"); }
+  else if (hash.startsWith("series-") && BY_SERIES[hash.slice(7)]){ renderSeries(hash.slice(7)); show("v-series"); nav("n-series"); }
+  else if (hash==="works"){ renderWorks(); show("v-works"); nav("n-works"); }
+  else if (hash==="series"){ renderSeriesList(); show("v-serieslist"); nav("n-series"); }
+  else if (["terms","privacy","shipping"].includes(hash)){ renderLegal(hash); show("v-legal"); nav(""); }
+  else if (hash==="about"||hash==="contact"){ renderAbout(); show("v-about"); nav("n-about"); }
+  else { route="home"; show("v-home"); nav(""); }
+  if (push){ try{ history.replaceState(null,"","#"+route); }catch(e){} }
+  window.scrollTo(0,0);
+  if (hash==="contact") setTimeout(()=>$("#contact") && $("#contact").scrollIntoView({behavior:"smooth"}), 80);
+}
+function closeMenu(){ $("#mmenu").hidden=true; $("#menuBtn").setAttribute("aria-expanded","false"); }
+function openLB(id){ const lb=$("#lb"); $("img",lb).src=`img/${id}.jpg`; lb.hidden=false; }
+
+/* ---------- events ---------- */
+document.addEventListener("click", e => {
+  if (e.target.id==="scrim"){ closeDrawer(); return; }
+  if (e.target.closest("#lb")){ $("#lb").hidden=true; return; }
+  const t = e.target.closest("a,button"); if (!t) return;
+  const d = t.dataset;
+  if (d.work){ e.preventDefault(); go("work-"+d.work); return; }
+  if (d.series){ e.preventDefault(); go("series-"+d.series); return; }
+  if (d.closeDrawer!==undefined){ closeDrawer(); if (d.go) go(d.go); return; }
+  if (d.go){ e.preventDefault(); go(d.go); return; }
+  if (d.hero){ heroTo(hi + (+d.hero)); clearInterval(hTimer); return; }
+  if (d.filter){ wFilter=d.filter; renderWorks(); return; }
+  if (d.thumb){ $("#picImg").src=`img/${d.thumb}.jpg`; $("#pic").dataset.lb=d.thumb; $$(".thumbs button").forEach(b=>b.setAttribute("aria-current", b===t)); return; }
+  if (d.lb){ openLB(d.lb); return; }
+  if (d.addSeries){ addItem("series", d.addSeries); return; }
+  if (d.addWork){ addItem("work", d.addWork); return; }
+  if (d.enqWork){ openEnquiry("work", d.enqWork); return; }
+  if (d.enqSeries){ openEnquiry("series", d.enqSeries); return; }
+  if (d.view){ openDrawer({view:d.view}); return; }
+  if (d.rm!==undefined){ cart.splice(+d.rm,1); saveCart(); renderDrawer({view:"cart"}); return; }
+  if (d.copy){ copyText(d.copy, t); return; }
+  if (t.id==="copyOrder"){ copyText($("#orderPre").textContent, t); return; }
+  if (t.id==="bagBtn"||t.id==="bagBtn2"){ closeMenu(); openDrawer({view:"cart"}); return; }
+  if (t.id==="menuBtn"){ $("#mmenu").hidden=false; t.setAttribute("aria-expanded","true"); return; }
+  if (t.id==="menuClose"){ closeMenu(); return; }
+});
+document.addEventListener("submit", e => { if (e.target.id==="orderForm"){ e.preventDefault(); submitOrder(e.target); } if (e.target.id==="enqForm"){ e.preventDefault(); submitEnquiry(e.target); } });
+document.addEventListener("keydown", e => {
+  if (e.key==="Escape"){ if(!$("#lb").hidden) $("#lb").hidden=true; else if(!$("#drawer").hidden) closeDrawer(); else closeMenu(); return; }
+  if (e.target.closest("input,textarea")) return;
+  if (route==="home" && (e.key==="ArrowRight"||e.key==="ArrowLeft")){ heroTo(hi+(e.key==="ArrowRight"?1:-1)); clearInterval(hTimer); }
+  if (route.startsWith("work-") && (e.key==="ArrowRight"||e.key==="ArrowLeft")){ const w=BY_WORK[route.slice(5)]; const n=w.series.works[w.i+(e.key==="ArrowRight"?1:-1)]; if(n) go("work-"+n.id); }
+});
+window.addEventListener("hashchange", () => { const h=(location.hash||"").slice(1); if (h && h!==route) go(h,false); });
+
+buildHome(); updateCount();
+(function(){ const h=(location.hash||"").slice(1); go(h||"home", false); if (h==="cart"||h==="collection") openDrawer({view:"cart"}); })();
+initInbox();
+</script>
+</body></html>
