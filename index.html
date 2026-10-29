@@ -6,7 +6,22 @@
 <meta name="theme-color" content="#F8F6F2">
 <title>IO NATALL&amp;A</title>
 <meta name="claude:viewport-fit-sides" content="cover">
-<meta name="description" content="IO NATALL&A — contemporary painter in Tallinn, Estonia. Original paintings in series, available to collect.">
+<meta name="description" content="Contemporary artist from Tallinn, Estonia. Original paintings to collect.">
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32.png">
+<link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="IO NATALL&amp;A">
+<meta property="og:title" content="IO NATALL&amp;A - contemporary artist">
+<meta property="og:description" content="Contemporary artist from Tallinn, Estonia. Original paintings to collect.">
+<meta property="og:url" content="https://ionatalla.com/">
+<meta property="og:image" content="https://ionatalla.com/img/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Four paintings by IO NATALL&amp;A: Space of Search, Landscapes of Freedom, The Sweetness of Happiness and Threads of Wisdom">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://ionatalla.com/img/og.jpg">
+<link rel="canonical" href="https://ionatalla.com/">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@200;300;400&display=swap">
@@ -1251,7 +1266,7 @@ async function submitPurchase(f){
   err.hidden=true; const btn=$("button[type=submit]",f); btn.disabled=true; btn.firstElementChild.textContent="Sending…";
   const no="IO-"+new Date().toISOString().slice(2,10).replace(/-/g,"")+"-"+Math.random().toString(36).slice(2,5).toUpperCase();
   const text=`Purchase request ${no}\n\nWorks:\n- ${items.join("\n- ")}\n\nName: ${name}\nEmail: ${email}\nPhone: ${fd.get("phone")||"—"}\nDelivery: ${fd.get("delivery")}\nAddress: ${addr||"—"}\nPayment: ${fd.get("payment")}\nNote: ${fd.get("note")||"—"}\n\nPrices: upon request. Terms of Sale accepted.`;
-  const subject=`Purchase request ${no} — IO NATALL&A`;
+  const subject=`Purchase request ${no} - IO NATALL&A`;
   const ok=await deliver(subject,email,name,text);
   if(ok){ cart=[]; saveCart(); }
   doneView(ok,"Your purchase request is sent.",text,subject);
@@ -1264,7 +1279,7 @@ async function submitQuestion(f){
   const a=fd.get("about"); const aboutL=a?(optAll().find(o=>o[0]===a)||["",""])[1]:"General question";
   const btn=$("button[type=submit]",f); btn.disabled=true; btn.firstElementChild.textContent="Sending…";
   const text=`Question about: ${aboutL}\n\nName: ${name}\nEmail: ${email}\nCountry: ${fd.get("country")||"—"}\n\n${msg}`;
-  const subject=`Question: ${aboutL} — IO NATALL&A`;
+  const subject=`Question: ${aboutL} - IO NATALL&A`;
   const ok=await deliver(subject,email,name,text);
   doneView(ok,"Your question is sent.",text,subject);
 }
@@ -1275,11 +1290,11 @@ function show(id){ $$(".view").forEach(v=>v.classList.toggle("on",v.id===id)); }
 function go(hash, push=true, keepScroll=false){
   hash=hash||"home"; route=hash; closeMenu();
   const y=scrollY;
-  if(hash.startsWith("series-")&&BY_S[hash.slice(7)]){ renderSeries(hash.slice(7)); show("v-series"); document.title=BY_S[hash.slice(7)].title+" — IO NATALL&A"; }
-  else if(hash.startsWith("work-")&&BY_W[hash.slice(5)]){ renderWork(hash.slice(5)); show("v-work"); document.title=BY_W[hash.slice(5)].title+" — IO NATALL&A"; }
-  else if(hash==="artworks"){ renderArtworks(); show("v-artworks"); document.title="Artworks — IO NATALL&A"; }
-  else if(hash==="about"){ renderAbout(); show("v-about"); document.title="About — IO NATALL&A"; }
-  else if(["terms","privacy","shipping"].includes(hash)){ renderLegal(hash); show("v-legal"); document.title=LEGAL[hash].title+" — IO NATALL&A"; }
+  if(hash.startsWith("series-")&&BY_S[hash.slice(7)]){ renderSeries(hash.slice(7)); show("v-series"); document.title=BY_S[hash.slice(7)].title+" - IO NATALL&A"; }
+  else if(hash.startsWith("work-")&&BY_W[hash.slice(5)]){ renderWork(hash.slice(5)); show("v-work"); document.title=BY_W[hash.slice(5)].title+" - IO NATALL&A"; }
+  else if(hash==="artworks"){ renderArtworks(); show("v-artworks"); document.title="Artworks - IO NATALL&A"; }
+  else if(hash==="about"){ renderAbout(); show("v-about"); document.title="About - IO NATALL&A"; }
+  else if(["terms","privacy","shipping"].includes(hash)){ renderLegal(hash); show("v-legal"); document.title=LEGAL[hash].title+" - IO NATALL&A"; }
   else { route="home"; show("v-home"); document.title="IO NATALL&A"; }
   if(route!=="home") $("#cursor").classList.remove("on");
   if(push){ try{ history.replaceState(null,"","#"+route); }catch(e){} }
