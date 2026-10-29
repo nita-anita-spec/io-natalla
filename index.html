@@ -1,3 +1,9 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#F8F6F2">
 <title>IO NATALL&amp;A</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <meta name="description" content="IO NATALL&A — contemporary painter in Tallinn, Estonia. Original paintings in series, available to collect.">
@@ -20,7 +26,7 @@
 }
 *{box-sizing:border-box}
 [hidden]{display:none!important}
-html,body{background:var(--bg);color:var(--ink)}
+html,body{background:var(--bg);color:var(--ink);margin:0}
 body{font-family:var(--f);font-weight:400;font-size:16px;line-height:1.35;-webkit-font-smoothing:antialiased;overflow-x:hidden}
 body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:var(--bg)}
 ::selection{background:#44300033;color:var(--ink)}
@@ -308,6 +314,9 @@ img:focus-visible,.card:focus-visible{background:none;outline:2px solid var(--in
   .ab-head .disp{grid-column:1/-1}
 }
 </style>
+</head>
+<body>
+
 
 <header class="hd grid cap" id="hd">
   <a class="name c1" href="#home" data-go="home" aria-label="IO NATALL&amp;A, home">IO<br>NATALL&amp;A</a>
@@ -1318,3 +1327,6 @@ window.addEventListener("hashchange",()=>{ const h=(location.hash||"").slice(1);
 buildHome(); saveCart();
 (()=>{ const h=(location.hash||"").slice(1); if(h==="contact"){ go("home",false); openPanel("question"); } else go(h||"home",false); })();
 </script>
+
+</body>
+</html>
