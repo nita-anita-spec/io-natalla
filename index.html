@@ -382,6 +382,13 @@ html.snap{scroll-snap-type:y mandatory}
   .wimg{position:static}
   .wimg img{max-height:70svh}
 }
+/* artwork page pulled toward the centre */
+@media (min-width:768px){
+  .wsplit{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(40px,5vw,96px);max-width:1440px;margin:0 auto;padding-left:max(var(--gl),6vw);padding-right:max(var(--gr),6vw);align-items:center;min-height:100svh}
+  .wimg{justify-content:flex-end}
+  .winfo{max-width:540px;padding-top:0}
+  .winfo .disp{font-size:clamp(38px,3.6vw,60px)}
+}
 </style>
 </head>
 <body>
