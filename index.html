@@ -31,8 +31,9 @@
    One deliberate light look (the reference is single-theme). */
 :root{
   --bg:#F8F6F2; --ink:#111111; --mute:#77736A; --line:#D9D4C9; --soft:#EEEAE2;
-  --veil:#2E2B25; --sage:#C9A1A6; --moss:#2A1233;
+  --veil:#2E2B25; --sage:#FFFFFF; --moss:#2A1233;
   --f:"Hanken Grotesk","Neue Haas Unica","Helvetica Neue",Helvetica,Arial,sans-serif;
+  --serif:"Cormorant Garamond","Cormorant",Garamond,"Times New Roman",serif;
   --gl:max(16px, env(safe-area-inset-left, 0px)); --gr:max(16px, env(safe-area-inset-right, 0px));
   --gap:8px; --col:calc((100vw - var(--gl) - var(--gr) - 3*var(--gap)) / 4);
   --disp:clamp(46px, 6.26vw, 90px); --lead:clamp(19px, 1.67vw, 24px);
@@ -53,13 +54,13 @@ img:focus-visible,.card:focus-visible{background:none;outline:2px solid var(--in
 .cap{font-size:12px;line-height:1.25;text-transform:uppercase;letter-spacing:.01em}
 .mute{color:var(--mute)}
 .num{font-variant-numeric:tabular-nums}
-.disp{font-size:var(--disp);line-height:.98;letter-spacing:-.04em;font-weight:400;text-transform:lowercase;margin:0;text-wrap:balance}
+.disp{font-size:var(--disp);line-height:.98;letter-spacing:-.04em;font-weight:400;margin:0;text-wrap:balance}
 .lead{font-size:var(--lead);line-height:1.2;font-weight:300;letter-spacing:-.01em}
 .lead p{margin:0 0 1em}
 .grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--gap);padding-left:var(--gl);padding-right:var(--gr)}
 .grid>*{min-width:0}
 .c1{grid-column:1}.c2{grid-column:2}.c3{grid-column:3}.c4{grid-column:4}
-.c12{grid-column:1/span 2}.c23{grid-column:2/span 2}.c34{grid-column:3/span 2}.c24{grid-column:2/span 3}.c14{grid-column:1/-1}
+.c13{grid-column:1/span 3}.c12{grid-column:1/span 2}.c23{grid-column:2/span 2}.c34{grid-column:3/span 2}.c24{grid-column:2/span 3}.c14{grid-column:1/-1}
 .ul{background-image:linear-gradient(currentColor,currentColor);background-size:100% 1px;background-repeat:no-repeat;background-position:0 100%;padding-bottom:1px}
 .hov{background-image:linear-gradient(currentColor,currentColor);background-size:0 1px;background-repeat:no-repeat;background-position:0 100%;transition:background-size .35s var(--ease)}
 .hov:hover{background-size:100% 1px}
@@ -73,6 +74,7 @@ img:focus-visible,.card:focus-visible{background:none;outline:2px solid var(--in
 /* header — four columns like the reference; no clock */
 .hd{position:fixed;top:env(safe-area-inset-top,0px);left:0;right:0;z-index:40;padding-top:14px;padding-bottom:14px;align-items:start;transition:background .3s}
 .hd.solid{background:var(--bg)}
+.hd{font-size:14px}
 .hd .name{line-height:1.25}
 .hd .sig{width:clamp(210px,21vw,312px);height:auto;margin-top:-10px;opacity:.9}
 .hd .stack{display:grid;justify-items:start;gap:0;line-height:1.25}
@@ -89,21 +91,34 @@ img:focus-visible,.card:focus-visible{background:none;outline:2px solid var(--in
 .view{display:none}.view.on{display:block;animation:vin .55s var(--ease)}
 @keyframes vin{from{opacity:0}to{opacity:1}}
 
-/* HOME — endless horizontal strip of series, bottom-aligned, drag or wheel */
-#v-home.on{position:fixed;inset:0;overflow:hidden;touch-action:pan-y}
-.intro{position:absolute;top:calc(env(safe-area-inset-top,0px) + 132px);left:0;right:0}
-.strip{position:absolute;left:0;right:0;bottom:calc(16px + env(safe-area-inset-bottom,0px));height:calc(var(--cw) * 1.322 + 24px);--cw:clamp(250px, 27.57vw, 560px);cursor:grab;user-select:none;-webkit-user-select:none}
-.strip.drag{cursor:grabbing}
-.card{position:absolute;left:0;bottom:0;width:var(--cw);display:grid;gap:8px;will-change:transform}
-.card .t{display:flex;justify-content:space-between;gap:12px;transition:transform .5s var(--ease)}
-.card .im{aspect-ratio:3/4;overflow:hidden;background:var(--soft);transition:transform .5s var(--ease)}
-.card img{width:100%;height:100%;object-fit:cover;pointer-events:none;-webkit-user-drag:none}
-.card .t .k{opacity:0;transition:opacity .35s}
-.card:hover .t,.card:hover .im{transform:translateY(-8px)}
-.card:hover .t .k{opacity:1}
-.cursor{position:fixed;left:0;top:0;z-index:45;width:76px;height:76px;margin:-38px 0 0 -38px;border:1px solid var(--ink);border-radius:50%;display:grid;place-items:center;pointer-events:none;opacity:0;transform:scale(.6);transition:opacity .3s,transform .3s var(--ease)}
-.cursor.on{opacity:1;transform:scale(1)}
-@media (hover:none){.cursor{display:none}}
+/* HOME — one series per screen, scrolled vertically: painting left, its details centred on the right */
+html.snap{scroll-snap-type:y mandatory}
+.slide{min-height:100svh;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:center;gap:var(--gap);
+  padding:calc(env(safe-area-inset-top,0px) + 76px) var(--gr) calc(env(safe-area-inset-bottom,0px) + 40px) var(--gl);scroll-snap-align:start;scroll-snap-stop:always}
+.slide .pic{display:flex;justify-content:center;align-items:center;height:calc(100svh - 150px);min-height:0}
+.slide .pic img{max-height:100%;max-width:100%;width:auto;height:auto;object-fit:contain;transition:transform .9s var(--ease)}
+.slide .pic:hover img{transform:scale(1.015)}
+.slide .info{display:grid;justify-items:center;text-align:center;gap:clamp(26px,4svh,48px);padding:0 clamp(8px,3vw,48px)}
+.slide h2{font-family:var(--f);font-weight:400;font-size:clamp(34px,3.6vw,58px);line-height:1.02;letter-spacing:-.035em;margin:0;text-wrap:balance}
+.slide .facts1{display:grid;gap:6px;font-size:clamp(17px,1.35vw,20px);line-height:1.45;letter-spacing:.01em}
+.slide .desc{margin:0;color:var(--mute);font-size:clamp(17px,1.35vw,20px);line-height:1.6;letter-spacing:.015em;max-width:36ch;text-wrap:pretty}
+.slide .go{font-size:13px;text-transform:uppercase;letter-spacing:.06em}
+.slide .idx{position:absolute;left:var(--gl);bottom:calc(env(safe-area-inset-bottom,0px) + 16px);font-size:12px;letter-spacing:.06em}
+.slide{position:relative}
+#v-home .ft{scroll-snap-align:end}
+@media (max-width:767px){
+  .slide{grid-template-columns:1fr;align-content:center;gap:28px;padding-top:calc(env(safe-area-inset-top,0px) + 70px)}
+  .slide{gap:22px;padding-bottom:calc(env(safe-area-inset-bottom,0px) + 24px)}
+  .slide .pic{height:auto;max-height:44svh}
+  .slide .pic img{max-height:44svh}
+  .slide .info{gap:14px}
+  .slide h2{font-size:clamp(28px,8vw,36px)}
+  .slide .facts1{font-size:15px;gap:2px}
+  .slide .desc{font-size:15px;line-height:1.5}
+  .wk .wc .t{font-size:16px}
+  .works{column-gap:12px;row-gap:40px}
+  .slide .idx{display:none}
+}
 
 /* page heads */
 .pagehead{padding-top:calc(env(safe-area-inset-top,0px) + 112px);align-items:end}
@@ -120,15 +135,25 @@ img:focus-visible,.card:focus-visible{background:none;outline:2px solid var(--in
 .facts>div{display:grid;grid-template-columns:1fr 1fr;gap:var(--gap);padding:12px 0;border-top:1px solid var(--line)}
 .facts>div:last-child{border-bottom:1px solid var(--line)}
 .acts{display:grid;gap:var(--gap);margin-top:20px}
-.works{display:grid;gap:clamp(80px,10vw,160px);padding-bottom:clamp(80px,10vw,160px)}
-.wk{row-gap:12px}
-.wk .im{display:block;cursor:pointer}
-.wk .im img{width:100%;height:auto;max-height:86svh;object-fit:contain;object-position:left bottom}
-.wk.p0 .im,.wk.p0 .wc{grid-column:2/span 2}
-.wk.p1 .im,.wk.p1 .wc{grid-column:1/span 2}
-.wk.p2 .im,.wk.p2 .wc{grid-column:3/span 2}
-.wk .wc{display:grid;grid-template-columns:1fr 1fr;gap:var(--gap);align-items:start}
-.wk .wc .r{display:grid;gap:2px}
+/* works of a series: 3 columns for a triptych, 2 for diptychs and series of 4–8, 1 for a single work */
+.works{display:grid;grid-template-columns:repeat(var(--cols),minmax(0,1fr));column-gap:clamp(16px,2.4vw,40px);row-gap:clamp(56px,7vw,110px);align-items:start;padding:0 var(--gr) clamp(80px,10vw,160px) var(--gl)}
+.works.c1x{grid-template-columns:minmax(0,1fr)}
+/* each work hugs its painting, so the caption and button start at the painting's left edge */
+.wk{display:flex;flex-direction:column;align-items:flex-start;gap:14px;justify-self:center;width:fit-content;max-width:100%}
+.wk .im{display:block;cursor:pointer;max-width:100%}
+.wk .im img{display:block;width:auto;max-width:100%;height:auto;max-height:78svh;transition:transform .9s var(--ease)}
+.wk .im:hover img{transform:scale(1.015)}
+.wk .wc{width:0;min-width:100%;display:grid;gap:4px;justify-items:start}
+.wk .wc .t{font-size:var(--lead);font-weight:300;letter-spacing:-.01em;line-height:1.2}
+.wk .wbtn{width:auto;min-height:42px;margin-top:10px;gap:28px}
+/* series intro: title, details, description, call to action */
+.sintro{padding-top:calc(env(safe-area-inset-top,0px) + 112px);padding-bottom:clamp(56px,7vw,100px);row-gap:28px}
+.sdet{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--gap);border-top:1px solid var(--line);padding-top:12px}
+.sdet>div{display:grid;gap:4px;align-content:start}
+.sdesc{max-width:62ch}
+.sdesc p:last-child{margin-bottom:0}
+.sacts{display:flex;flex-wrap:wrap;gap:var(--gap)}
+.sacts .btn{width:auto;min-width:min(100%,300px)}
 .next{display:block;border-top:1px solid var(--line);padding:16px var(--gr) 16px var(--gl)}
 .next .grid{padding:0;align-items:end}
 .next .thumb{grid-column:4;justify-self:end;width:min(100%,272px);aspect-ratio:272/313;overflow:hidden}
@@ -190,7 +215,7 @@ img:focus-visible,.card:focus-visible{background:none;outline:2px solid var(--in
 .theme{display:grid;gap:12px}
 .theme .im{position:relative;aspect-ratio:397/496;overflow:hidden}
 .theme .im img{width:100%;height:100%;object-fit:cover}
-.theme .im .w{position:absolute;left:12px;bottom:10px;font-size:clamp(24px,2.5vw,38px);letter-spacing:-.04em;color:#F8F6F2;text-shadow:0 1px 18px rgba(0,0,0,.35);text-transform:lowercase;line-height:1}
+.theme .im .w{position:absolute;left:12px;bottom:10px;font-size:clamp(24px,2.5vw,38px);letter-spacing:-.04em;color:#F8F6F2;text-shadow:0 1px 18px rgba(0,0,0,.35);line-height:1}
 .process{padding-top:clamp(100px,13vw,200px);align-items:start;row-gap:40px}
 .process .stick{position:sticky;top:110px}
 .steps{display:grid;gap:clamp(60px,9vw,140px)}
@@ -232,14 +257,14 @@ img:focus-visible,.card:focus-visible{background:none;outline:2px solid var(--in
 .menu.in .tile:nth-child(2){transition-delay:.06s}.menu.in .tile:nth-child(3){transition-delay:.12s}.menu.in .tile:nth-child(4){transition-delay:.18s}
 .tile .mh{display:flex;justify-content:space-between;align-items:start;font-size:8px;line-height:1.2;text-transform:uppercase}
 .tile .mh img{width:44px}
-.tile .tt{font-size:clamp(26px,2.6vw,40px);letter-spacing:-.04em;line-height:1;text-transform:lowercase}
+.tile .tt{font-size:clamp(26px,2.6vw,40px);letter-spacing:-.04em;line-height:1}
 .tile .pics{align-self:end;display:flex;gap:4px;align-items:flex-end}
 .tile .pics img{flex:1 1 0;min-width:0;height:auto;aspect-ratio:3/4;object-fit:cover}
 .tile .txt{align-self:end;font-size:11px;line-height:1.3;text-transform:uppercase;display:grid;gap:3px}
 .tile:hover{transform:translateY(-8px)}
 @media (max-width:767px){.tile{width:62vw}.tiles{padding-left:var(--gl)}}
 
-/* CONTACT / PURCHASE panel — dusty rose paper, deep plum ink, ruled rows */
+/* CONTACT / PURCHASE panel — white paper, deep plum ink, ruled rows */
 .modal{position:fixed;inset:0;z-index:80;background:rgba(28,14,30,.55);overflow-y:auto;padding:calc(env(safe-area-inset-top,0px) + 56px) var(--gr) calc(env(safe-area-inset-bottom,0px) + 56px) var(--gl);opacity:0;transition:opacity .35s}
 .modal.in{opacity:1}
 .panel{--ink:var(--moss);color:var(--moss);background:var(--sage);max-width:1003px;margin:0 auto;padding:24px 24px 28px;transform:translateY(30px);transition:transform .55s var(--ease);position:relative}
@@ -307,16 +332,14 @@ img:focus-visible,.card:focus-visible{background:none;outline:2px solid var(--in
   :root{--disp:clamp(42px,12vw,64px)}
   .hd .sig{display:none}
   .hd{display:flex;justify-content:space-between;align-items:start;gap:12px}.hd .cart{justify-items:end}
-  .strip{--cw:calc(100vw - 56px)}
-  .intro .c3{grid-column:1/-1}
   .shero,.ahero{min-height:0;padding-top:calc(env(safe-area-inset-top,0px) + 76px);grid-template-columns:1fr 1fr}
   .shero .pic,.ahero .pic{grid-column:1/-1;grid-row:1;min-height:0}
   .shero .pic{aspect-ratio:3/4}
   .ahero .pic img{max-height:70svh}
   .shero .ttl,.ahero .ttl{grid-column:1/-1;grid-row:2;gap:22px}
-  .about-s,.spec,.frag,.ab-intro,.themes,.process,.contact,.legal,.pagehead,.ab-head,.ft,.next .grid,.index{grid-template-columns:1fr 1fr}
-  .c12,.c23,.c34,.c24,.c3,.c4,.c2,.c1,.c14{grid-column:1/-1}
-  .wk.p0 .im,.wk.p0 .wc,.wk.p1 .im,.wk.p1 .wc,.wk.p2 .im,.wk.p2 .wc{grid-column:1/-1}
+  .sintro,.about-s,.spec,.frag,.ab-intro,.themes,.process,.contact,.legal,.pagehead,.ab-head,.ft,.next .grid,.index{grid-template-columns:1fr 1fr}
+  .c12,.c13,.c23,.c34,.c24,.c3,.c4,.c2,.c1,.c14{grid-column:1/-1}
+  .works.c3x{--cols:1!important}
   .frag .im{grid-column:span 1}
   .theme{grid-column:1/-1}
   .process .stick{position:static}
@@ -327,6 +350,37 @@ img:focus-visible,.card:focus-visible{background:none;outline:2px solid var(--in
   .ft>*{grid-column:span 1}
   .lnav{position:static;display:flex;flex-wrap:wrap;gap:6px 16px}
   .ab-head .disp{grid-column:1/-1}
+}
+@media (max-width:767px){
+  .sdet{grid-template-columns:1fr 1fr;row-gap:16px}
+  .sintro{padding-top:calc(env(safe-area-inset-top,0px) + 96px)}
+  .wk .wbtn{min-height:38px;font-size:11px;gap:14px;padding:0 10px}
+}
+/* artwork page: the painting follows the text, shown whole */
+.wpic{padding:0 var(--gr) clamp(20px,3vw,40px) var(--gl);display:flex;justify-content:flex-start}
+.wpic .im{cursor:zoom-in;max-width:100%}
+.wpic img{display:block;width:auto;max-width:100%;max-height:88svh;height:auto}
+.sintro.stop{padding-bottom:clamp(28px,3.5vw,48px)}
+.works{padding-bottom:clamp(64px,8vw,120px)}
+.sintro.sbot{padding-top:0;border-top:1px solid var(--line);margin:0 var(--gr) 0 var(--gl);padding-left:0;padding-right:0;padding-top:clamp(28px,3vw,44px)}
+.works.wtop{padding-top:calc(env(safe-area-inset-top,0px) + 96px)}
+.sintro.stop{padding-top:clamp(24px,3vw,40px);border-top:1px solid var(--line);margin:0 var(--gr) 0 var(--gl);padding-left:0;padding-right:0;row-gap:10px}
+.sintro.sbot{border-top:0;padding-top:clamp(20px,2.5vw,36px)}
+/* artwork page: painting left (the main thing), all info on the right */
+.wsplit{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:clamp(24px,4vw,72px);align-items:start;padding:calc(env(safe-area-inset-top,0px) + 96px) var(--gr) clamp(48px,6vw,96px) var(--gl)}
+.wimg{cursor:zoom-in;position:sticky;top:96px;display:flex;justify-content:flex-start}
+.wimg img{display:block;width:auto;max-width:100%;max-height:calc(100svh - 130px);height:auto}
+.winfo{display:grid;grid-template-columns:minmax(0,1fr);gap:24px;align-content:start;min-width:0;padding-top:clamp(0px,2vw,24px)}
+.winfo>*{grid-column:1/-1!important;justify-self:stretch}
+.winfo>a.cap{justify-self:start}
+.winfo .disp{font-size:clamp(40px,4.4vw,72px)}
+.winfo .sdet{grid-template-columns:1fr 1fr;row-gap:16px}
+.winfo .sacts{display:grid;gap:var(--gap)}
+.winfo .sacts .btn{width:100%}
+@media (max-width:767px){
+  .wsplit{grid-template-columns:1fr;padding-top:calc(env(safe-area-inset-top,0px) + 80px)}
+  .wimg{position:static}
+  .wimg img{max-height:70svh}
 }
 </style>
 </head>
@@ -351,7 +405,6 @@ img:focus-visible,.card:focus-visible{background:none;outline:2px solid var(--in
   <section class="view" id="v-legal"></section>
 </main>
 
-<div class="cursor cap" id="cursor" aria-hidden="true">Drag</div>
 <div class="menu" id="menu" hidden role="dialog" aria-modal="true" aria-label="Menu"></div>
 <div class="modal" id="modal" hidden role="dialog" aria-modal="true" aria-labelledby="pTitle"></div>
 <div class="lb" id="lb" hidden><button class="x cap">Close</button><img alt=""></div>
@@ -959,79 +1012,55 @@ function addToCart(t,id){
 const cartItem=c=>c.t==="work"?{title:BY_W[c.id].title, sub:`${BY_W[c.id].s.title} · ${size(BY_W[c.id].s)}`, im:BY_W[c.id].img}
                                :{title:BY_S[c.id].title, sub:`Complete ${unit(BY_S[c.id])} · ${nCanv(BY_S[c.id])} canvases`, im:BY_S[c.id].cover};
 
-/* ---------- HOME: endless strip ---------- */
+/* ---------- HOME: vertical series slides ---------- */
 let gal=null;
+function slideSize(s){ return nCanv(s)>1 ? `${s.kind}, ${size(s)} each` : size(s); }
+function slideText(s){ return s.works.length===1 ? s.works[0].text : s.short; }
 function buildHome(){
-  $("#v-home").innerHTML = `
-    <div class="intro grid cap"><div class="c3">Original paintings in series<br><span class="mute">Tallinn, 2025–2026</span></div></div>
-    <div class="strip" id="strip">${SERIES.map((s,i)=>`<a class="card cap" href="#series-${s.id}" data-series="${s.id}" draggable="false">
-      <span class="t"><span>${esc(s.title)}</span><span class="k mute num">${pad(nCanv(s))} works</span></span>
-      <span class="im"><img src="${img(s.cover)}" alt="${esc(s.title)}" ${i>4?'loading="lazy"':""} draggable="false"></span></a>`).join("")}</div>`;
-  initStrip();
-}
-function initStrip(){
-  const el=$("#strip"), cards=$$(".card",el), n=cards.length;
-  const st={x:0,tx:0,w:0,step:0,total:0,drag:false,sx:0,startX:0,moved:0,raf:0};
-  const measure=()=>{ st.w=cards[0].offsetWidth; st.step=st.w+8; st.total=st.step*n; };
-  measure();
-  const gl=()=>parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--gl"))||16;
-  function render(){
-    st.raf=requestAnimationFrame(render);
-    if(route!=="home") return;
-    if(cards[0].offsetWidth!==st.w) measure();
-    if(!st.w) return;
-    st.x +=(st.tx-st.x)*(matchMedia("(prefers-reduced-motion: reduce)").matches?1:.09);
-    const off=gl();
-    cards.forEach((c,i)=>{ let p=((i*st.step+st.x)%st.total+st.total)%st.total; if(p>st.total-st.step) p-=st.total; c.style.transform=`translate3d(${p+off}px,0,0)`; });
-  }
-  cancelAnimationFrame(gal&&gal.raf); gal=st; render();
-  const onWheel=e=>{ if(route!=="home") return; e.preventDefault(); st.tx -= (Math.abs(e.deltaX)>Math.abs(e.deltaY)?e.deltaX:e.deltaY)*1.1; };
-  window.removeEventListener("wheel", window._hw); window._hw=onWheel; window.addEventListener("wheel", onWheel, {passive:false});
-  el.addEventListener("pointerdown",e=>{ st.drag=true; st.sx=e.clientX; st.startX=st.tx; st.moved=0; el.classList.add("drag"); });
-  window.addEventListener("pointermove",e=>{ const cur=$("#cursor"); if(route==="home"){ cur.style.left=e.clientX+"px"; cur.style.top=e.clientY+"px"; }
-    if(!st.drag) return; const d=e.clientX-st.sx; st.moved=Math.max(st.moved,Math.abs(d)); st.tx=st.startX+d*1.4; });
-  window.addEventListener("pointerup",()=>{ st.drag=false; el.classList.remove("drag"); });
-  el.addEventListener("click",e=>{ if(st.moved>6){ e.preventDefault(); e.stopPropagation(); } },true);
-  el.addEventListener("pointerenter",()=>$("#cursor").classList.add("on"));
-  el.addEventListener("pointerleave",()=>$("#cursor").classList.remove("on"));
-  window.addEventListener("resize",measure);
-  st.nudge=d=>{ st.tx+=d*st.step; };
+  $("#v-home").innerHTML = SERIES.map((s,i)=>`
+    <section class="slide" aria-label="${esc(s.title)}">
+      <a class="pic" href="#series-${s.id}" data-series="${s.id}" aria-label="Open ${esc(s.title)}"><img src="${img(s.cover)}" alt="${esc(s.title)}" ${i>1?'loading="lazy"':""}></a>
+      <div class="info">
+        <h2>${esc(s.title)}</h2>
+        <div class="facts1"><span>${esc(s.technique)}</span><span class="num">${esc(slideSize(s))}</span><span class="num">${s.year}</span></div>
+        <p class="desc">${esc(slideText(s))}</p>
+        <a class="go hov" href="#series-${s.id}" data-series="${s.id}">${s.works.length>1?`View the ${s.works.length} works`:"View the artwork"} →</a>
+      </div>
+      <span class="idx num mute">${pad(i+1)} / ${pad(SERIES.length)}</span>
+    </section>`).join("") + footer();
 }
 
 /* ---------- SERIES ---------- */
 function renderSeries(id){
   const s=BY_S[id], idx=SERIES.indexOf(s), nx=SERIES[(idx+1)%SERIES.length];
   const set=soldAsSet(s), have=inCart("series",s.id);
+  const n=s.works.length, cols = n===1?1 : n===3?3 : 2;
   const buy = s.onRequest ? `<button class="btn solid" data-ask="series:${s.id}"><span>Ask about this ${unit(s)}</span><span>→</span></button>`
      : set ? `<button class="btn solid" data-add="series:${s.id}" ${have?"disabled":""}><span>${have?"In your collection":"Collect the complete "+unit(s)}</span><span>${have?"✓":"+"}</span></button>
               <button class="btn" data-ask="series:${s.id}"><span>Ask a question</span><span>→</span></button>`
-     : `<a class="btn" href="#work-${s.works[0].id}" data-work="${s.works[0].id}"><span>Choose a work below</span><span>↓</span></a>`;
+     : "";
   $("#v-series").innerHTML = `
-    <section class="shero grid">
-      <div class="ttl"><h1 class="disp">${esc(s.title)}</h1>
-        <div class="meta cap"><div>${esc(s.title)}<br><span class="mute">${s.year}</span></div><div>${esc(s.kind)}${s.pre?" · "+esc(s.pre):""}<br><span class="mute">${esc(s.technique)}</span></div></div></div>
-      <button class="pic" data-lb="${s.hero}" aria-label="View larger"><img src="${img(s.hero)}" alt="${esc(s.title)}, detail"></button>
-    </section>
-    <section class="about-s grid">
-      <div class="c1 cap">About the series</div>
-      <div class="c34 lead">${s.statement.map(p=>`<p>${esc(p)}</p>`).join("")}</div>
-      <div class="c34">
-        <div class="facts cap">
-          <div><span class="mute">Canvases</span><span class="num">${nCanv(s)} × ${size(s)}</span></div>
-          <div><span class="mute">Medium</span><span>${esc(s.technique)}</span></div>
-          ${s.hang&&s.hang.size?`<div><span class="mute">Installed</span><span class="num">approx. ${esc(s.hang.size)}</span></div>`:""}
-          ${s.hang&&s.hang.reading?`<div><span class="mute">Reading order</span><span>${esc(s.hang.reading)}</span></div>`:""}
-          <div><span class="mute">Price</span><span>${esc(seriesPrice(s))}</span></div>
-        </div>
-        <div class="acts">${buy}</div>
-      </div>
-    </section>
-    <section class="works">${s.works.map((w,i)=>`
-      <article class="wk grid p${i%3}">
+    <section class="works wtop ${cols===3?"c3x":cols===1?"c1x":""}" id="worksGrid" style="--cols:${cols}">${s.works.map((w,i)=>`
+      <article class="wk">
         <a class="im" href="#work-${w.id}" data-work="${w.id}"><img src="${img(w.img)}" alt="${esc(w.title)}" loading="lazy"></a>
-        <div class="wc cap"><div class="r"><span>${roman(w)?esc(roman(w))+". ":""}${esc(w.title)}</span><span class="mute">${esc(s.title)}, ${s.year}</span></div>
-          <div class="r"><span class="num">${size(s)}</span><a class="hov" href="#work-${w.id}" data-work="${w.id}" style="justify-self:start">View artwork</a></div></div>
+        <div class="wc"><span class="t">${roman(w)?esc(roman(w))+". ":""}${esc(w.title)}</span>
+          <span class="m cap mute num">${s.diptychOneImage?"Diptych, 2 × ":""}${size(s)} · ${esc(priceOf(w))}</span>
+          <a class="btn solid wbtn" href="#work-${w.id}" data-work="${w.id}"><span>View artwork</span><span>→</span></a></div>
       </article>`).join("")}
+    </section>
+    <section class="sintro grid stop">
+      <h1 class="disp c14">${esc(s.title)}</h1>
+      <div class="c14 cap mute">The works · <span class="num">${pad(n)}</span></div>
+    </section>
+    <section class="sintro grid sbot">
+      <div class="c13 lead sdesc">${s.statement.map(p=>`<p>${esc(p)}</p>`).join("")}</div>
+      <div class="sdet c14 cap">
+        <div><span class="mute">Medium</span><span>${esc(s.technique)}</span></div>
+        <div><span class="mute">Size</span><span class="num">${nCanv(s)>1?`${esc(s.kind)}, ${nCanv(s)} × ${size(s)}`:size(s)}</span></div>
+        <div><span class="mute">Year</span><span class="num">${s.year}</span></div>
+        <div><span class="mute">Price</span><span>${esc(seriesPrice(s))}</span></div>
+      </div>
+      ${buy?`<div class="c14 sacts">${buy}</div>`:""}
     </section>
     <a class="next" href="#series-${nx.id}" data-series="${nx.id}"><div class="grid">
       <div class="c12" style="display:grid;gap:10px"><span class="cap mute">Next series</span><span class="disp">${esc(nx.title)}</span></div>
@@ -1044,39 +1073,35 @@ function renderSeries(id){
 function renderWork(id){
   const w=BY_W[id], s=w.s, set=soldAsSet(s);
   const prev=s.works[w.i-1], next=s.works[w.i+1];
-  let buy;
+  let buy, note="";
   if(s.onRequest) buy=`<button class="btn solid" data-ask="work:${w.id}"><span>Ask about this work</span><span>→</span></button>`;
   else if(set){ const have=inCart("series",s.id);
-    buy=`<p class="cap mute" style="margin:0 0 4px">${s.diptychOneImage?"Offered as the complete diptych.":`Chapter ${esc(w.n)} of ${esc(s.title)}. Offered with the complete ${unit(s)} of ${nCanv(s)} canvases.`}</p>
-      <button class="btn solid" data-add="series:${s.id}" ${have?"disabled":""}><span>${have?"In your collection":"Collect the complete "+unit(s)}</span><span>${have?"✓":"+"}</span></button>
+    note=s.diptychOneImage?"Offered as the complete diptych.":`Chapter ${esc(w.n)} of ${esc(s.title)}. Offered with the complete ${unit(s)} of ${nCanv(s)} canvases.`;
+    buy=`<button class="btn solid" data-add="series:${s.id}" ${have?"disabled":""}><span>${have?"In your collection":"Collect the complete "+unit(s)}</span><span>${have?"✓":"+"}</span></button>
       <button class="btn" data-ask="work:${w.id}"><span>Ask about this work</span><span>→</span></button>`; }
   else { const have=inCart("work",w.id);
     buy=`<button class="btn solid" data-add="work:${w.id}" ${have?"disabled":""}><span>${have?"In your collection":"Add to collection"}</span><span>${have?"✓":"+"}</span></button>
       <button class="btn" data-ask="work:${w.id}"><span>Ask about this work</span><span>→</span></button>`; }
   const more=s.works.filter(o=>o.id!==w.id).slice(0,4);
   $("#v-work").innerHTML = `
-    <section class="ahero grid">
-      <div class="ttl"><a class="cap mute hov" href="#series-${s.id}" data-series="${s.id}" style="justify-self:start">${esc(s.title)}${w.n?" · "+esc(w.n):""}</a>
-        <h1 class="disp">${esc(w.title)}</h1>
-        <div class="meta cap" style="display:grid;grid-template-columns:1fr 1fr;gap:8px"><div>IO NATALL&amp;A<br><span class="mute">${s.year}</span></div><div class="num">${s.diptychOneImage?"Diptych, 2 × ":""}${size(s)}<br><span class="mute">${esc(priceOf(w))}</span></div></div></div>
-      <button class="pic" data-lb="${w.img}" aria-label="View larger"><img src="${img(w.img)}" alt="${esc(w.title)}"></button>
-    </section>
-    <section class="spec grid">
-      <div class="c1 cap">The work</div>
-      <div class="c34 lead"><p>${esc(w.text)}</p>${w.long?`<p class="mute">${esc(w.long)}</p>`:""}</div>
-      <dl class="c34 rows" style="margin:0">
-        <div><dt>Medium</dt><dd>${esc(s.technique)}</dd></div>
-        <div><dt>Size</dt><dd class="num">${s.diptychOneImage?"2 × ":""}${size(s)}</dd></div>
-        <div><dt>Year</dt><dd class="num">${s.year}</dd></div>
-        <div><dt>Series</dt><dd><a class="hov" href="#series-${s.id}" data-series="${s.id}">${esc(s.title)}</a></dd></div>
-        <div><dt>Edition</dt><dd>Original, signed</dd></div>
-        <div><dt>Price</dt><dd>${esc(priceOf(w))}</dd></div>
-      </dl>
-      <div class="c34 acts">${buy}</div>
+    <section class="wsplit">
+      <button class="wimg" data-lb="${w.img}" aria-label="View larger"><img src="${img(w.img)}" alt="${esc(w.title)}"></button>
+      <div class="winfo">
+${s.works.length>1?`      <a class="c14 cap mute hov" href="#series-${s.id}" data-series="${s.id}" style="justify-self:start">← ${esc(s.title)}${w.n?" · "+esc(w.n):""}</a>`:""}
+      <h1 class="disp">${esc(w.title)}</h1>
+      <div class="sdet cap">
+        <div><span class="mute">Medium</span><span>${esc(s.technique)}</span></div>
+        <div><span class="mute">Size</span><span class="num">${s.diptychOneImage?"Diptych, 2 × ":""}${size(s)}</span></div>
+        <div><span class="mute">Year</span><span class="num">${s.year} · original, signed</span></div>
+        <div><span class="mute">Price</span><span>${esc(priceOf(w))}</span></div>
+      </div>
+      <div class="c13 lead sdesc"><p>${esc(w.text)}</p>${w.long?`<p class="mute">${esc(w.long)}</p>`:""}${note?`<p class="cap mute">${note}</p>`:""}</div>
+      <div class="c14 sacts">${buy}</div>
+      </div>
     </section>
     ${(w.details||[]).length?`<section class="frag grid"><div class="c14 cap">Details</div>${w.details.slice(0,4).map(d=>`<button class="im c${0}" data-lb="${d}" aria-label="View detail" style="grid-column:auto"><img src="${img(d,1)}" alt="${esc(w.title)}, detail" loading="lazy"></button>`).join("")}</section>`:""}
     <section class="frag grid" style="padding-bottom:clamp(60px,8vw,120px)">
-      <div class="c14 pn cap">${prev?`<a class="hov" href="#work-${prev.id}" data-work="${prev.id}">← ${esc(prev.title)}</a>`:`<a class="hov" href="#series-${s.id}" data-series="${s.id}">← ${esc(s.title)}</a>`}${next?`<a class="hov" href="#work-${next.id}" data-work="${next.id}">${esc(next.title)} →</a>`:`<a class="hov" href="#artworks" data-go="artworks">All artworks →</a>`}</div>
+      <div class="c14 pn cap">${prev?`<a class="hov" href="#work-${prev.id}" data-work="${prev.id}">← ${esc(prev.title)}</a>`:`<a class="hov" href="#home" data-gallery="${s.id}">← Back to Gallery</a>`}${next?`<a class="hov" href="#work-${next.id}" data-work="${next.id}">${esc(next.title)} →</a>`:`<a class="hov" href="#artworks" data-go="artworks">All artworks →</a>`}</div>
     </section>
     ${more.length?`<section class="grid" style="padding-bottom:clamp(80px,10vw,160px);row-gap:12px"><div class="c14 cap">More from ${esc(s.title)}</div>
       ${more.map(o=>`<a class="theme" href="#work-${o.id}" data-work="${o.id}" style="grid-column:auto"><span class="im" style="aspect-ratio:3/4;background:var(--soft)"><img src="${img(o.img,1)}" alt="${esc(o.title)}" loading="lazy"></span><span class="cap">${esc(o.title)}</span></a>`).join("")}</section>`:""}
@@ -1090,7 +1115,7 @@ function renderArtworks(){
   const list = aFilter==="all"?WORKS:WORKS.filter(w=>w.s.id===aFilter);
   v.innerHTML = `
     <section class="pagehead grid ahead">
-      <h1 class="disp c12">artworks</h1>
+      <h1 class="disp c12">Artworks</h1>
       <div class="c3 cap"><div>Original paintings<br>available to collect</div><div class="mute num" style="margin-top:12px">2025–2026 · ${WORKS.length} works</div>
         <div class="toggle" role="group" aria-label="View"><button data-view="strip" aria-pressed="${aView==="strip"}">Strip</button><button data-view="index" aria-pressed="${aView==="index"}">Index</button></div></div>
     </section>
@@ -1114,7 +1139,7 @@ let fadeT;
 function renderAbout(){
   const pics=["tw-1","bs-3","ss-1"];
   $("#v-about").innerHTML = `
-    <section class="ab-head grid"><h1 class="disp" style="text-transform:none">I paint the invisible connections between people</h1></section>
+    <section class="ab-head grid"><h1 class="disp" style="text-transform:none">I Paint the Invisible Connections Between People</h1></section>
     <section class="ab-intro grid">
       <div class="c1"><div class="fade" id="fade">${pics.map((p,i)=>`<img src="${img(p,1)}" alt="" class="${i?"":"on"}">`).join("")}</div></div>
       <div class="c34 lead"><div class="cap" style="margin-bottom:24px">About the artist</div>
@@ -1129,14 +1154,14 @@ function renderAbout(){
       </div>
     </section>
     <section class="themes grid">
-      <h2 class="disp c24" style="text-transform:none">her work returns to three themes</h2>
-      ${[["connection","lf-2","Love as a force that links people, generations, nature and the universe."],
-         ["transformation","wp-5","Figures emerge from layered colour, the way people change through what they live."],
-         ["continuity","tw-4","Values and memory passed from one generation to the next."]].map(([w,p,t],i)=>`
+      <h2 class="disp c24" style="text-transform:none">Her Work Returns to Three Themes</h2>
+      ${[["Connection","lf-2","Love as a force that links people, generations, nature and the universe."],
+         ["Transformation","wp-5","Figures emerge from layered colour, the way people change through what they live."],
+         ["Continuity","tw-4","Values and memory passed from one generation to the next."]].map(([w,p,t],i)=>`
         <div class="theme c${i+1}"><div class="im"><img src="${img(p,1)}" alt="" loading="lazy"><span class="w">${w}</span></div><p class="cap" style="margin:0;max-width:34ch">${t}</p></div>`).join("")}
     </section>
     <section class="process grid">
-      <div class="c12 stick"><h2 class="disp" style="font-size:clamp(40px,5vw,72px)">a technique of her own, in which water plays the essential role</h2></div>
+      <div class="c12 stick"><h2 class="disp" style="font-size:clamp(40px,5vw,72px)">A Technique of Her Own, in Which Water Plays the Essential Role</h2></div>
       <div class="c34 steps">
         ${[["Water","Acrylic is released with water. Pigments flow freely across the surface and find their own paths.","lf-1a"],
            ["Layers","Thin layers build a space with depth. Her training in interior architecture guides composition, proportion and colour.","sh-2a"],
@@ -1177,10 +1202,10 @@ function openMenu(){
   const tile=(go,title,inner)=>`<a class="tile" href="#${go}" data-go="${go}"><span class="mh"><span>IO<br>NATALL&amp;A</span></span><span class="tt">${title}</span>${inner}</a>`;
   m.innerHTML = `<span class="lbl cap">Menu</span><button class="x cap" id="menuX">Close</button>
     <div class="tiles">
-      ${tile("home","series",`<span class="pics">${["lf-2","tw-1"].map(p=>`<img src="${img(p,1)}" alt="">`).join("")}</span>`)}
-      ${tile("artworks","artworks",`<span class="pics">${["sh-1","wp-6","im-2"].map(p=>`<img src="${img(p,1)}" alt="">`).join("")}</span>`)}
-      ${tile("about","about",`<span class="pics"><img src="${img("bs-3",1)}" alt="" style="flex:0 0 60%"></span>`)}
-      ${tile("shipping","collect",`<span class="txt"><span>Shipping &amp; returns</span><span>Terms of sale</span><span>Privacy</span><span class="mute" style="margin-top:8px">Price upon request<br>Insured worldwide delivery</span></span>`)}
+      ${tile("home","Series",`<span class="pics">${["lf-2","tw-1"].map(p=>`<img src="${img(p,1)}" alt="">`).join("")}</span>`)}
+      ${tile("artworks","Artworks",`<span class="pics">${["sh-1","wp-6","im-2"].map(p=>`<img src="${img(p,1)}" alt="">`).join("")}</span>`)}
+      ${tile("about","About",`<span class="pics"><img src="${img("bs-3",1)}" alt="" style="flex:0 0 60%"></span>`)}
+      ${tile("shipping","Collect",`<span class="txt"><span>Shipping &amp; returns</span><span>Terms of sale</span><span>Privacy</span><span class="mute" style="margin-top:8px">Price upon request<br>Insured worldwide delivery</span></span>`)}
     </div>`;
   m.hidden=false; requestAnimationFrame(()=>requestAnimationFrame(()=>m.classList.add("in"))); $("#menuX").focus();
 }
@@ -1194,9 +1219,9 @@ function closePanel(){ const m=$("#modal"); m.classList.remove("in"); m.hidden=t
 const chk=(type,name,val,label,checked,sub)=>`<label class="chk${type==="radio"?" radio":""}"><input type="${type}" name="${name}" value="${esc(val)}" ${checked?"checked":""}><span class="box"></span><span>${label}${sub?` <span class="s">${sub}</span>`:""}</span></label>`;
 function renderPanel(){
   const tabs=`<div class="tabs" role="tablist">${[["purchase","Purchase"],["question","Question"],["email","Email"]].map(([k,l])=>`<button role="tab" data-tab="${k}" aria-selected="${pTab===k}">${l}</button>`).join("")}</div>`;
-  const head={purchase:["collect a painting","Choose the works and tell me where they should travel. I reply personally with the price, availability and shipping.","Nothing is charged now. Your request reserves the work for 7 days."],
-              question:["ask about a work","A painting, a series, a commission or a visit to see the works in Tallinn.","Every question is answered personally by email."],
-              email:["write directly","Prefer your own email? Write to the address below.","Tallinn, Estonia"]}[pTab];
+  const head={purchase:["Collect a Painting","Choose the works and tell me where they should travel. I reply personally with the price, availability and shipping.","Nothing is charged now. Your request reserves the work for 7 days."],
+              question:["Ask About a Work","A painting, a series, a commission or a visit to see the works in Tallinn.","Every question is answered personally by email."],
+              email:["Write Directly","Prefer your own email? Write to the address below.","Tallinn, Estonia"]}[pTab];
   let body="";
   if(pTab==="purchase"){
     const items=cart.map((c,i)=>{ const it=cartItem(c); return `<div class="ci"><img src="${img(it.im,1)}" alt=""><span><span style="display:block">${esc(it.title)}</span><span class="s cap" style="opacity:.7">${esc(it.sub)}</span></span><button type="button" class="rm" data-rm="${i}">Remove</button></div>`; }).join("");
@@ -1290,17 +1315,18 @@ function show(id){ $$(".view").forEach(v=>v.classList.toggle("on",v.id===id)); }
 function go(hash, push=true, keepScroll=false){
   hash=hash||"home"; route=hash; closeMenu();
   const y=scrollY;
-  if(hash.startsWith("series-")&&BY_S[hash.slice(7)]){ renderSeries(hash.slice(7)); show("v-series"); document.title=BY_S[hash.slice(7)].title+" - IO NATALL&A"; }
+  if(hash.startsWith("series-")&&BY_S[hash.slice(7)]&&BY_S[hash.slice(7)].works.length===1){ renderWork(BY_S[hash.slice(7)].works[0].id); show("v-work"); document.title=BY_S[hash.slice(7)].title+" - IO NATALL&A"; }
+  else if(hash.startsWith("series-")&&BY_S[hash.slice(7)]){ renderSeries(hash.slice(7)); show("v-series"); document.title=BY_S[hash.slice(7)].title+" - IO NATALL&A"; }
   else if(hash.startsWith("work-")&&BY_W[hash.slice(5)]){ renderWork(hash.slice(5)); show("v-work"); document.title=BY_W[hash.slice(5)].title+" - IO NATALL&A"; }
   else if(hash==="artworks"){ renderArtworks(); show("v-artworks"); document.title="Artworks - IO NATALL&A"; }
   else if(hash==="about"){ renderAbout(); show("v-about"); document.title="About - IO NATALL&A"; }
   else if(["terms","privacy","shipping"].includes(hash)){ renderLegal(hash); show("v-legal"); document.title=LEGAL[hash].title+" - IO NATALL&A"; }
   else { route="home"; show("v-home"); document.title="IO NATALL&A"; }
-  if(route!=="home") $("#cursor").classList.remove("on");
+  document.documentElement.classList.toggle("snap", route==="home");
   if(push){ try{ history.replaceState(null,"","#"+route); }catch(e){} }
   window.scrollTo(0, keepScroll?y:0); onScroll();
 }
-function onScroll(){ $("#hd").classList.toggle("solid", route!=="home" && scrollY>40 && !(route==="artworks"&&aView==="strip")); }
+function onScroll(){ $("#hd").classList.toggle("solid", scrollY>40 && !(route==="artworks"&&aView==="strip")); }
 window.addEventListener("scroll",onScroll,{passive:true});
 function openLB(id){ const lb=$("#lb"); $("img",lb).src=img(id); lb.hidden=false; }
 
@@ -1321,6 +1347,8 @@ document.addEventListener("click",e=>{
   if(d.rm!==undefined){ cart.splice(+d.rm,1); saveCart(); renderPanel(); return; }
   if(d.view){ aView=d.view; store("ion_view",aView); renderArtworks(); onScroll(); return; }
   if(d.filter){ aFilter=d.filter; renderArtworks(); return; }
+  if(d.scroll){ e.preventDefault(); const g=$("#worksGrid"); if(g) window.scrollTo({top:g.getBoundingClientRect().top+scrollY-90,behavior:"smooth"}); return; }
+  if(d.gallery){ e.preventDefault(); go("home"); const k=SERIES.findIndex(x=>x.id===d.gallery); const sl=$$("#v-home .slide")[k]; if(sl) window.scrollTo(0, sl.offsetTop); return; }
   if(d.lb){ openLB(d.lb); return; }
   if(d.copy){ copyText(d.copy,t); return; }
   if(d.copyOut){ copyText($("#pOut").textContent,t.firstElementChild); return; }
@@ -1334,7 +1362,6 @@ document.addEventListener("submit",e=>{ e.preventDefault(); if(e.target.id==="pF
 document.addEventListener("keydown",e=>{
   if(e.key==="Escape"){ if(!$("#lb").hidden) $("#lb").hidden=true; else if(!$("#modal").hidden) closePanel(); else closeMenu(); return; }
   if(e.target.closest("input,textarea,select")) return;
-  if(route==="home"&&gal&&(e.key==="ArrowRight"||e.key==="ArrowLeft")) gal.nudge(e.key==="ArrowRight"?-1:1);
   if(route.startsWith("work-")&&(e.key==="ArrowRight"||e.key==="ArrowLeft")){ const w=BY_W[route.slice(5)]; const n=w.s.works[w.i+(e.key==="ArrowRight"?1:-1)]; if(n) go("work-"+n.id); }
 });
 window.addEventListener("hashchange",()=>{ const h=(location.hash||"").slice(1); if(h==="contact") return openPanel("question"); if(h&&h!==route) go(h,false); });
