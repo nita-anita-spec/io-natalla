@@ -586,6 +586,20 @@ const SERIES = [
   },
   "works": [
    {
+    "id": "codes-of-time-iv",
+    "n": "IV",
+    "title": "Codes of Time IV",
+    "img": "ct-4",
+    "text": "A bright green-gold sweep lifts out of the composition: anticipation, the future already moving."
+   },
+   {
+    "id": "codes-of-time-iii",
+    "n": "III",
+    "title": "Codes of Time III",
+    "img": "ct-3",
+    "text": "Dense blues and a dark, turning form: presence as something that gathers weight."
+   },
+   {
     "id": "codes-of-time-i",
     "n": "I",
     "title": "Codes of Time I",
@@ -598,20 +612,6 @@ const SERIES = [
     "title": "Codes of Time II",
     "img": "ct-2",
     "text": "Rose and crimson layers hold a single arc of ultramarine, like the curve of a day."
-   },
-   {
-    "id": "codes-of-time-iii",
-    "n": "III",
-    "title": "Codes of Time III",
-    "img": "ct-3",
-    "text": "Dense blues and a dark, turning form: presence as something that gathers weight."
-   },
-   {
-    "id": "codes-of-time-iv",
-    "n": "IV",
-    "title": "Codes of Time IV",
-    "img": "ct-4",
-    "text": "A bright green-gold sweep lifts out of the composition: anticipation, the future already moving."
    }
   ],
   "cover": "ct-4",
@@ -927,7 +927,7 @@ const SERIES = [
  },
  {
   "id": "venice",
-  "title": "Venice",
+  "title": "Rainbow Chord",
   "pre": "In the Glow of the Jubilant Sun",
   "kind": "Diptych",
   "short": "Venice dissolving into warm light, water and colour: happiness as natural as a reflection on the lagoon.",
@@ -951,7 +951,7 @@ const SERIES = [
    {
     "id": "venice-diptych",
     "n": "I–II",
-    "title": "Sunlit Happiness / Rainbow Chord",
+    "title": "Rainbow Chord",
     "img": "ve-1",
     "text": "Two panels, 70 × 100 cm each, painted as one luminous view of the city. Pale gold, rose and lagoon blue are laid in thin washes so that the light seems to come from inside the canvas."
    }
@@ -1048,7 +1048,7 @@ const soldAsSet=s=>!!s.price && s.works.every(w=>!w.price);
 function priceOf(w){ const s=w.s; if(s.sold) return "Sold"; if(!SHOW_PRICES||s.onRequest) return PRICE_TEXT; if(w.price) return eur(w.price); if(s.price) return eur(s.price)+" · complete "+unit(s); return PRICE_TEXT; }
 function seriesPrice(s){ if(s.sold) return "Sold"; if(!SHOW_PRICES||s.onRequest) return PRICE_TEXT; if(s.price) return eur(s.price)+" · complete "+unit(s); return s.works.map(w=>w.price?eur(w.price):PRICE_TEXT).join(" / "); }
 const img=(id,small)=>`img/${id}${small?"-s":""}.jpg`;
-const roman=w=>w.n?w.n:"";
+const roman=w=>(w.n && !w.title.endsWith(" "+w.n))?w.n:"";
 function store(k,v){ try{ if(v===undefined) return JSON.parse(localStorage.getItem(k)||"null"); localStorage.setItem(k,JSON.stringify(v)); }catch(e){ return null; } }
 let toastT;
 function toast(msg, actLabel, act){ const t=$("#toast"); t.innerHTML=`<span>${esc(msg)}</span>${actLabel?`<button>${esc(actLabel)}</button>`:""}`; t.hidden=false; if(act) $("button",t).onclick=()=>{t.hidden=true;act();}; clearTimeout(toastT); toastT=setTimeout(()=>t.hidden=true,4200); }
