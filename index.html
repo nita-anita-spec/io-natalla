@@ -466,7 +466,6 @@ const SERIES = [
   "w": 50,
   "h": 50,
   "status": "available",
-  "onRequest": true,
   "hang": {
    "cols": 2,
    "order": "ltr",
@@ -1072,6 +1071,14 @@ function addToCart(t,id){
   toast(`${name} is in your collection`,"Send request",()=>openPanel("purchase"));
   if(route.startsWith("work-")||route.startsWith("series-")) go(route,false,true);
 }
+function workBtn(w){ const s=w.s, viaSet=inCart("series",s.id), have=inCart("work",w.id);
+  if(viaSet) return `<button class="btn" disabled><span>${w.s.kind==="Two works"?"Included with both works":"Included in the complete "+unit(s)}</span><span>✓</span></button>`;
+  return have ? `<button class="btn solid" data-toggle="work:${w.id}"><span>Remove from collection</span><span>−</span></button>`
+              : `<button class="btn solid" data-toggle="work:${w.id}"><span>Add to collection</span><span>+</span></button>`; }
+function setBtn(s,outline){ const have=inCart("series",s.id), both=s.kind==="Two works";
+  return have ? `<button class="btn ${outline?"":"solid"}" data-toggle="series:${s.id}"><span>${both?"Remove both works":"Remove the complete "+unit(s)}</span><span>−</span></button>`
+              : `<button class="btn ${!outline&&soldAsSet(s)?"solid":""}" data-toggle="series:${s.id}"><span>${both?"Collect both works":"Collect the complete "+unit(s)}</span><span>+</span></button>`; }
+function removeFromCart(t,id){ cart=cart.filter(c=>!(c.t===t&&c.id===id)); saveCart(); toast(`${t==="work"?BY_W[id].title:BY_S[id].title} removed from your collection`); if(route!=="home") go(route,false,true); }
 const cartItem=c=>c.t==="work"?{title:BY_W[c.id].title, sub:`${BY_W[c.id].s.title} · ${size(BY_W[c.id].s)}`, im:BY_W[c.id].img}
                                :{title:BY_S[c.id].title, sub:`Complete ${unit(BY_S[c.id])} · ${nCanv(BY_S[c.id])} canvases`, im:BY_S[c.id].cover};
 
@@ -1100,7 +1107,7 @@ function renderSeries(id){
   const n=s.works.length, cols = n===1?1 : n===3?3 : 2;
   const buy = s.sold ? `<button class="btn solid" disabled><span>Sold</span><span></span></button><button class="btn" data-ask="series:${s.id}"><span>Ask about similar works</span><span>→</span></button>`
      : s.onRequest ? `<button class="btn solid" data-ask="series:${s.id}"><span>Ask about this ${unit(s)}</span><span>→</span></button>`
-     : set ? `<button class="btn solid" data-add="series:${s.id}" ${have?"disabled":""}><span>${have?"In your collection":"Collect the complete "+unit(s)}</span><span>${have?"✓":"+"}</span></button>
+     : (set||s.works.length>1) ? `${setBtn(s)}
               <button class="btn" data-ask="series:${s.id}"><span>Ask a question</span><span>→</span></button>`
      : "";
   $("#v-series").innerHTML = `
@@ -1141,11 +1148,11 @@ function renderWork(id){
   if(s.sold) buy=`<button class="btn solid" disabled><span>Sold</span><span></span></button><button class="btn" data-ask="work:${w.id}"><span>Ask about similar works</span><span>→</span></button>`;
   else if(s.onRequest) buy=`<button class="btn solid" data-ask="work:${w.id}"><span>Ask about this work</span><span>→</span></button>`;
   else if(set){ const have=inCart("series",s.id);
-    note=s.diptychOneImage?"Offered as the complete diptych.":`Chapter ${esc(w.n)} of ${esc(s.title)}. Offered with the complete ${unit(s)} of ${nCanv(s)} canvases.`;
-    buy=`<button class="btn solid" data-add="series:${s.id}" ${have?"disabled":""}><span>${have?"In your collection":"Collect the complete "+unit(s)}</span><span>${have?"✓":"+"}</span></button>
+    note=s.diptychOneImage?"Offered as the complete diptych.":`Chapter ${esc(w.n)} of ${esc(s.title)}. Available on its own or with the complete ${unit(s)} of ${nCanv(s)} canvases.`;
+    buy=`${s.diptychOneImage?"":workBtn(w)}${setBtn(s,!s.diptychOneImage)}
       <button class="btn" data-ask="work:${w.id}"><span>Ask about this work</span><span>→</span></button>`; }
   else { const have=inCart("work",w.id);
-    buy=`<button class="btn solid" data-add="work:${w.id}" ${have?"disabled":""}><span>${have?"In your collection":"Add to collection"}</span><span>${have?"✓":"+"}</span></button>
+    buy=`${workBtn(w)}${s.works.length>1?setBtn(s,true):""}
       <button class="btn" data-ask="work:${w.id}"><span>Ask about this work</span><span>→</span></button>`; }
   const more=s.works.filter(o=>o.id!==w.id).slice(0,4);
   $("#v-work").innerHTML = `
@@ -1405,6 +1412,7 @@ document.addEventListener("click",e=>{
   if(d.work){ e.preventDefault(); go("work-"+d.work); return; }
   if(d.series){ e.preventDefault(); go("series-"+d.series); return; }
   if(d.go){ e.preventDefault(); go(d.go); return; }
+  if(d.toggle){ const [ty,id]=d.toggle.split(":"); if(inCart(ty,id)) removeFromCart(ty,id); else addToCart(ty,id); return; }
   if(d.add){ const [ty,id]=d.add.split(":"); addToCart(ty,id); return; }
   if(d.ask){ openPanel("question",d.ask); return; }
   if(d.contact){ openPanel(d.contact); return; }
