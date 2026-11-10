@@ -319,7 +319,8 @@ html.snap{scroll-snap-type:y mandatory}
 
 /* lightbox + toast */
 .lb{position:fixed;inset:0;z-index:90;background:var(--bg);display:grid;place-items:center;padding:calc(env(safe-area-inset-top,0px) + 50px) var(--gr) calc(env(safe-area-inset-bottom,0px) + 24px) var(--gl);cursor:zoom-out}
-.lb img{max-height:100%;max-width:100%;width:auto;height:auto;object-fit:contain}
+.lb{overflow:hidden}
+.lb img{display:block;max-width:100%;max-height:calc(100svh - 100px - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px));width:auto;height:auto;object-fit:contain;margin:auto}
 .lb .x{position:absolute;top:calc(14px + env(safe-area-inset-top,0px));right:var(--gr)}
 .toast{position:fixed;left:var(--gl);bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:95;background:var(--ink);color:var(--bg);padding:12px 14px;display:flex;gap:18px;align-items:center;max-width:calc(100vw - 32px)}
 .toast button{text-decoration:underline;text-underline-offset:3px}
