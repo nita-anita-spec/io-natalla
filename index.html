@@ -392,6 +392,25 @@ html.snap{scroll-snap-type:y mandatory}
 }
 .sold{display:inline-block;justify-self:center;margin-top:6px;font-size:12px;letter-spacing:.06em;text-transform:uppercase;border:1px solid currentColor;padding:4px 8px}
 .btn.solid[disabled]{opacity:1;background:var(--ink);color:var(--bg)}
+/* plain header navigation */
+.hd{display:flex;align-items:flex-start;justify-content:space-between;gap:24px;text-transform:none}
+.hd .name{text-transform:uppercase}
+.mainnav{display:flex;gap:clamp(20px,3vw,48px);margin-left:auto;margin-right:clamp(20px,4vw,72px)}
+.mainnav a.on .flip span:first-child{text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:1px}
+.mbtn{display:none}
+.menu2{position:fixed;left:0;right:0;top:calc(env(safe-area-inset-top,0px) + 58px);z-index:45;background:var(--bg);border-bottom:1px solid var(--line);padding:8px var(--gr) 22px var(--gl)}
+.mlist{display:grid}
+.mlist a,.mlist button{font-size:28px;letter-spacing:-.02em;line-height:1.15;padding:8px 0;border-top:1px solid var(--line);text-align:left}
+.msub{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:16px;color:var(--mute)}
+.mbtn .hb{position:relative;display:block;width:26px;height:18px}
+.mbtn .hb i{position:absolute;left:0;right:0;height:1.5px;background:currentColor;transition:transform .3s var(--ease),opacity .2s}
+.mbtn .hb i:nth-child(1){top:0}.mbtn .hb i:nth-child(2){top:8px}.mbtn .hb i:nth-child(3){top:16px}
+.mbtn[aria-expanded="true"] .hb i:nth-child(1){transform:translateY(8px) rotate(45deg)}
+.mbtn[aria-expanded="true"] .hb i:nth-child(2){opacity:0}
+.mbtn[aria-expanded="true"] .hb i:nth-child(3){transform:translateY(-8px) rotate(-45deg)}
+.mbtn{padding:6px 2px}
+@media (max-width:1023px){ .mainnav{display:none} .mbtn{display:block;margin-left:auto;margin-right:22px} }
+@media (min-width:1024px){ .menu2{display:none!important} }
 </style>
 </head>
 <body>
@@ -399,10 +418,13 @@ html.snap{scroll-snap-type:y mandatory}
 
 <header class="hd grid cap" id="hd">
   <a class="name c1" href="#home" data-go="home" aria-label="IO NATALL&amp;A, home">IO<br>NATALL&amp;A</a>
-  <nav class="stack c3" aria-label="Main">
-    <button id="menuBtn" aria-haspopup="dialog"><span class="flip"><span>Menu</span><span>Menu</span></span></button>
+  <nav class="mainnav" aria-label="Main">
+    <a href="#home" data-go="home" data-nav="home"><span class="flip"><span>Gallery</span><span>Gallery</span></span></a>
+    <a href="#artworks" data-go="artworks" data-nav="artworks"><span class="flip"><span>Artworks</span><span>Artworks</span></span></a>
+    <a href="#about" data-go="about" data-nav="about"><span class="flip"><span>About</span><span>About</span></span></a>
     <button id="contactBtn" aria-haspopup="dialog"><span class="flip"><span>Contact</span><span>Contact</span></span></button>
   </nav>
+  <button id="menuBtn" class="mbtn" aria-expanded="false" aria-controls="menu" aria-label="Open menu"><span class="hb"><i></i><i></i><i></i></span></button>
   <button class="cart c4" id="cartBtn" aria-haspopup="dialog"><span class="flip"><span>Collection</span><span>Collection</span></span><span class="n num" id="cartN">00</span></button>
 </header>
 
@@ -415,7 +437,7 @@ html.snap{scroll-snap-type:y mandatory}
   <section class="view" id="v-legal"></section>
 </main>
 
-<div class="menu" id="menu" hidden role="dialog" aria-modal="true" aria-label="Menu"></div>
+<div class="menu2" id="menu" hidden></div>
 <div class="modal" id="modal" hidden role="dialog" aria-modal="true" aria-labelledby="pTitle"></div>
 <div class="lb" id="lb" hidden><button class="x cap">Close</button><img alt=""></div>
 <div class="toast cap" id="toast" hidden role="status"></div>
@@ -1215,9 +1237,11 @@ function renderAbout(){
     <section class="ab-head grid"><h1 class="disp" style="text-transform:none">I paint the invisible connections between people</h1></section>
     <section class="ab-intro grid">
       <div class="c1"><div class="fade" id="fade">${pics.map((p,i)=>`<img src="${img(p,1)}" alt="" class="${i?"":"on"}">`).join("")}</div></div>
-      <div class="c34 lead"><div class="cap" style="margin-bottom:24px">About the artist</div>
-        <p>IO NATALL&amp;A is a contemporary artist based in Tallinn, Estonia. Born in Leningrad, now Saint Petersburg, she began her professional artistic practice in 2025.</p>
-        <p>Her work combines symbolic figurative painting, layered compositions and expressive painterly forms. Through them she explores the transformation of the human form, and the ways memory, relationships and lived experience shape our sense of self.</p>
+      <div class="c34 lead"><div class="cap" style="margin-bottom:24px">Bio</div>
+        <p>Natalja Kossareva (IO NATALL&amp;A) is an artist based in Tallinn, Estonia, working in the fields of symbolic painting and mixed media.</p>
+        <p>Her artistic practice explores the inner world of the individual and their relationship with themselves, others, and the surrounding environment.</p>
+        <p>Through symbolism, metaphor, and layered imagery, she addresses themes of time, memory, self-discovery, generational connections, and inner transformation. Rather than seeking to provide definitive answers, her works invite personal interpretation, creating space for individual reflection and meaning.</p>
+        <p>The artistic language of IO NATALL&amp;A combines expressive painting, graphic elements, and rich material textures. Her practice is rooted in the idea that external spaces can reflect internal human processes, and that art has the ability to make visible what usually remains unseen within.</p>
         <ol class="nlist">
           <li><span class="num">01.</span><span>Interior Architecture, Euroacademy, Tallinn</span></li>
           <li><span class="num">02.</span><span>Interior design practice since 2002</span></li>
@@ -1272,17 +1296,13 @@ function renderLegal(key){
 /* ---------- MENU ---------- */
 function openMenu(){
   const m=$("#menu");
-  const tile=(go,title,inner)=>`<a class="tile" href="#${go}" data-go="${go}"><span class="mh"><span>IO<br>NATALL&amp;A</span></span><span class="tt">${title}</span>${inner}</a>`;
-  m.innerHTML = `<span class="lbl cap">Menu</span><button class="x cap" id="menuX">Close</button>
-    <div class="tiles">
-      ${tile("home","Series",`<span class="pics">${["lf-2","tw-1"].map(p=>`<img src="${img(p,1)}" alt="">`).join("")}</span>`)}
-      ${tile("artworks","Artworks",`<span class="pics">${["sh-1","wp-6","im-2"].map(p=>`<img src="${img(p,1)}" alt="">`).join("")}</span>`)}
-      ${tile("about","About",`<span class="pics"><img src="${img("bs-3",1)}" alt="" style="flex:0 0 60%"></span>`)}
-      ${tile("shipping","Collect",`<span class="txt"><span>Shipping &amp; returns</span><span>Terms of sale</span><span>Privacy</span><span class="mute" style="margin-top:8px">Price upon request<br>Insured worldwide delivery</span></span>`)}
-    </div>`;
-  m.hidden=false; requestAnimationFrame(()=>requestAnimationFrame(()=>m.classList.add("in"))); $("#menuX").focus();
+  m.innerHTML = `<nav class="mlist" aria-label="Menu">
+      <a href="#home" data-go="home">Gallery</a><a href="#artworks" data-go="artworks">Artworks</a><a href="#about" data-go="about">About</a>
+      <button data-contact="email">Contact</button><button data-contact="purchase">Collection (<span class="num">${pad(cart.length)}</span>)</button></nav>
+    <div class="msub cap"><a href="#shipping" data-go="shipping">Shipping &amp; returns</a><a href="#terms" data-go="terms">Terms of sale</a><a href="#privacy" data-go="privacy">Privacy</a></div>`;
+  m.hidden=false; const mb=$("#menuBtn"); mb.setAttribute("aria-expanded","true"); mb.setAttribute("aria-label","Close menu");
 }
-function closeMenu(){ const m=$("#menu"); m.classList.remove("in"); m.hidden=true; }
+function closeMenu(){ const m=$("#menu"); if(!m) return; m.hidden=true; const b=$("#menuBtn"); if(b){ b.setAttribute("aria-expanded","false"); b.setAttribute("aria-label","Open menu"); } }
 
 /* ---------- CONTACT / PURCHASE panel ---------- */
 let pTab="purchase", askAbout="";
@@ -1385,6 +1405,7 @@ async function submitQuestion(f){
 /* ---------- router ---------- */
 let route="";
 function show(id){ $$(".view").forEach(v=>v.classList.toggle("on",v.id===id)); }
+function markNav(){ const k=route.startsWith("work-")||route.startsWith("series-")?"home":route; $$(".mainnav [data-nav]").forEach(a=>a.classList.toggle("on",a.dataset.nav===k)); }
 function go(hash, push=true, keepScroll=false){
   hash=hash||"home"; route=hash; closeMenu();
   const y=scrollY;
@@ -1397,7 +1418,7 @@ function go(hash, push=true, keepScroll=false){
   else { route="home"; show("v-home"); document.title="IO NATALL&A"; }
   document.documentElement.classList.toggle("snap", route==="home");
   if(push){ try{ history.replaceState(null,"","#"+route); }catch(e){} }
-  window.scrollTo(0, keepScroll?y:0); onScroll();
+  window.scrollTo(0, keepScroll?y:0); onScroll(); markNav();
 }
 function onScroll(){ $("#hd").classList.toggle("solid", scrollY>40 && !(route==="artworks"&&aView==="strip")); }
 window.addEventListener("scroll",onScroll,{passive:true});
@@ -1426,9 +1447,9 @@ document.addEventListener("click",e=>{
   if(d.lb){ openLB(d.lb); return; }
   if(d.copy){ copyText(d.copy,t); return; }
   if(d.copyOut){ copyText($("#pOut").textContent,t.firstElementChild); return; }
-  if(t.id==="menuBtn"){ openMenu(); return; }
+  if(t.id==="menuBtn"){ $("#menu").hidden?openMenu():closeMenu(); return; }
   if(t.id==="menuX"){ closeMenu(); return; }
-  if(t.id==="contactBtn"){ openPanel("question"); return; }
+  if(t.id==="contactBtn"){ openPanel("email"); return; }
   if(t.id==="cartBtn"){ openPanel("purchase"); return; }
   if(t.id==="pClose"||t.id==="pClose2"){ closePanel(); return; }
 });
