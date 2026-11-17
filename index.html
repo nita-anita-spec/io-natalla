@@ -590,7 +590,7 @@ const SERIES = [
  {
   "id": "codes-of-time",
   "title": "Codes of Time",
-  "kind": "Series of four",
+  "kind": "Four canvases",
   "short": "Time as an inner experience rather than a linear movement.",
   "statement": [
    "Codes of Time explores time as an inner experience rather than a linear movement.",
@@ -609,35 +609,22 @@ const SERIES = [
   },
   "works": [
    {
-    "id": "codes-of-time-iv",
-    "n": "IV",
-    "title": "Codes of Time IV",
-    "img": "ct-4",
-    "text": "A bright green-gold sweep lifts out of the composition: anticipation, the future already moving."
-   },
-   {
-    "id": "codes-of-time-iii",
-    "n": "III",
-    "title": "Codes of Time III",
-    "img": "ct-3",
-    "text": "Dense blues and a dark, turning form: presence as something that gathers weight."
-   },
-   {
-    "id": "codes-of-time-i",
-    "n": "I",
-    "title": "Codes of Time I",
-    "img": "ct-1",
-    "text": "A dark stroke falls through a field of green, pink and gold: a moment of memory breaking into the present."
-   },
-   {
-    "id": "codes-of-time-ii",
-    "n": "II",
-    "title": "Codes of Time II",
-    "img": "ct-2",
-    "text": "Rose and crimson layers hold a single arc of ultramarine, like the curve of a day."
+    "id": "codes-of-time-work",
+    "n": "",
+    "title": "Codes of Time",
+    "img": "ct-all",
+    "details": [
+     "ct-4",
+     "ct-3",
+     "ct-1",
+     "ct-2"
+    ],
+    "text": "Four canvases hung together as one work: time as an inner experience rather than a linear movement.",
+    "price": 4200
    }
   ],
-  "cover": "ct-4",
+  "canvases": 4,
+  "cover": "ct-all",
   "hero": "ct-1",
   "year": 2026
  },
@@ -1064,7 +1051,8 @@ const pad=n=>String(n).padStart(2,"0");
 const eur=n=>"€"+Number(n).toLocaleString("en-US");
 const WORKS=[], BY_W={}, BY_S={};
 SERIES.forEach(s=>{BY_S[s.id]=s; s.works.forEach((w,i)=>{w.s=s; w.i=i; WORKS.push(w); BY_W[w.id]=w;});});
-const nCanv=s=>s.diptychOneImage?2:s.works.length;
+const nCanv=s=>s.canvases||(s.diptychOneImage?2:s.works.length);
+const sizeLbl=s=>s.canvases?`${s.canvases} canvases, ${size(s)} each`:(s.diptychOneImage?"Diptych, 2 × "+size(s):size(s));
 const size=s=>`${s.w} × ${s.h} cm`;
 const unit=s=>s.kind.startsWith("Series")?"series":s.kind.toLowerCase();
 const soldAsSet=s=>!!s.price && s.works.every(w=>!w.price);
@@ -1138,7 +1126,7 @@ function renderSeries(id){
       <article class="wk">
         <a class="im" href="#work-${w.id}" data-work="${w.id}"><img src="${img(w.img)}" alt="${esc(w.title)}" loading="lazy"></a>
         <div class="wc"><span class="t">${roman(w)?esc(roman(w))+". ":""}${esc(w.title)}</span>
-          <span class="m cap mute num">${s.diptychOneImage?"Diptych, 2 × ":""}${size(s)} · ${esc(priceOf(w))}</span>
+          <span class="m cap mute num">${sizeLbl(s)} · ${esc(priceOf(w))}</span>
           <a class="btn solid wbtn" href="#work-${w.id}" data-work="${w.id}"><span>View artwork</span><span>→</span></a></div>
       </article>`).join("")}
     </section>
@@ -1186,7 +1174,7 @@ ${s.works.length>1?`      <a class="c14 cap mute hov" href="#series-${s.id}" dat
       <h1 class="disp">${esc(w.title)}</h1>
       <div class="sdet cap">
         <div><span class="mute">Medium</span><span>${esc(s.technique)}</span></div>
-        <div><span class="mute">Size</span><span class="num">${s.diptychOneImage?"Diptych, 2 × ":""}${size(s)}</span></div>
+        <div><span class="mute">Size</span><span class="num">${sizeLbl(s)}</span></div>
         <div><span class="mute">Year</span><span class="num">${s.year} · original, signed</span></div>
         <div><span class="mute">Price</span><span>${esc(priceOf(w))}</span></div>
       </div>
@@ -1204,7 +1192,7 @@ ${s.works.length>1?`      <a class="c14 cap mute hov" href="#series-${s.id}" dat
 }
 
 /* ---------- ARTWORKS ---------- */
-let aView=store("ion_view")||"strip", aFilter="all";
+let aView="index", aFilter="all";
 function renderArtworks(){
   const v=$("#v-artworks"); v.classList.toggle("isstrip", aView==="strip");
   const list = aFilter==="all"?WORKS:WORKS.filter(w=>w.s.id===aFilter);
@@ -1232,7 +1220,7 @@ function renderArtworks(){
 /* ---------- ABOUT ---------- */
 let fadeT;
 function renderAbout(){
-  const pics=["tw-1","bs-3","ss-1"];
+  const pics=["tw-3","tw-4","tw-5","tw-6","tw-1","tw-2"];
   $("#v-about").innerHTML = `
     <section class="ab-head grid"><h1 class="disp" style="text-transform:none">I paint the invisible connections between people</h1></section>
     <section class="ab-intro grid">
@@ -1248,23 +1236,6 @@ function renderAbout(){
           <li><span class="num">03.</span><span>Professional painting practice since 2025</span></li>
           <li><span class="num">04.</span><span>Featured artist, Arte Laguna World</span></li>
         </ol>
-      </div>
-    </section>
-    <section class="themes grid">
-      <h2 class="disp c24" style="text-transform:none">Her Work Returns to Three Themes</h2>
-      ${[["Connection","lf-2","Love as a force that links people, generations, nature and the universe."],
-         ["Transformation","wp-5","Figures emerge from layered colour, the way people change through what they live."],
-         ["Continuity","tw-4","Values and memory passed from one generation to the next."]].map(([w,p,t],i)=>`
-        <div class="theme c${i+1}"><div class="im"><img src="${img(p,1)}" alt="" loading="lazy"><span class="w">${w}</span></div><p class="cap" style="margin:0;max-width:34ch">${t}</p></div>`).join("")}
-    </section>
-    <section class="process grid">
-      <div class="c12 stick"><h2 class="disp" style="font-size:clamp(40px,5vw,72px)">A Technique of Her Own, in Which Water Plays the Essential Role</h2></div>
-      <div class="c34 steps">
-        ${[["Water","Acrylic is released with water. Pigments flow freely across the surface and find their own paths.","lf-1a"],
-           ["Layers","Thin layers build a space with depth. Her training in interior architecture guides composition, proportion and colour.","sh-2a"],
-           ["Figures","Out of the layered space, figures slowly emerge into the light.","im-1b"],
-           ["Series","Each body of work is painted as one complete visual story, read from the first canvas to the last.","ct-2"]].map(([h,t,p],i)=>`
-          <div class="step"><img src="${img(p,1)}" alt="" loading="lazy"><div class="lead"><span class="num">${pad(i+1)}.</span> ${h}</div><p class="lead mute" style="margin:0;max-width:30ch">${t}</p></div>`).join("")}
       </div>
     </section>
     <section class="quote grid"><div class="c1 cap">The central question</div><p class="disp c24" style="font-size:clamp(34px,4.2vw,62px);text-transform:none">How do the experiences and values we inherit shape who we become, and what do we choose to carry forward?</p></section>
@@ -1440,7 +1411,7 @@ document.addEventListener("click",e=>{
   if(d.contact){ openPanel(d.contact); return; }
   if(d.tab){ pTab=d.tab; renderPanel(); $(`#modal [data-tab=${d.tab}]`).focus(); return; }
   if(d.rm!==undefined){ cart.splice(+d.rm,1); saveCart(); renderPanel(); if(route!=="home") go(route,false,true); return; }
-  if(d.view){ aView=d.view; store("ion_view",aView); renderArtworks(); onScroll(); return; }
+  if(d.view){ aView=d.view; renderArtworks(); onScroll(); return; }
   if(d.filter){ aFilter=d.filter; renderArtworks(); return; }
   if(d.scroll){ e.preventDefault(); const g=$("#worksGrid"); if(g) window.scrollTo({top:g.getBoundingClientRect().top+scrollY-90,behavior:"smooth"}); return; }
   if(d.gallery){ e.preventDefault(); go("home"); const k=SERIES.findIndex(x=>x.id===d.gallery); const sl=$$("#v-home .slide")[k]; if(sl) window.scrollTo(0, sl.offsetTop); return; }
