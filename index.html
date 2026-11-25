@@ -508,6 +508,25 @@ body.ingal #v-home .slide .pic{height:calc(100svh - 250px)}
   .backg,.backg:hover{min-height:40px;padding:0 14px;font-size:11px}
   body.ingal #v-home .slide{padding-top:calc(env(safe-area-inset-top,0px) + 128px)}
 }
+
+/* --- v36: mobile / tablet --- */
+@media (max-width:1023px){
+  .hd .cart{display:none!important}
+  .mbtn{display:block;margin-left:auto!important;margin-right:-2px!important}
+  .menu2{top:0;bottom:0;z-index:39;overflow-y:auto;border-bottom:0;padding:calc(env(safe-area-inset-top,0px) + 96px) var(--gr) calc(env(safe-area-inset-bottom,0px) + 32px) var(--gl);display:flex;flex-direction:column;justify-content:space-between}
+  .menu2[hidden]{display:none!important}
+  .mlist a,.mlist button{font-size:clamp(34px,9vw,52px);padding:12px 0}
+  .mlist .mcol{font-size:clamp(20px,5vw,26px);color:var(--mute)}
+  .msub{margin-top:32px}
+  html.mopen,html.mopen body{overflow:hidden}
+  html.mopen .hd{background:var(--bg)}
+  .hsplit{grid-template-columns:1fr}
+  .hl{display:contents}
+  .hl .disp{order:1}
+  .hl>p.cap{order:2;margin-top:-12px!important}
+  .hsplit .hr{order:3}
+  .hl .btn{order:4;width:100%;min-width:0}
+}
 </style>
 </head>
 <body>
@@ -1405,12 +1424,12 @@ function renderLegal(key){
 function openMenu(){
   const m=$("#menu");
   m.innerHTML = `<nav class="mlist" aria-label="Menu">
-      <a href="#gallery" data-go="gallery">Gallery</a><a href="#artworks" data-go="artworks">Artworks</a><a href="#purchase" data-go="purchase">Purchase (<span class="num">${pad(cart.length)}</span>)</a>
-      <button data-contact="email">Contact</button></nav>
+      <a href="#gallery" data-go="gallery">Gallery</a><a href="#artworks" data-go="artworks">Artworks</a><a href="#purchase" data-go="purchase">Purchase</a>
+      <button data-contact="email">Contact</button><a href="#purchase" data-go="purchase" class="mcol">Collection <span class="num">(${pad(cart.length)})</span></a></nav>
     <div class="msub cap"><a href="#shipping" data-go="shipping">Shipping &amp; returns</a><a href="#terms" data-go="terms">Terms of sale</a><a href="#privacy" data-go="privacy">Privacy</a></div>`;
-  m.hidden=false; const mb=$("#menuBtn"); mb.setAttribute("aria-expanded","true"); mb.setAttribute("aria-label","Close menu");
+  m.hidden=false; document.documentElement.classList.add("mopen"); const mb=$("#menuBtn"); mb.setAttribute("aria-expanded","true"); mb.setAttribute("aria-label","Close menu");
 }
-function closeMenu(){ const m=$("#menu"); if(!m) return; m.hidden=true; const b=$("#menuBtn"); if(b){ b.setAttribute("aria-expanded","false"); b.setAttribute("aria-label","Open menu"); } }
+function closeMenu(){ const m=$("#menu"); if(!m) return; m.hidden=true; document.documentElement.classList.remove("mopen"); const b=$("#menuBtn"); if(b){ b.setAttribute("aria-expanded","false"); b.setAttribute("aria-label","Open menu"); } }
 
 /* ---------- CONTACT / PURCHASE panel ---------- */
 let pTab="purchase", askAbout="";
