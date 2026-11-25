@@ -34,7 +34,7 @@
   --veil:#2E2B25; --sage:#FFFFFF; --moss:#2A1233;
   --f:"Hanken Grotesk","Neue Haas Unica","Helvetica Neue",Helvetica,Arial,sans-serif;
   --serif:"Cormorant Garamond","Cormorant",Garamond,"Times New Roman",serif;
-  --gl:max(16px, env(safe-area-inset-left, 0px)); --gr:max(16px, env(safe-area-inset-right, 0px));
+  --gl:max(clamp(20px,5vw,80px), env(safe-area-inset-left, 0px)); --gr:max(clamp(20px,5vw,80px), env(safe-area-inset-right, 0px));
   --gap:8px; --col:calc((100vw - var(--gl) - var(--gr) - 3*var(--gap)) / 4);
   --disp:clamp(46px, 6.26vw, 90px); --lead:clamp(19px, 1.67vw, 24px);
   --ease:cubic-bezier(.645,.045,.355,1);
@@ -411,6 +411,103 @@ html.snap{scroll-snap-type:y mandatory}
 .mbtn{padding:6px 2px}
 @media (max-width:1023px){ .mainnav{display:none} .mbtn{display:block;margin-left:auto;margin-right:22px} }
 @media (min-width:1024px){ .menu2{display:none!important} }
+
+/* --- v30: home split, per-work gallery, series view, back button --- */
+.hsplit{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(32px,5vw,96px);align-items:center;min-height:100svh;box-sizing:border-box;padding:calc(env(safe-area-inset-top,0px) + 96px) var(--gr) clamp(36px,4vw,64px) var(--gl)}
+.hl{display:grid;gap:clamp(24px,3vw,44px);justify-items:start;align-content:center}
+.hl .disp{text-transform:none;font-size:clamp(44px,5.2vw,88px)}
+.hl .btn{width:auto;min-width:260px}
+.hr{display:grid;gap:16px;min-width:0}
+.hslider{position:relative;height:calc(100svh - 230px);min-height:380px}
+.hslider a{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity 1.2s ease;pointer-events:none}
+.hslider a.on{opacity:1;pointer-events:auto}
+.hslider img{max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain}
+.hcap{display:grid;grid-template-columns:minmax(0,1fr) auto;column-gap:16px;row-gap:4px;align-items:center}
+.hcap .t{font-size:15px;letter-spacing:.01em}
+.hcap .sub{grid-column:1;font-style:italic;color:var(--mute);font-size:14px}
+.hcap .hnav{grid-column:2;grid-row:1/span 2;display:flex;gap:14px;align-items:center;font-size:12px;letter-spacing:.06em}
+.hcap .hnav button{font-size:18px;line-height:1;padding:6px}
+.ab-intro .c1.lbl{padding-top:6px}
+.slide .ttl{display:grid;gap:12px;justify-items:center}
+.slide .sub{margin:0;font-style:italic;color:var(--mute);font-size:clamp(16px,1.3vw,20px);letter-spacing:.01em}
+.slide .st{text-transform:uppercase;font-size:13px;letter-spacing:.06em}
+.wsub{font-style:italic;color:var(--mute);font-size:clamp(17px,1.4vw,21px);margin-top:-10px;line-height:1.35}
+.wsub a{color:inherit;text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:1px}
+.sall{padding-top:clamp(60px,8vw,120px);row-gap:16px}
+.sall .im{grid-column:1/-1;cursor:zoom-in;display:flex;justify-content:center;background:var(--soft);padding:clamp(16px,3vw,48px)}
+.sall .im img{max-width:100%;max-height:80svh;width:auto;height:auto}
+.sall .cap2{display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px 24px}
+.sallim{grid-column:1/-1;display:flex;justify-content:center;background:var(--soft);cursor:zoom-in;padding:clamp(16px,3vw,48px);margin-top:8px}
+.sallim img{max-width:100%;max-height:70svh;width:auto;height:auto}
+.more4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--gap);grid-column:1/-1}
+.backg{position:fixed;right:var(--gr);bottom:calc(env(safe-area-inset-bottom,0px) + 18px);z-index:60;display:inline-flex;gap:10px;align-items:center;padding:13px 22px;border-radius:999px;background:var(--ink);color:var(--bg);font-size:13px;letter-spacing:.06em;text-transform:uppercase;box-shadow:0 8px 28px rgba(0,0,0,.16);transition:transform .25s var(--ease),background .25s}
+.backg:hover{background:#2C2A26;transform:translateY(-2px)}
+@media (max-width:1023px){
+  .hsplit{grid-template-columns:1fr;min-height:0;gap:28px;padding-top:calc(env(safe-area-inset-top,0px) + 96px)}
+  .hslider{height:62svh;min-height:0}
+}
+@media (max-width:767px){
+  .hsplit{padding-top:calc(env(safe-area-inset-top,0px) + 80px)}
+  .hl{gap:20px}
+  .hl .btn{min-width:0;width:100%}
+  .hslider{height:56svh}
+  .slide .sub{font-size:15px}
+  .sallim{grid-column:1/-1;display:flex;justify-content:center;background:var(--soft);cursor:zoom-in;padding:clamp(16px,3vw,48px);margin-top:8px}
+.sallim img{max-width:100%;max-height:70svh;width:auto;height:auto}
+.more4{grid-template-columns:1fr 1fr}
+  .backg{left:50%;right:auto;transform:translateX(-50%);padding:12px 20px;font-size:12px}
+  .backg:hover{transform:translateX(-50%)}
+}
+
+/* --- v31 --- */
+.ab-intro{column-gap:clamp(32px,6vw,120px)}
+.blist{list-style:none;margin:0;padding:0;display:grid;gap:14px}
+.blist li{position:relative;padding-left:1.1em}
+.blist li::before{content:"•";position:absolute;left:0}
+.hl{padding-right:clamp(0px,2vw,32px)}
+.backg{position:absolute;top:calc(env(safe-area-inset-top,0px) + 80px);left:var(--gl);right:auto;bottom:auto;transform:none;z-index:30;padding:11px 20px;font-size:12px;box-shadow:none}
+.backg:hover{transform:none}
+body.hasback .view.on{padding-top:56px}
+.ppage-wrap{padding:clamp(40px,5vw,72px) var(--gr) clamp(80px,10vw,140px) var(--gl)}
+.panel.ppage{transform:none;max-width:none;margin:0}
+@media (max-width:767px){
+  .backg{top:calc(env(safe-area-inset-top,0px) + 72px);left:var(--gl);transform:none;padding:10px 16px;font-size:11px}
+  .backg:hover{transform:none}
+  body.hasback .view.on{padding-top:48px}
+  .panel.ppage{padding:18px}
+}
+
+/* --- v32: back button on gallery too --- */
+body.ingal .backg{position:fixed}
+body.hasback #v-home.view.on{padding-top:0}
+body.ingal #v-home .slide{box-sizing:border-box;padding-top:56px}
+body.ingal #v-home .slide .pic{height:calc(100svh - 210px)}
+@media (max-width:767px){
+  body.ingal #v-home .slide{padding-top:calc(env(safe-area-inset-top,0px) + 120px)}
+}
+
+/* --- v33: purchase picker thumbnails --- */
+.spick{display:grid;gap:10px;margin-top:12px}
+.sp{display:grid;grid-template-columns:64px minmax(0,1fr);gap:16px;align-items:center}
+.spth{display:block;width:64px;aspect-ratio:4/5;overflow:hidden;background:var(--soft)}
+.spth img{display:block;width:100%;height:100%;object-fit:cover;transition:transform .5s var(--ease)}
+.spth:hover img{transform:scale(1.07)}
+@media (max-width:767px){ .sp{grid-template-columns:52px minmax(0,1fr);gap:12px} .spth{width:52px} }
+
+/* --- v35 --- */
+.spw{display:grid;gap:8px;padding:2px 0 10px 80px}
+.spw .sp{grid-template-columns:44px minmax(0,1fr);gap:12px}
+.spw .spth{width:44px}
+.spoff{opacity:.5}
+.backg,.backg:hover{border-radius:0;min-height:44px;padding:0 18px;gap:14px;font-size:12px;letter-spacing:.01em;box-shadow:none}
+body.ingal #v-home .slide{padding-top:130px}
+body.ingal #v-home .slide .pic{height:calc(100svh - 250px)}
+@media (max-width:767px){
+  .spw{padding-left:64px}
+  .spw .sp{grid-template-columns:40px minmax(0,1fr)} .spw .spth{width:40px}
+  .backg,.backg:hover{min-height:40px;padding:0 14px;font-size:11px}
+  body.ingal #v-home .slide{padding-top:calc(env(safe-area-inset-top,0px) + 128px)}
+}
 </style>
 </head>
 <body>
@@ -419,9 +516,9 @@ html.snap{scroll-snap-type:y mandatory}
 <header class="hd grid cap" id="hd">
   <a class="name c1" href="#home" data-go="home" aria-label="IO NATALL&amp;A, home">IO<br>NATALL&amp;A</a>
   <nav class="mainnav" aria-label="Main">
-    <a href="#home" data-go="home" data-nav="home"><span class="flip"><span>Gallery</span><span>Gallery</span></span></a>
+    <a href="#gallery" data-go="gallery" data-nav="gallery"><span class="flip"><span>Gallery</span><span>Gallery</span></span></a>
     <a href="#artworks" data-go="artworks" data-nav="artworks"><span class="flip"><span>Artworks</span><span>Artworks</span></span></a>
-    <a href="#about" data-go="about" data-nav="about"><span class="flip"><span>About</span><span>About</span></span></a>
+    <a href="#purchase" data-go="purchase" data-nav="purchase"><span class="flip"><span>Purchase</span><span>Purchase</span></span></a>
     <button id="contactBtn" aria-haspopup="dialog"><span class="flip"><span>Contact</span><span>Contact</span></span></button>
   </nav>
   <button id="menuBtn" class="mbtn" aria-expanded="false" aria-controls="menu" aria-label="Open menu"><span class="hb"><i></i><i></i><i></i></span></button>
@@ -429,18 +526,20 @@ html.snap{scroll-snap-type:y mandatory}
 </header>
 
 <main>
-  <section class="view" id="v-home" aria-label="Series"></section>
+  <section class="view" id="v-home" aria-label="Gallery"></section>
   <section class="view" id="v-series"></section>
   <section class="view" id="v-work"></section>
   <section class="view" id="v-artworks"></section>
   <section class="view" id="v-about"></section>
   <section class="view" id="v-legal"></section>
+  <section class="view" id="v-purchase"></section>
 </main>
 
 <div class="menu2" id="menu" hidden></div>
 <div class="modal" id="modal" hidden role="dialog" aria-modal="true" aria-labelledby="pTitle"></div>
 <div class="lb" id="lb" hidden><button class="x cap">Close</button><img alt=""></div>
 <div class="toast cap" id="toast" hidden role="status"></div>
+<a class="backg" id="backG" href="#gallery" hidden><span aria-hidden="true">←</span><span>Back to Gallery</span></a>
 
 <script>
 const ARTIST_EMAIL = "ionatalla.art@gmail.com";
@@ -474,7 +573,8 @@ const SERIES = [
   ],
   "cover": "ss-1",
   "hero": "ss-a",
-  "year": 2026
+  "year": 2026,
+  "nfs": true
  },
  {
   "id": "impulses",
@@ -522,24 +622,45 @@ const SERIES = [
   ],
   "cover": "im-2",
   "hero": "im-2a",
-  "year": 2026
+  "year": 2026,
+  "name": "Impulses",
+  "all": "im-all"
  },
  {
-  "id": "planet-of-joy-s",
-  "title": "Planet of Joy",
-  "kind": "Single work",
-  "short": "A simple wish for the world to become filled with happiness, abundance and wellbeing.",
+  "id": "sweetness-of-happiness",
+  "title": "The Sweetness of Happiness",
+  "name": "The Sweetness of Happiness",
+  "kind": "Two works",
+  "short": "Happiness as something soft, sweet and abundant.",
   "statement": [
-   "A simple wish for the world to become filled with happiness, abundance and wellbeing."
+   "Happiness as something soft and abundant. A crest of whipped, sculpted white sits on a field of red, light and generous.",
+   "Planet of Joy carries a simple wish for the world to become filled with happiness, abundance and wellbeing."
   ],
   "technique": "Acrylic and mixed media on canvas",
   "w": 28,
   "h": 35,
   "status": "available",
+  "hang": {
+   "cols": 2,
+   "order": "ltr",
+   "gap": 5,
+   "reading": "I · Whipped Cream of Happiness, II · Planet of Joy"
+  },
   "works": [
    {
+    "id": "whipped-cream-of-happiness",
+    "n": "I",
+    "title": "Whipped Cream of Happiness",
+    "img": "sh-1",
+    "details": [
+     "sh-1a"
+    ],
+    "price": 2300,
+    "text": "Happiness as something soft and abundant. A crest of whipped, sculpted white sits on a field of red, light and generous."
+   },
+   {
     "id": "planet-of-joy",
-    "n": "",
+    "n": "II",
     "title": "Planet of Joy",
     "img": "sh-2",
     "details": [
@@ -550,41 +671,9 @@ const SERIES = [
     "text": "A simple wish for the world to become filled with happiness, abundance and wellbeing."
    }
   ],
-  "pre": "The Sweetness of Happiness",
-  "price": 2750,
-  "cover": "sh-2",
-  "hero": "sh-2a",
-  "year": 2026
- },
- {
-  "id": "whipped-cream-s",
-  "title": "Whipped Cream of Happiness",
-  "kind": "Single work",
-  "short": "Happiness as something soft and abundant. A crest of whipped, sculpted white sits on a field of red, light and generous.",
-  "statement": [
-   "Happiness as something soft and abundant. A crest of whipped, sculpted white sits on a field of red, light and generous."
-  ],
-  "technique": "Acrylic and mixed media on canvas",
-  "w": 28,
-  "h": 35,
-  "status": "available",
-  "works": [
-   {
-    "id": "whipped-cream-of-happiness",
-    "n": "",
-    "title": "Whipped Cream of Happiness",
-    "img": "sh-1",
-    "details": [
-     "sh-1a"
-    ],
-    "price": 2300,
-    "text": "Happiness as something soft and abundant. A crest of whipped, sculpted white sits on a field of red, light and generous."
-   }
-  ],
-  "pre": "The Sweetness of Happiness",
-  "price": 2300,
   "cover": "sh-1",
   "hero": "sh-1a",
+  "all": "sh-all",
   "year": 2026
  },
  {
@@ -610,7 +699,7 @@ const SERIES = [
   "works": [
    {
     "id": "codes-of-time-work",
-    "n": "",
+    "n": "I–IV",
     "title": "Codes of Time",
     "img": "ct-all",
     "details": [
@@ -626,7 +715,9 @@ const SERIES = [
   "canvases": 4,
   "cover": "ct-all",
   "hero": "ct-1",
-  "year": 2026
+  "year": 2026,
+  "name": "Codes of Time",
+  "install": "60 × 74 cm"
  },
  {
   "id": "landscapes-of-freedom",
@@ -693,7 +784,10 @@ const SERIES = [
   ],
   "cover": "lf-2",
   "hero": "lf-2a",
-  "year": 2026
+  "year": 2026,
+  "name": "Landscapes of Freedom",
+  "install": "160 × 50 cm",
+  "all": "lf-all"
  },
  {
   "id": "we-are-part-of-one",
@@ -778,7 +872,10 @@ const SERIES = [
   ],
   "cover": "wp-6",
   "hero": "wp-5",
-  "year": 2026
+  "year": 2026,
+  "name": "We Are Part of One",
+  "install": "85 × 215 cm",
+  "all": "wp-all"
  },
  {
   "id": "threads-of-wisdom",
@@ -806,21 +903,21 @@ const SERIES = [
   "works": [
    {
     "id": "keeper-of-light",
-    "n": "1",
+    "n": "I",
     "title": "Keeper of Light",
     "img": "tw-1",
     "text": "The story begins with the father. As the guardian of wisdom, he shares with his daughter the first stories that carry the fundamental truths of life. Through his quiet presence she begins to discover the world as a place worthy of trust."
    },
    {
     "id": "the-silent-gift",
-    "n": "2",
+    "n": "II",
     "title": "The Silent Gift",
     "img": "tw-2",
     "text": "The daughter’s world is filled with hope and the love her father has given her. Feeling protected by his presence, she is free to dream, to grow, and to step confidently into a much larger world."
    },
    {
     "id": "the-invisible-thread",
-    "n": "3",
+    "n": "III",
     "title": "The Invisible Thread",
     "img": "tw-3",
     "text": "Leaving childhood behind, we carry forward the values and quiet strength that will guide our own path.",
@@ -828,7 +925,7 @@ const SERIES = [
    },
    {
     "id": "the-wisdom-within",
-    "n": "4",
+    "n": "IV",
     "title": "The Wisdom Within",
     "img": "tw-4",
     "text": "Inherited wisdom becomes our own through kindness, empathy, and compassion, allowing us to connect beyond words.",
@@ -836,7 +933,7 @@ const SERIES = [
    },
    {
     "id": "the-journey-begins",
-    "n": "5",
+    "n": "V",
     "title": "The Journey Begins",
     "img": "tw-5",
     "text": "With every new experience, we discover that the freedom to explore grows from the confidence nurtured within us.",
@@ -844,7 +941,7 @@ const SERIES = [
    },
    {
     "id": "threads-of-wisdom-work",
-    "n": "6",
+    "n": "VI",
     "title": "Threads of Wisdom",
     "img": "tw-6",
     "text": "The wisdom once received becomes a legacy of love, hope, and understanding passed on to the next generation.",
@@ -853,7 +950,10 @@ const SERIES = [
   ],
   "cover": "tw-4",
   "hero": "tw-4",
-  "year": 2026
+  "year": 2026,
+  "name": "Threads of Wisdom: From Father to Daughter",
+  "install": "85 × 160 cm",
+  "all": "tw-all"
  },
  {
   "id": "beyond-separation",
@@ -901,7 +1001,9 @@ const SERIES = [
   ],
   "cover": "bs-3",
   "hero": "bs-3",
-  "year": 2026
+  "year": 2026,
+  "name": "Beyond Separation",
+  "all": "bs-all"
  },
  {
   "id": "breathing-as-one-s",
@@ -925,7 +1027,7 @@ const SERIES = [
   "works": [
    {
     "id": "breathing-as-one",
-    "n": "",
+    "n": "III",
     "title": "Breathing as One",
     "img": "wt-3",
     "text": "Two rhythms become one. Presence is shared so completely that nothing more needs to be said."
@@ -933,22 +1035,21 @@ const SERIES = [
   ],
   "cover": "wt-3",
   "hero": "wt-3",
-  "year": 2026
+  "year": 2026,
+  "name": "Weightless Touches"
  },
  {
   "id": "venice",
-  "title": "Rainbow Chord",
-  "pre": "In the Glow of the Jubilant Sun",
+  "title": "Venice – In the Glow of the Jubilant Sun",
   "kind": "Diptych",
-  "short": "Venice dissolving into warm light, water and colour: happiness as natural as a reflection on the lagoon.",
+  "short": "Venice dissolving into sun, water and colour: happiness as natural as a reflection on the lagoon.",
   "statement": [
-   "A diptych of two large canvases devoted to Venice in light. The city dissolves into sun, water and colour, and happiness feels as natural as a reflection on the lagoon.",
-   "The two panels, Sunlit Happiness and Rainbow Chord, are offered together as one work."
+   "A series devoted to Venice in light. The city dissolves into sun, water and colour, and happiness feels as natural as a reflection on the lagoon.",
+   "I · Sunlit Happiness and II · Rainbow Chord, each 70 × 100 cm."
   ],
-  "technique": "Acrylic and mixed media on canvas",
+  "technique": "Watercolour, pencil and bronze leaf on canvas",
   "w": 70,
   "h": 100,
-  "price": 5750,
   "status": "available",
   "hang": {
    "cols": 2,
@@ -956,20 +1057,28 @@ const SERIES = [
    "gap": 5,
    "reading": "I · Sunlit Happiness, II · Rainbow Chord"
   },
-  "diptychOneImage": true,
   "works": [
    {
-    "id": "venice-diptych",
-    "n": "I–II",
+    "id": "sunlit-happiness",
+    "n": "I",
+    "title": "Sunlit Happiness",
+    "img": "ve-0",
+    "text": "Joy, light and the anticipation of a happiness that is already part of the present. An enormous sun dissolves the boundary between sky and water and fills everything with its radiance."
+   },
+   {
+    "id": "rainbow-chord",
+    "n": "II",
     "title": "Rainbow Chord",
     "img": "ve-1",
-    "text": "Two panels, 70 × 100 cm each, painted as one luminous view of the city. Pale gold, rose and lagoon blue are laid in thin washes so that the light seems to come from inside the canvas."
+    "sold": true,
+    "text": "Pale gold, rose and lagoon blue laid in thin washes, so that the light seems to come from inside the canvas."
    }
   ],
-  "sold": true,
-  "cover": "ve-1",
-  "hero": "ve-1",
-  "year": 2026
+  "cover": "ve-0",
+  "hero": "ve-0",
+  "year": 2026,
+  "name": "Venice – In the Glow of the Jubilant Sun",
+  "all": "ve-all"
  }
 ];
 
@@ -1056,10 +1165,16 @@ const sizeLbl=s=>s.canvases?`${s.canvases} canvases, ${size(s)} each`:(s.diptych
 const size=s=>`${s.w} × ${s.h} cm`;
 const unit=s=>s.kind.startsWith("Series")?"series":s.kind.toLowerCase();
 const soldAsSet=s=>!!s.price && s.works.every(w=>!w.price);
-function priceOf(w){ const s=w.s; if(s.sold) return "Sold"; if(!SHOW_PRICES||s.onRequest) return PRICE_TEXT; if(w.price) return eur(w.price); if(s.price) return eur(s.price)+" · complete "+unit(s); return PRICE_TEXT; }
-function seriesPrice(s){ if(s.sold) return "Sold"; if(!SHOW_PRICES||s.onRequest) return PRICE_TEXT; if(s.price) return eur(s.price)+" · complete "+unit(s); return s.works.map(w=>w.price?eur(w.price):PRICE_TEXT).join(" / "); }
+function priceOf(w){ const s=w.s; if(isSold(w)) return "Sold"; if(isNfs(w)) return "Not for sale"; if(!SHOW_PRICES||s.onRequest) return PRICE_TEXT; if(w.price) return eur(w.price); if(s.price) return eur(s.price)+" · complete "+unit(s); return PRICE_TEXT; }
+function seriesPrice(s){ if(s.sold) return "Sold"; if(s.nfs) return "Not for sale"; if(s.works.some(w=>w.sold||w.nfs)) return s.works.map(w=>`${wTitle(w)}: ${priceOf(w)}`).join(" / "); if(!SHOW_PRICES||s.onRequest) return PRICE_TEXT; if(s.price) return eur(s.price)+" · complete "+unit(s); return s.works.map(w=>w.price?eur(w.price):PRICE_TEXT).join(" / "); }
 const img=(id,small)=>`img/${id}${small?"-s":""}.jpg`;
 const roman=w=>(w.n && !w.title.endsWith(" "+w.n))?w.n:"";
+const wTitle=w=>(w.n && w.title.endsWith(" "+w.n))?w.title.slice(0,-(w.n.length+1)):w.title;
+function wSub(w){ const nm=w.s.name||w.s.title; const t=nm+(w.n?" · "+w.n:""); return t===wTitle(w)?"":t; }
+const isSold=w=>!!(w.s.sold||w.sold), isNfs=w=>!!(w.s.nfs||w.nfs);
+const anyOff=s=>!!(s.sold||s.nfs||s.works.some(w=>w.sold||w.nfs));
+const wSize=w=>w.s.canvases?sizeLbl(w.s):size(w.s);
+const wStatus=w=>isSold(w)?"Sold":isNfs(w)?"Not for sale":"";
 function store(k,v){ try{ if(v===undefined) return JSON.parse(localStorage.getItem(k)||"null"); localStorage.setItem(k,JSON.stringify(v)); }catch(e){ return null; } }
 let toastT;
 function toast(msg, actLabel, act){ const t=$("#toast"); t.innerHTML=`<span>${esc(msg)}</span>${actLabel?`<button>${esc(actLabel)}</button>`:""}`; t.hidden=false; if(act) $("button",t).onclick=()=>{t.hidden=true;act();}; clearTimeout(toastT); toastT=setTimeout(()=>t.hidden=true,4200); }
@@ -1067,7 +1182,7 @@ function copyText(text,btn){ const ok=()=>{ if(btn){const o=btn.textContent; btn
   try{ navigator.clipboard.writeText(text).then(ok,()=>toast("Select the text to copy it")); }catch(e){ toast("Select the text to copy it"); } }
 function footer(){ return `<footer class="ft grid cap">
   <div class="c1"><div>IO NATALL&amp;A © 2026</div><div class="mute">Tallinn, Estonia</div></div>
-  <ul class="c2"><li><a href="#home" data-go="home">Series</a></li><li><a href="#artworks" data-go="artworks">Artworks</a></li><li><a href="#about" data-go="about">About</a></li></ul>
+  <ul class="c2"><li><a href="#gallery" data-go="gallery">Gallery</a></li><li><a href="#artworks" data-go="artworks">Artworks</a></li><li><a href="#purchase" data-go="purchase">Purchase</a></li></ul>
   <ul class="c3"><li><a href="#shipping" data-go="shipping">Shipping &amp; returns</a></li><li><a href="#terms" data-go="terms">Terms of sale</a></li><li><a href="#privacy" data-go="privacy">Privacy</a></li></ul>
   <ul class="c4"><li><a href="${LINKS.insta}" target="_blank" rel="noopener">Instagram</a></li><li><a href="${LINKS.behance}" target="_blank" rel="noopener">Behance</a></li><li><button data-contact="email">Email</button></li></ul>
 </footer>`; }
@@ -1079,7 +1194,7 @@ function inCart(t,id){ return cart.some(c=>c.t===t&&c.id===id); }
 function addToCart(t,id){
   if(!inCart(t,id)){ if(t==="series") cart=cart.filter(c=>!(c.t==="work"&&BY_W[c.id].s.id===id)); cart.push({t,id}); saveCart(); }
   const name = t==="work"?BY_W[id].title:BY_S[id].title;
-  toast(`${name} is in your collection`,"Send request",()=>openPanel("purchase"));
+  toast(`${name} is in your collection`,"Send request",()=>go("purchase"));
   if(route.startsWith("work-")||route.startsWith("series-")) go(route,false,true);
 }
 function workBtn(w){ const s=w.s, viaSet=inCart("series",s.id), have=inCart("work",w.id);
@@ -1089,26 +1204,23 @@ function workBtn(w){ const s=w.s, viaSet=inCart("series",s.id), have=inCart("wor
 function setBtn(s,outline){ const have=inCart("series",s.id), both=s.kind==="Two works";
   return have ? `<button class="btn ${outline?"":"solid"}" data-toggle="series:${s.id}"><span>${both?"Remove both works":"Remove the complete "+unit(s)}</span><span>−</span></button>`
               : `<button class="btn ${!outline&&soldAsSet(s)?"solid":""}" data-toggle="series:${s.id}"><span>${both?"Collect both works":"Collect the complete "+unit(s)}</span><span>+</span></button>`; }
-function removeFromCart(t,id){ cart=cart.filter(c=>!(c.t===t&&c.id===id)); saveCart(); toast(`${t==="work"?BY_W[id].title:BY_S[id].title} removed from your collection`); if(route!=="home") go(route,false,true); }
+function removeFromCart(t,id){ cart=cart.filter(c=>!(c.t===t&&c.id===id)); saveCart(); toast(`${t==="work"?BY_W[id].title:BY_S[id].title} removed from your collection`); if(route!=="home"&&route!=="gallery") go(route,false,true); }
 const cartItem=c=>c.t==="work"?{title:BY_W[c.id].title, sub:`${BY_W[c.id].s.title} · ${size(BY_W[c.id].s)}`, im:BY_W[c.id].img}
                                :{title:BY_S[c.id].title, sub:`Complete ${unit(BY_S[c.id])} · ${nCanv(BY_S[c.id])} canvases`, im:BY_S[c.id].cover};
 
-/* ---------- HOME: vertical series slides ---------- */
-let gal=null;
-function slideSize(s){ return nCanv(s)>1 ? `${s.kind}, ${size(s)} each` : size(s); }
-function slideText(s){ return s.works.length===1 ? s.works[0].text : s.short; }
+/* ---------- GALLERY: one vertical slide per painting ---------- */
 function buildHome(){
-  $("#v-home").innerHTML = SERIES.map((s,i)=>`
-    <section class="slide" aria-label="${esc(s.title)}">
-      <a class="pic" href="#series-${s.id}" data-series="${s.id}" aria-label="Open ${esc(s.title)}"><img src="${img(s.cover)}" alt="${esc(s.title)}" ${i>1?'loading="lazy"':""}></a>
+  $("#v-home").innerHTML = WORKS.map((w,i)=>{ const sub=wSub(w), st=wStatus(w); return `
+    <section class="slide" id="g-${w.id}" aria-label="${esc(w.title)}">
+      <a class="pic" href="#work-${w.id}" data-work="${w.id}" aria-label="Open ${esc(w.title)}"><img src="${img(w.img)}" alt="${esc(w.title)}" ${i>1?'loading="lazy"':""}></a>
       <div class="info">
-        <h2>${esc(s.title)}</h2>
-        <div class="facts1"><span>${esc(s.technique)}</span><span class="num">${esc(slideSize(s))}</span><span class="num">${s.year}</span>${s.sold?`<span class="sold">Sold</span>`:""}</div>
-        <p class="desc">${esc(slideText(s))}</p>
-        <a class="go hov" href="#series-${s.id}" data-series="${s.id}">${s.works.length>1?`View the ${s.works.length} works`:"View the artwork"} →</a>
+        <div class="ttl"><h2>${esc(wTitle(w))}</h2>${sub?`<p class="sub">${esc(sub)}</p>`:""}</div>
+        <div class="facts1"><span>${esc(w.s.technique)}</span><span class="num">${esc(wSize(w))}</span><span class="num">${w.s.year}</span>${st?`<span class="st">${st}</span>`:""}</div>
+        <p class="desc">${esc(w.text)}</p>
+        <a class="go hov" href="#work-${w.id}" data-work="${w.id}">View the artwork →</a>
       </div>
-      <span class="idx num mute">${pad(i+1)} / ${pad(SERIES.length)}</span>
-    </section>`).join("") + footer();
+      <span class="idx num mute">${pad(i+1)} / ${pad(WORKS.length)}</span>
+    </section>`; }).join("") + footer();
 }
 
 /* ---------- SERIES ---------- */
@@ -1117,6 +1229,8 @@ function renderSeries(id){
   const set=soldAsSet(s), have=inCart("series",s.id);
   const n=s.works.length, cols = n===1?1 : n===3?3 : 2;
   const buy = s.sold ? `<button class="btn solid" disabled><span>Sold</span><span></span></button><button class="btn" data-ask="series:${s.id}"><span>Ask about similar works</span><span>→</span></button>`
+     : s.nfs ? `<button class="btn solid" disabled><span>Not for sale</span><span></span></button><button class="btn" data-ask="series:${s.id}"><span>Ask a question</span><span>→</span></button>`
+     : anyOff(s) ? `<button class="btn" data-ask="series:${s.id}"><span>Ask a question</span><span>→</span></button>`
      : s.onRequest ? `<button class="btn solid" data-ask="series:${s.id}"><span>Ask about this ${unit(s)}</span><span>→</span></button>`
      : (set||s.works.length>1) ? `${setBtn(s)}
               <button class="btn" data-ask="series:${s.id}"><span>Ask a question</span><span>→</span></button>`
@@ -1133,12 +1247,14 @@ function renderSeries(id){
     <section class="sintro grid stop">
       <h1 class="disp c14">${esc(s.title)}</h1>
       <div class="c14 cap mute">The works · <span class="num">${pad(n)}</span></div>
+      ${s.all?`<button class="sallim c14" data-lb="${s.all}" aria-label="View the complete series larger"><img src="${img(s.all)}" alt="${esc(s.title)}, the complete series" loading="lazy"></button>`:""}
     </section>
     <section class="sintro grid sbot">
       <div class="c13 lead sdesc">${s.statement.map(p=>`<p>${esc(p)}</p>`).join("")}</div>
       <div class="sdet c14 cap">
         <div><span class="mute">Medium</span><span>${esc(s.technique)}</span></div>
         <div><span class="mute">Size</span><span class="num">${nCanv(s)>1?`${esc(s.kind)}, ${nCanv(s)} × ${size(s)}`:size(s)}</span></div>
+        ${s.install?`<div><span class="mute">Installation</span><span class="num">Approx. ${esc(s.install)}</span></div>`:""}
         <div><span class="mute">Year</span><span class="num">${s.year}</span></div>
         <div><span class="mute">Price</span><span>${esc(seriesPrice(s))}</span></div>
       </div>
@@ -1156,25 +1272,27 @@ function renderWork(id){
   const w=BY_W[id], s=w.s, set=soldAsSet(s);
   const prev=s.works[w.i-1], next=s.works[w.i+1];
   let buy, note="";
-  if(s.sold) buy=`<button class="btn solid" disabled><span>Sold</span><span></span></button><button class="btn" data-ask="work:${w.id}"><span>Ask about similar works</span><span>→</span></button>`;
+  if(isSold(w)) buy=`<button class="btn solid" disabled><span>Sold</span><span></span></button><button class="btn" data-ask="work:${w.id}"><span>Ask about similar works</span><span>→</span></button>`;
+  else if(isNfs(w)) buy=`<button class="btn solid" disabled><span>Not for sale</span><span></span></button><button class="btn" data-ask="work:${w.id}"><span>Ask about this work</span><span>→</span></button>`;
   else if(s.onRequest) buy=`<button class="btn solid" data-ask="work:${w.id}"><span>Ask about this work</span><span>→</span></button>`;
   else if(set){ const have=inCart("series",s.id);
     note=s.diptychOneImage?"Offered as the complete diptych.":`Chapter ${esc(w.n)} of ${esc(s.title)}. Available on its own or with the complete ${unit(s)} of ${nCanv(s)} canvases.`;
-    buy=`${s.diptychOneImage?"":workBtn(w)}${setBtn(s,!s.diptychOneImage)}
+    buy=`${s.diptychOneImage?"":workBtn(w)}${anyOff(s)?"":setBtn(s,!s.diptychOneImage)}
       <button class="btn" data-ask="work:${w.id}"><span>Ask about this work</span><span>→</span></button>`; }
   else { const have=inCart("work",w.id);
-    buy=`${workBtn(w)}${s.works.length>1?setBtn(s,true):""}
+    buy=`${workBtn(w)}${s.works.length>1&&!anyOff(s)?setBtn(s,true):""}
       <button class="btn" data-ask="work:${w.id}"><span>Ask about this work</span><span>→</span></button>`; }
-  const more=s.works.filter(o=>o.id!==w.id).slice(0,4);
+  const more=s.works.filter(o=>o.id!==w.id); const sub=wSub(w);
   $("#v-work").innerHTML = `
     <section class="wsplit">
       <button class="wimg" data-lb="${w.img}" aria-label="View larger"><img src="${img(w.img)}" alt="${esc(w.title)}"></button>
       <div class="winfo">
-${s.works.length>1?`      <a class="c14 cap mute hov" href="#series-${s.id}" data-series="${s.id}" style="justify-self:start">← ${esc(s.title)}${w.n?" · "+esc(w.n):""}</a>`:""}
-      <h1 class="disp">${esc(w.title)}</h1>
+      <h1 class="disp">${esc(wTitle(w))}</h1>
+      ${sub?`<div class="wsub">${s.works.length>1?`<a href="#series-${s.id}" data-series="${s.id}">${esc(sub)}</a>`:esc(sub)}</div>`:""}
       <div class="sdet cap">
         <div><span class="mute">Medium</span><span>${esc(s.technique)}</span></div>
         <div><span class="mute">Size</span><span class="num">${sizeLbl(s)}</span></div>
+        ${s.install?`<div><span class="mute">Installation</span><span class="num">Approx. ${esc(s.install)}</span></div>`:""}
         <div><span class="mute">Year</span><span class="num">${s.year} · original, signed</span></div>
         <div><span class="mute">Price</span><span>${esc(priceOf(w))}</span></div>
       </div>
@@ -1182,12 +1300,14 @@ ${s.works.length>1?`      <a class="c14 cap mute hov" href="#series-${s.id}" dat
       <div class="c14 sacts">${buy}</div>
       </div>
     </section>
-    ${(w.details||[]).length?`<section class="frag grid"><div class="c14 cap">Details</div>${w.details.slice(0,4).map(d=>`<button class="im c${0}" data-lb="${d}" aria-label="View detail" style="grid-column:auto"><img src="${img(d,1)}" alt="${esc(w.title)}, detail" loading="lazy"></button>`).join("")}</section>`:""}
+    ${s.all?`<section class="sall grid"><div class="c14 cap2 cap"><span>The complete series · ${esc(s.name||s.title)}</span><span class="mute num">${esc(s.kind)}${s.install?` · approx. installation size ${esc(s.install)}`:""}</span></div>
+      <button class="im" data-lb="${s.all}" aria-label="View the complete series larger"><img src="${img(s.all)}" alt="${esc(s.title)}, the complete series" loading="lazy"></button></section>`:""}
+    ${(w.details||[]).length?`<section class="frag grid"><div class="c14 cap">Fragments</div>${w.details.slice(0,6).map(d=>`<button class="im c${0}" data-lb="${d}" aria-label="View detail" style="grid-column:auto"><img src="${img(d,1)}" alt="${esc(w.title)}, detail" loading="lazy"></button>`).join("")}</section>`:""}
     <section class="frag grid" style="padding-bottom:clamp(60px,8vw,120px)">
-      <div class="c14 pn cap">${prev?`<a class="hov" href="#work-${prev.id}" data-work="${prev.id}">← ${esc(prev.title)}</a>`:`<a class="hov" href="#home" data-gallery="${s.id}">← Back to Gallery</a>`}${next?`<a class="hov" href="#work-${next.id}" data-work="${next.id}">${esc(next.title)} →</a>`:`<a class="hov" href="#artworks" data-go="artworks">All artworks →</a>`}</div>
+      <div class="c14 pn cap">${prev?`<a class="hov" href="#work-${prev.id}" data-work="${prev.id}">← ${esc(prev.title)}</a>`:`<a class="hov" href="#gallery" data-gallery="${w.id}">← Back to Gallery</a>`}${next?`<a class="hov" href="#work-${next.id}" data-work="${next.id}">${esc(next.title)} →</a>`:`<a class="hov" href="#gallery" data-gallery="${w.id}">Back to Gallery →</a>`}</div>
     </section>
-    ${more.length?`<section class="grid" style="padding-bottom:clamp(80px,10vw,160px);row-gap:12px"><div class="c14 cap">More from ${esc(s.title)}</div>
-      ${more.map(o=>`<a class="theme" href="#work-${o.id}" data-work="${o.id}" style="grid-column:auto"><span class="im" style="aspect-ratio:3/4;background:var(--soft)"><img src="${img(o.img,1)}" alt="${esc(o.title)}" loading="lazy"></span><span class="cap">${esc(o.title)}</span></a>`).join("")}</section>`:""}
+    ${more.length?`<section class="grid" style="padding-bottom:clamp(80px,10vw,160px);row-gap:12px"><div class="c14 cap">More from ${esc(s.name||s.title)}</div>
+      <div class="more4">${more.map(o=>`<a class="theme" href="#work-${o.id}" data-work="${o.id}"><span class="im" style="aspect-ratio:3/4;background:var(--soft);display:block;overflow:hidden"><img src="${img(o.img,1)}" alt="${esc(o.title)}" loading="lazy" style="width:100%;height:100%;object-fit:cover"></span><span class="cap">${o.n?esc(o.n)+". ":""}${esc(wTitle(o))}${isSold(o)?" · Sold":""}</span></a>`).join("")}</div></section>`:""}
     ${footer()}`;
 }
 
@@ -1217,25 +1337,42 @@ function renderArtworks(){
   }
 }
 
-/* ---------- ABOUT ---------- */
-let fadeT;
+/* ---------- HOME (About): split heading + painting slider ---------- */
+let fadeT, hsK=0, HS=[];
+function hsShow(k){ const as=$$("#hs a"); if(!as.length) return; hsK=(k+as.length)%as.length;
+  as.forEach((a,i)=>a.classList.toggle("on",i===hsK));
+  [hsK,(hsK+1)%as.length].forEach(i=>{ const im=$("img",as[i]); if(im&&im.dataset.src){ im.src=im.dataset.src; im.removeAttribute("data-src"); } });
+  const w=HS[hsK]; $("#hsT").textContent=wTitle(w); $("#hsS").textContent=wSub(w)||w.s.title; $("#hsN").textContent=`${pad(hsK+1)} / ${pad(HS.length)}`; }
+function hsAuto(){ clearInterval(fadeT); fadeT=setInterval(()=>{ if(route!=="home"||!$("#hs")) return clearInterval(fadeT); hsShow(hsK+1); },4200); }
 function renderAbout(){
-  const pics=["tw-3","tw-4","tw-5","tw-6","tw-1","tw-2"];
+  const st=WORKS.findIndex(w=>w.id==="the-invisible-thread"); HS=[...WORKS.slice(st),...WORKS.slice(0,st)]; hsK=0;
   $("#v-about").innerHTML = `
-    <section class="ab-head grid"><h1 class="disp" style="text-transform:none">I paint the invisible connections between people</h1></section>
+    <section class="hsplit">
+      <div class="hl">
+        <h1 class="disp">I paint the invisible connections between people</h1>
+        <p class="cap mute" style="margin:0">IO NATALL&amp;A · Contemporary artist · Tallinn, Estonia</p>
+        <a class="btn solid" href="#gallery" data-go="gallery"><span>Enter the Gallery</span><span>→</span></a>
+      </div>
+      <div class="hr">
+        <div class="hslider" id="hs">${HS.map((w,i)=>`<a href="#work-${w.id}" data-work="${w.id}" class="${i?"":"on"}" aria-label="Open ${esc(w.title)}"><img ${i<2?`src="${img(w.img)}"`:`data-src="${img(w.img)}"`} alt="${esc(w.title)}"></a>`).join("")}</div>
+        <div class="hcap"><span class="t" id="hsT"></span><span class="sub" id="hsS"></span>
+          <span class="hnav"><button data-hs="-1" aria-label="Previous painting">←</button><span class="num mute" id="hsN"></span><button data-hs="1" aria-label="Next painting">→</button></span></div>
+      </div>
+    </section>
     <section class="ab-intro grid">
-      <div class="c1"><div class="fade" id="fade">${pics.map((p,i)=>`<img src="${img(p,1)}" alt="" class="${i?"":"on"}">`).join("")}</div></div>
-      <div class="c34 lead"><div class="cap" style="margin-bottom:24px">Bio</div>
+      <div class="c12 lead"><div class="cap" style="margin-bottom:24px">Bio</div>
         <p>Natalja Kossareva (IO NATALL&amp;A) is an artist based in Tallinn, Estonia, working in the fields of symbolic painting and mixed media.</p>
         <p>Her artistic practice explores the inner world of the individual and their relationship with themselves, others, and the surrounding environment.</p>
         <p>Through symbolism, metaphor, and layered imagery, she addresses themes of time, memory, self-discovery, generational connections, and inner transformation. Rather than seeking to provide definitive answers, her works invite personal interpretation, creating space for individual reflection and meaning.</p>
         <p>The artistic language of IO NATALL&amp;A combines expressive painting, graphic elements, and rich material textures. Her practice is rooted in the idea that external spaces can reflect internal human processes, and that art has the ability to make visible what usually remains unseen within.</p>
-        <ol class="nlist">
-          <li><span class="num">01.</span><span>Interior Architecture, Euroacademy, Tallinn</span></li>
-          <li><span class="num">02.</span><span>Interior design practice since 2002</span></li>
-          <li><span class="num">03.</span><span>Professional painting practice since 2025</span></li>
-          <li><span class="num">04.</span><span>Featured artist, Arte Laguna World</span></li>
-        </ol>
+      </div>
+      <div class="c34 lead"><div class="cap" style="margin-bottom:24px">Background</div>
+        <ul class="blist">
+          <li>Interior Architecture, Euroacademy, Tallinn</li>
+          <li>Interior design practice since 2002</li>
+          <li>Professional painting practice since 2025</li>
+          <li>Featured artist, Arte Laguna World</li>
+        </ul>
       </div>
     </section>
     <section class="quote grid"><div class="c1 cap">The central question</div><p class="disp c24" style="font-size:clamp(34px,4.2vw,62px);text-transform:none">How do the experiences and values we inherit shape who we become, and what do we choose to carry forward?</p></section>
@@ -1246,11 +1383,11 @@ function renderAbout(){
         <div class="crow"><span class="cap mute">Instagram</span><a class="v hov" href="${LINKS.insta}" target="_blank" rel="noopener">@io_natalla</a></div>
         <div class="crow"><span class="cap mute">Portfolio</span><a class="v hov" href="${LINKS.behance}" target="_blank" rel="noopener">behance.net/io_natalla</a></div>
         <div class="crow"><span class="cap mute">Arte Laguna World</span><a class="v hov" href="${LINKS.laguna}" target="_blank" rel="noopener">Kossareva Natalja</a></div>
-        <div class="acts"><button class="btn solid" data-contact="question"><span>Write to the artist</span><span>→</span></button></div>
+        <div class="acts"><button class="btn solid" data-contact="email"><span>Write to the artist</span><span>→</span></button></div>
       </div>
     </section>
     ${footer()}`;
-  clearInterval(fadeT); let k=0; fadeT=setInterval(()=>{ const ims=$$("#fade img"); if(!ims.length) return clearInterval(fadeT); ims[k].classList.remove("on"); k=(k+1)%ims.length; ims[k].classList.add("on"); },3200);
+  hsShow(0); hsAuto();
 }
 
 /* ---------- LEGAL ---------- */
@@ -1268,8 +1405,8 @@ function renderLegal(key){
 function openMenu(){
   const m=$("#menu");
   m.innerHTML = `<nav class="mlist" aria-label="Menu">
-      <a href="#home" data-go="home">Gallery</a><a href="#artworks" data-go="artworks">Artworks</a><a href="#about" data-go="about">About</a>
-      <button data-contact="email">Contact</button><button data-contact="purchase">Collection (<span class="num">${pad(cart.length)}</span>)</button></nav>
+      <a href="#gallery" data-go="gallery">Gallery</a><a href="#artworks" data-go="artworks">Artworks</a><a href="#purchase" data-go="purchase">Purchase (<span class="num">${pad(cart.length)}</span>)</a>
+      <button data-contact="email">Contact</button></nav>
     <div class="msub cap"><a href="#shipping" data-go="shipping">Shipping &amp; returns</a><a href="#terms" data-go="terms">Terms of sale</a><a href="#privacy" data-go="privacy">Privacy</a></div>`;
   m.hidden=false; const mb=$("#menuBtn"); mb.setAttribute("aria-expanded","true"); mb.setAttribute("aria-label","Close menu");
 }
@@ -1278,21 +1415,15 @@ function closeMenu(){ const m=$("#menu"); if(!m) return; m.hidden=true; const b=
 /* ---------- CONTACT / PURCHASE panel ---------- */
 let pTab="purchase", askAbout="";
 const optAll=()=>[...SERIES.map(s=>[`series:${s.id}`,`${s.title} — ${s.kind}`]),...WORKS.map(w=>[`work:${w.id}`,`${w.title} — ${w.s.title}`])];
-function openPanel(tab, about){ pTab=tab||"purchase"; if(about) askAbout=about; renderPanel(); const m=$("#modal"); m.hidden=false; requestAnimationFrame(()=>requestAnimationFrame(()=>m.classList.add("in"))); closeMenu(); setTimeout(()=>{ const f=$("#modal [aria-selected=true]"); f&&f.focus(); },60); }
+function openPanel(tab, about){ if(tab==="purchase"){ closeMenu(); go("purchase"); return; } pTab="email"; askAbout=about||""; renderPanel(); const m=$("#modal"); m.hidden=false; requestAnimationFrame(()=>requestAnimationFrame(()=>m.classList.add("in"))); closeMenu(); setTimeout(()=>{ const f=$("#modal [aria-selected=true]"); f&&f.focus(); },60); }
 function closePanel(){ const m=$("#modal"); m.classList.remove("in"); m.hidden=true; }
 const chk=(type,name,val,label,checked,sub)=>`<label class="chk${type==="radio"?" radio":""}"><input type="${type}" name="${name}" value="${esc(val)}" ${checked?"checked":""}><span class="box"></span><span>${label}${sub?` <span class="s">${sub}</span>`:""}</span></label>`;
-function renderPanel(){
-  const tabs=`<div class="tabs" role="tablist">${[["purchase","Purchase"],["question","Question"],["email","Contact"]].map(([k,l])=>`<button role="tab" data-tab="${k}" aria-selected="${pTab===k}">${l}</button>`).join("")}</div>`;
-  const head={purchase:["Collect a Painting","Choose the works and tell me where they should travel. I reply personally with the price, availability and shipping.","Nothing is charged now. Your request reserves the work for 7 days."],
-              question:["Ask About a Work","A painting, a series, a commission or a visit to see the works in Tallinn.","Every question is answered personally by email."],
-              email:["Write Directly","Prefer your own email? Write to the address below.","Tallinn, Estonia"]}[pTab];
-  let body="";
-  if(pTab==="purchase"){
+function purchaseForm(){
     const items=cart.map((c,i)=>{ const it=cartItem(c); return `<div class="ci"><img src="${img(it.im,1)}" alt=""><span><span style="display:block">${esc(it.title)}</span><span class="s cap" style="opacity:.7">${esc(it.sub)}</span></span><button type="button" class="rm" data-rm="${i}">Remove</button></div>`; }).join("");
-    body=`<form id="pForm" novalidate>
-      <div class="prow"><div class="pintro">${head[1]}</div><div class="lab"><span class="num">01.</span> Works</div><div class="fld">
-        ${items || `<span style="opacity:.75">Your collection is empty. Tick a series you are interested in, or <a class="ul" href="#artworks" data-go="artworks">browse the artworks</a>.</span>`}
-        ${items?"":`<div style="display:grid;gap:6px;margin-top:8px">${SERIES.filter(s=>!s.sold).map(s=>chk("checkbox","series",s.id,esc(s.title),false,esc(s.kind))).join("")}</div>`}</div></div>
+    return `<form id="pForm" novalidate>
+      <div class="prow"><div class="pintro">Choose the works and tell me where they should travel. I reply personally with the price, availability and shipping.</div><div class="lab"><span class="num">01.</span> Works</div><div class="fld">
+        ${items || `<span style="opacity:.75">Your collection is empty. Tick a series, then keep only the paintings you want, or <a class="ul" href="#artworks" data-go="artworks">browse the artworks</a>.</span>`}
+        ${items?`<div class="cap" style="margin-top:18px;opacity:.7">Also interested in</div>`:""}<div class="spick">${SERIES.filter(s=>!s.sold&&!s.nfs).map(s=>`<div class="sp"><span class="spth"><img src="${img(s.cover,1)}" alt="" loading="lazy"></span>${chk("checkbox","series",s.id,esc(s.title),false,s.works.length>1?esc(s.kind)+" · choose the paintings":esc(s.kind))}</div>${s.works.length>1?`<div class="spw" data-for="${s.id}" hidden>${s.works.map(w=>`<div class="sp spw1"><span class="spth"><img src="${img(w.img,1)}" alt="" loading="lazy"></span>${isSold(w)||isNfs(w)?`<span class="spoff">${w.n?esc(w.n)+". ":""}${esc(wTitle(w))} <span class="s">${wStatus(w)}</span></span>`:chk("checkbox","work",w.id,(w.n?esc(w.n)+". ":"")+esc(wTitle(w)),true)}</div>`).join("")}</div>`:""}`).join("")}</div></div></div>
       <div class="prow"><div class="lab"><span class="num">02.</span> Delivery</div><div class="fld">
         ${chk("radio","delivery","Estonia","Estonia",true)}${chk("radio","delivery","European Union","European Union")}${chk("radio","delivery","Rest of the world","Rest of the world","","duties paid by buyer")}${chk("radio","delivery","Collect in Tallinn","Collect in Tallinn","","by appointment")}</div></div>
       <div class="prow"><div class="lab"><span class="num">03.</span> Payment</div><div class="fld">
@@ -1307,26 +1438,27 @@ function renderPanel(){
         <p class="err" id="pErr" hidden></p>
         <button class="btn solid" type="submit"><span>Send purchase request</span><span>→</span></button></div></div>
     </form>`;
-  } else if(pTab==="question"){
-    body=`<form id="qForm" novalidate>
-      <div class="prow"><div class="pintro">${head[1]}</div><div class="lab"><label for="qAbout"><span class="num">01.</span> About</label></div><div class="fld"><select id="qAbout" name="about"><option value="">General question</option>${optAll().map(([v,l])=>`<option value="${v}" ${v===askAbout?"selected":""}>${esc(l)}</option>`).join("")}</select></div></div>
-      <div class="prow"><div class="lab"><label for="qName"><span class="num">02.</span> Name</label></div><div class="fld"><input id="qName" name="name" type="text" autocomplete="name" placeholder="Your name"></div></div>
-      <div class="prow"><div class="lab"><label for="qEmail"><span class="num">03.</span> Email</label></div><div class="fld"><input id="qEmail" name="email" type="email" autocomplete="email" placeholder="you@example.com"></div></div>
-      <div class="prow"><div class="lab"><label for="qCountry"><span class="num">04.</span> Country</label></div><div class="fld"><input id="qCountry" name="country" type="text" autocomplete="country-name" placeholder="Where you are"></div></div>
-      <div class="prow"><div class="lab"><label for="qMsg"><span class="num">05.</span> Message</label></div><div class="fld"><textarea id="qMsg" name="message" placeholder="Your question"></textarea></div></div>
-      <div class="psub"><div class="fld"><p class="err" id="qErr" hidden></p><button class="btn solid" type="submit"><span>Send question</span><span>→</span></button></div></div>
-    </form>`;
-  } else {
-    body=`<div class="prow wide"><div class="pintro">${head[1]}</div><div class="fld">
+}
+function renderPurchase(){
+  $("#v-purchase").innerHTML = `
+    <section class="pagehead grid"><h1 class="disp c12">Purchase</h1>
+      <div class="c34 cap"><div>Collect a painting</div><div class="mute" style="margin-top:12px">Nothing is charged now. Your request reserves the work for 7 days.</div></div></section>
+    <section class="ppage-wrap"><div class="panel ppage"><div id="pBody">${purchaseForm()}</div></div></section>
+    ${footer()}`;
+}
+function renderPanel(){
+  const ab=askAbout?((optAll().find(o=>o[0]===askAbout)||["",""])[1].split(" — ")[0]):"";
+  const subj=ab?`Question about ${ab}`:"Hello from ionatalla.com";
+  const body=`<div class="prow wide"><div class="pintro">${ab?"Write about this work, or any other question.":"Prefer your own email? Write to the address below."}</div><div class="fld">
+      <a class="btn solid" style="width:auto;margin-bottom:12px" href="mailto:${ARTIST_EMAIL}?subject=${encodeURIComponent(subj)}"><span>${ab?"Email about "+esc(ab):"Write an email"}</span><span>→</span></a>
       <div class="crow"><span class="cap">Email</span><span class="v">${ARTIST_EMAIL}<button class="copy" style="color:inherit;opacity:.7" data-copy="${ARTIST_EMAIL}">Copy</button></span></div>
       <div class="crow"><span class="cap">Instagram</span><a class="v hov" href="${LINKS.insta}" target="_blank" rel="noopener">@io_natalla</a></div>
       <div class="crow"><span class="cap">Behance</span><a class="v hov" href="${LINKS.behance}" target="_blank" rel="noopener">behance.net/io_natalla</a></div>
       <div class="crow"><span class="cap">Arte Laguna World</span><a class="v hov" href="${LINKS.laguna}" target="_blank" rel="noopener">Kossareva Natalja</a></div></div></div>`;
-  }
   $("#modal").innerHTML = `<div class="panel" id="panel">
-    <div class="ptop">${tabs}<button class="pclose" id="pClose">Close</button></div>
-    <div class="phead"><h2 id="pTitle">${head[0]}</h2><div><p>${head[1]}</p><p style="opacity:.75">${head[2]}</p></div></div>
-    <div id="pBody">${body}</div></div>`;
+    <div class="ptop"><span class="cap">Contact</span><button class="pclose" id="pClose">Close</button></div>
+    <div class="phead"><h2 id="pTitle">${ab?"Ask About a Work":"Write Directly"}</h2><div><p>${ab?esc(ab):"Prefer your own email? Write to the address below."}</p><p style="opacity:.75">Tallinn, Estonia</p></div></div>
+    <div id="mBody">${body}</div></div>`;
 }
 const validEmail=v=>/^\S+@\S+\.\S+$/.test(v||"");
 async function deliver(subject, replyTo, name, text){
@@ -1347,8 +1479,14 @@ function doneView(ok, title, text, subject){
 }
 async function submitPurchase(f){
   const err=$("#pErr"), fd=new FormData(f);
-  const picked=fd.getAll("series");
-  const items=[...cart.map(c=>{const it=cartItem(c); return `${it.title} (${it.sub})`;}), ...picked.map(id=>`${BY_S[id].title} (interest in the ${unit(BY_S[id])})`)];
+  const picked=fd.getAll("series"), pw=[];
+  picked.forEach(id=>{ const S=BY_S[id], box=f.querySelector(`.spw[data-for="${id}"]`);
+    if(!box){ pw.push(`${S.title} (${S.works[0].title})`); return; }
+    const av=[...box.querySelectorAll('input[name=work]')], on=av.filter(i=>i.checked);
+    if(!on.length) return;
+    if(on.length===av.length&&av.length===S.works.length) pw.push(`${S.title} (the complete ${unit(S)})`);
+    else on.forEach(i=>{ const w=BY_W[i.value]; pw.push(`${w.title} (${S.title}${w.n?" · "+w.n:""})`); }); });
+  const items=[...cart.map(c=>{const it=cartItem(c); return `${it.title} (${it.sub})`;}), ...pw];
   const name=(fd.get("name")||"").trim(), email=(fd.get("email")||"").trim(), addr=(fd.get("address")||"").trim();
   const miss=[]; if(!items.length) miss.push("choose at least one work or series"); if(!name) miss.push("add your name"); if(!validEmail(email)) miss.push("add a valid email"); if(!addr && fd.get("delivery")!=="Collect in Tallinn") miss.push("add a delivery address"); if(!fd.get("agree")) miss.push("confirm the Terms of Sale");
   if(miss.length){ err.textContent="Please "+miss.join(", ")+"."; err.hidden=false; return; }
@@ -1376,21 +1514,27 @@ async function submitQuestion(f){
 /* ---------- router ---------- */
 let route="";
 function show(id){ $$(".view").forEach(v=>v.classList.toggle("on",v.id===id)); }
-function markNav(){ const k=route.startsWith("work-")||route.startsWith("series-")?"home":route; $$(".mainnav [data-nav]").forEach(a=>a.classList.toggle("on",a.dataset.nav===k)); }
+function markNav(){ const k=route.startsWith("work-")||route.startsWith("series-")?"gallery":route; $$(".mainnav [data-nav]").forEach(a=>a.classList.toggle("on",a.dataset.nav===k)); }
 function go(hash, push=true, keepScroll=false){
-  hash=hash||"home"; route=hash; closeMenu();
+  hash=hash||"home"; if(hash==="about") hash="home"; route=hash; closeMenu();
   const y=scrollY;
   if(hash.startsWith("series-")&&BY_S[hash.slice(7)]&&BY_S[hash.slice(7)].works.length===1){ renderWork(BY_S[hash.slice(7)].works[0].id); show("v-work"); document.title=BY_S[hash.slice(7)].title+" - IO NATALL&A"; }
   else if(hash.startsWith("series-")&&BY_S[hash.slice(7)]){ renderSeries(hash.slice(7)); show("v-series"); document.title=BY_S[hash.slice(7)].title+" - IO NATALL&A"; }
   else if(hash.startsWith("work-")&&BY_W[hash.slice(5)]){ renderWork(hash.slice(5)); show("v-work"); document.title=BY_W[hash.slice(5)].title+" - IO NATALL&A"; }
   else if(hash==="artworks"){ renderArtworks(); show("v-artworks"); document.title="Artworks - IO NATALL&A"; }
-  else if(hash==="about"){ renderAbout(); show("v-about"); document.title="About - IO NATALL&A"; }
+  else if(hash==="purchase"){ renderPurchase(); show("v-purchase"); document.title="Purchase - IO NATALL&A"; }
+  else if(hash==="gallery"){ show("v-home"); document.title="Gallery - IO NATALL&A"; }
   else if(["terms","privacy","shipping"].includes(hash)){ renderLegal(hash); show("v-legal"); document.title=LEGAL[hash].title+" - IO NATALL&A"; }
-  else { route="home"; show("v-home"); document.title="IO NATALL&A"; }
-  document.documentElement.classList.toggle("snap", route==="home");
+  else { route="home"; renderAbout(); show("v-about"); document.title="IO NATALL&A - Contemporary artist, Tallinn"; }
+  document.documentElement.classList.toggle("snap", route==="gallery");
+  backBtn();
   if(push){ try{ history.replaceState(null,"","#"+route); }catch(e){} }
   window.scrollTo(0, keepScroll?y:0); onScroll(); markNav();
 }
+function backBtn(){ const b=$("#backG"); if(!b) return; b.hidden = route==="home"; document.body.classList.toggle("ingal", route==="gallery"); b.lastElementChild.textContent = route==="gallery" ? "Back to Homepage" : "Back to Gallery"; b.setAttribute("href", route==="gallery" ? "#home" : "#gallery"); document.body.classList.toggle("hasback", !b.hidden);
+  const w=route.startsWith("work-")?BY_W[route.slice(5)]:route.startsWith("series-")&&BY_S[route.slice(7)]?BY_S[route.slice(7)].works[0]:null;
+  b.dataset.gallery = w?w.id:"";
+ }
 function onScroll(){ $("#hd").classList.toggle("solid", scrollY>40 && !(route==="artworks"&&aView==="strip")); }
 window.addEventListener("scroll",onScroll,{passive:true});
 function openLB(id){ const lb=$("#lb"); $("img",lb).src=img(id); lb.hidden=false; }
@@ -1407,33 +1551,36 @@ document.addEventListener("click",e=>{
   if(d.go){ e.preventDefault(); go(d.go); return; }
   if(d.toggle){ const [ty,id]=d.toggle.split(":"); if(inCart(ty,id)) removeFromCart(ty,id); else addToCart(ty,id); return; }
   if(d.add){ const [ty,id]=d.add.split(":"); addToCart(ty,id); return; }
-  if(d.ask){ openPanel("question",d.ask); return; }
+  if(d.ask){ openPanel("email",d.ask); return; }
   if(d.contact){ openPanel(d.contact); return; }
   if(d.tab){ pTab=d.tab; renderPanel(); $(`#modal [data-tab=${d.tab}]`).focus(); return; }
-  if(d.rm!==undefined){ cart.splice(+d.rm,1); saveCart(); renderPanel(); if(route!=="home") go(route,false,true); return; }
+  if(d.rm!==undefined){ cart.splice(+d.rm,1); saveCart(); if(route!=="home"&&route!=="gallery") go(route,false,true); return; }
   if(d.view){ aView=d.view; renderArtworks(); onScroll(); return; }
   if(d.filter){ aFilter=d.filter; renderArtworks(); return; }
   if(d.scroll){ e.preventDefault(); const g=$("#worksGrid"); if(g) window.scrollTo({top:g.getBoundingClientRect().top+scrollY-90,behavior:"smooth"}); return; }
-  if(d.gallery){ e.preventDefault(); go("home"); const k=SERIES.findIndex(x=>x.id===d.gallery); const sl=$$("#v-home .slide")[k]; if(sl) window.scrollTo(0, sl.offsetTop); return; }
+  if(d.gallery!==undefined){ e.preventDefault(); if(route==="gallery"){ go("home"); return; } const gid=d.gallery; go("gallery"); const sl=gid&&document.getElementById("g-"+gid); if(sl){ const html=document.documentElement; html.classList.remove("snap"); window.scrollTo(0, sl.offsetTop); requestAnimationFrame(()=>html.classList.add("snap")); } return; }
+  if(d.hs){ hsShow(hsK+(+d.hs)); hsAuto(); return; }
   if(d.lb){ openLB(d.lb); return; }
   if(d.copy){ copyText(d.copy,t); return; }
   if(d.copyOut){ copyText($("#pOut").textContent,t.firstElementChild); return; }
   if(t.id==="menuBtn"){ $("#menu").hidden?openMenu():closeMenu(); return; }
   if(t.id==="menuX"){ closeMenu(); return; }
   if(t.id==="contactBtn"){ openPanel("email"); return; }
-  if(t.id==="cartBtn"){ openPanel("purchase"); return; }
+  if(t.id==="cartBtn"){ go("purchase"); return; }
+  if(t.id==="pClose2"&&route==="purchase"&&$("#modal").hidden){ go("gallery"); return; }
   if(t.id==="pClose"||t.id==="pClose2"){ closePanel(); return; }
 });
+document.addEventListener("change",e=>{ const t=e.target; if(t.name==="series"){ const box=document.querySelector(`.spw[data-for="${t.value}"]`); if(box){ box.hidden=!t.checked; if(t.checked) $$('input[name=work]',box).forEach(i=>i.checked=true); } } });
 document.addEventListener("submit",e=>{ e.preventDefault(); if(e.target.id==="pForm") submitPurchase(e.target); if(e.target.id==="qForm") submitQuestion(e.target); });
 document.addEventListener("keydown",e=>{
   if(e.key==="Escape"){ if(!$("#lb").hidden) $("#lb").hidden=true; else if(!$("#modal").hidden) closePanel(); else closeMenu(); return; }
   if(e.target.closest("input,textarea,select")) return;
   if(route.startsWith("work-")&&(e.key==="ArrowRight"||e.key==="ArrowLeft")){ const w=BY_W[route.slice(5)]; const n=w.s.works[w.i+(e.key==="ArrowRight"?1:-1)]; if(n) go("work-"+n.id); }
 });
-window.addEventListener("hashchange",()=>{ const h=(location.hash||"").slice(1); if(h==="contact") return openPanel("question"); if(h&&h!==route) go(h,false); });
+window.addEventListener("hashchange",()=>{ const h=(location.hash||"").slice(1); if(h==="contact") return openPanel("email"); if(h&&h!==route) go(h,false); });
 
 buildHome(); saveCart();
-(()=>{ const h=(location.hash||"").slice(1); if(h==="contact"){ go("home",false); openPanel("question"); } else go(h||"home",false); })();
+(()=>{ const h=(location.hash||"").slice(1); if(h==="contact"){ go("home",false); openPanel("email"); } else go(h||"home",false); })();
 </script>
 
 </body>
